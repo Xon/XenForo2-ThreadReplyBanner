@@ -1,0 +1,17 @@
+{
+    "public/SV_ThreadReplyBanner.html": {
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "f4b41e08a33ab84d7f98e8b995191118"
+    },
+    "public/SV_ThreadReplyBanner_Fields.html": {
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "a789b3dbdf931fc2c7edca931e0b546d"
+    },
+    "public/ThreadReplyBanner.css": {
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "da8eabca945632c9da0dcc61cc36d7d5"
+    }
+}

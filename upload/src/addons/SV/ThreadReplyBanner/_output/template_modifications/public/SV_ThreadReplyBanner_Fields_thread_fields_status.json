@@ -1,0 +1,9 @@
+{
+    "template": "thread_fields_status",
+    "description": "Edit thread reply banner from editing a thread",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#$#i",
+    "replace": "$0\n<xen:include template=\"SV_ThreadReplyBanner_Fields\" />"
+}

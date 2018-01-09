@@ -1,0 +1,9 @@
+{
+    "template": "quick_reply",
+    "description": "Add Thread Reply Banner to quick reply",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#^#i",
+    "replace": "<xen:include template=\"SV_ThreadReplyBanner\" />\n$0"
+}

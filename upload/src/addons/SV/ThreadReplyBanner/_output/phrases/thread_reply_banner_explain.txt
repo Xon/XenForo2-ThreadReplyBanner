@@ -1,0 +1,1 @@
+Thread reply banners are displayed above the editor.

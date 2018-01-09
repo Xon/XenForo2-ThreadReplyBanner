@@ -1,0 +1,8 @@
+<xen:if is="{$canEditThreadReplyBanner}">
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_thread_reply_banner">{xen:phrase thread_reply_banner}:</label>
+		<dfn>{xen:phrase you_may_use_bb_code}</dfn></dt>
+		<dd><textarea name="thread_reply_banner" id="ctrl_thread_reply_banner" class="textCtrl Elastic" maxlength="65536">{$thread.rawbanner.raw_text}</textarea>
+		<p class="explain">{xen:phrase thread_reply_banner_explain}</p></dd>
+	</dl>
+</xen:if>

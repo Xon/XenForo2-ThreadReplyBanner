@@ -1,0 +1,15 @@
+<xen:if is="{$thread.banner}">
+	<xen:require css="panel_scroller.css" />	
+	<xen:require css="ThreadReplyBanner.css" />
+	<div class="PanelScroller ThreadReplyBanner">
+		<div class="scrollContainer">
+			<div class="PanelContainer">
+				<ol class="Panels">
+					<li class="panel Notice DismissParent">
+						<div class="baseHtml noticeContent">{xen:raw $thread.banner}</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</xen:if>
