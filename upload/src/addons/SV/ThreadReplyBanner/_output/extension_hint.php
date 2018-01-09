@@ -3,17 +3,17 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
-namespace SV\ThreadReplyBanner\XenForo\Entity
+namespace SV\ThreadReplyBanner\XF\Entity
 {
-	class XFCP_Thread extends \XenForo\Entity\Thread {}
+	class XFCP_Thread extends \XF\Entity\Thread {}
 }
 
-namespace SV\ThreadReplyBanner\XenForo\Pub\Controller
+namespace SV\ThreadReplyBanner\XF\Pub\Controller
 {
-	class XFCP_Thread extends \XenForo\Pub\Controller\Thread {}
+	class XFCP_Thread extends \XF\Pub\Controller\Thread {}
 }
 
-namespace SV\ThreadReplyBanner\XenForo\Repository
+namespace SV\ThreadReplyBanner\XF\Repository
 {
-	class XFCP_Thread extends \XenForo\Repository\Thread {}
+	class XFCP_Thread extends \XF\Repository\Thread {}
 }

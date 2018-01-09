@@ -1,6 +1,0 @@
-{
-    "from_class": "XenForo\\Repository\\Thread",
-    "to_class": "SV\\ThreadReplyBanner\\XenForo\\Repository\\Thread",
-    "execute_order": 10,
-    "active": true
-}
