@@ -1,8 +1,40 @@
-<xen:if is="{$canEditThreadReplyBanner}">
-	<dl class="ctrlUnit">
-		<dt><label for="ctrl_thread_reply_banner">{xen:phrase thread_reply_banner}:</label>
-		<dfn>{xen:phrase you_may_use_bb_code}</dfn></dt>
-		<dd><textarea name="thread_reply_banner" id="ctrl_thread_reply_banner" class="textCtrl Elastic" maxlength="65536">{$thread.rawbanner.raw_text}</textarea>
-		<p class="explain">{xen:phrase thread_reply_banner_explain}</p></dd>
-	</dl>
-</xen:if>
+<xf:if is="{{ $thread.canManageThreadReplyBanner() }}">
+	<xf:textarearow
+			name="thread_reply_banner"
+			value="{$thread.ThreadBanner.raw_text}"
+			autosize="true"
+			label="{{ phrase('thread_reply_banner') }}"
+			explain="{{ phrase('thread_reply_banner_explain') }}<br>{{ phrase('you_may_use_bb_code') }}"
+			maxlength="65536"
+	/>
+
+	<xf:checkboxrow>
+		<xf:option
+				name="thread_banner_state"
+				checked="{{ $thread.ThreadBanner.banner_state ? 'checked' : '' }}"
+				label="{{ phrase('sv_thread_banner_active') }}"
+		/>
+	</xf:checkboxrow>
+
+	<xf:if is="{$thread.ThreadBanner.banner_edit_count}">
+		<xf:formrow>
+			<span class="u-muted">
+				<a href="{{ link('threads/reply-banner-history', $thread) }}"
+				   class=""
+				   dir="auto"
+				   data-xf-click="toggle"
+				   data-target=".js-threadReplyBannerHistoryTarget"
+				   data-menu-closer="true"
+				>
+					{{ phrase('thread_reply_banner_history') }}
+				</a>
+			</span>
+				<div class="js-threadReplyBannerHistoryTarget toggleTarget"
+					 data-href="{{ link('threads/reply-banner-history', $thread) }}"
+					 data-load-selector=".js-threadReplyBannerHistoryTarget"></div>
+		</xf:formrow>
+	</xf:if>
+
+	<xf:hiddenval name="banner_fields">1</xf:hiddenval>
+
+</xf:if>

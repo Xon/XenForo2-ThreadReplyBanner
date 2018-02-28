@@ -1,9 +1,9 @@
 {
-    "template": "thread_fields_status",
+    "template": "helper_thread_options",
     "description": "Edit thread reply banner from editing a thread",
     "execution_order": 10,
     "enabled": true,
     "action": "preg_replace",
-    "find": "#$#i",
-    "replace": "$0\n<xen:include template=\"SV_ThreadReplyBanner_Fields\" />"
+    "find": "/(<xf:macro name=\"thread_status\".*)(<\\/xf:macro>)/s",
+    "replace": "$1\n<xf:include template=\"SV_ThreadReplyBanner_Fields\" />\n$2"
 }

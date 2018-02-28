@@ -10,10 +10,17 @@ namespace SV\ThreadReplyBanner\XF\Entity
 
 namespace SV\ThreadReplyBanner\XF\Pub\Controller
 {
+	class XFCP_Forum extends \XF\Pub\Controller\Forum {}
 	class XFCP_Thread extends \XF\Pub\Controller\Thread {}
 }
 
 namespace SV\ThreadReplyBanner\XF\Repository
 {
 	class XFCP_Thread extends \XF\Repository\Thread {}
+}
+
+namespace SV\ThreadReplyBanner\XF\Service\Thread
+{
+	class XFCP_Creator extends \XF\Service\Thread\Creator {}
+	class XFCP_Editor extends \XF\Service\Thread\Editor {}
 }

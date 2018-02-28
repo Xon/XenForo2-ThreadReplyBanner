@@ -1,9 +1,9 @@
 {
-    "template": "quick_reply",
+    "template": "thread_view",
     "description": "Add Thread Reply Banner to quick reply",
     "execution_order": 10,
     "enabled": true,
-    "action": "preg_replace",
-    "find": "#^#i",
-    "replace": "<xen:include template=\"SV_ThreadReplyBanner\" />\n$0"
+    "action": "str_replace",
+    "find": "<xf:if is=\"$thread.canReply()\">",
+    "replace": "$0\n<xf:include template=\"SV_ThreadReplyBanner\" />"
 }

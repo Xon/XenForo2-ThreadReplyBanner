@@ -1,15 +1,15 @@
-<xen:if is="{$thread.banner}">
-	<xen:require css="panel_scroller.css" />	
-	<xen:require css="ThreadReplyBanner.css" />
-	<div class="PanelScroller ThreadReplyBanner">
-		<div class="scrollContainer">
-			<div class="PanelContainer">
-				<ol class="Panels">
-					<li class="panel Notice DismissParent">
-						<div class="baseHtml noticeContent">{xen:raw $thread.banner}</div>
-					</li>
-				</ol>
-			</div>
-		</div>
-	</div>
-</xen:if>
+<xf:if is="{{
+	(
+		$xf.visitor.hasPermission('forum','sv_replybanner_show') ||
+		$xf.visitor.hasPermission('forum','sv_replybanner_manage')
+	) &&
+	($bannerNotices && $thread.ThreadBanner.banner_state)
+}}">
+
+	<xf:macro template="notice_macros"
+			  name="notice_list"
+			  arg-notices="{$bannerNotices}"
+			  arg-type="scrolling"
+	/>
+
+</xf:if>

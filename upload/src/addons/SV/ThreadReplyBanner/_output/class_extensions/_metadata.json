@@ -1,0 +1,14 @@
+{
+    "XF-Entity-Thread_SV-ThreadReplyBanner-XF-Entity-Thread.json": {
+        "hash": "91b94c3763b44d8f96d2d48c73f75ac5"
+    },
+    "XF-Pub-Controller-Forum_SV-ThreadReplyBanner-XF-Pub-Controller-Forum.json": {
+        "hash": "f9bcf89200ac4c7c53a829236c8cfa7a"
+    },
+    "XF-Service-Thread-Creator_SV-ThreadReplyBanner-XF-Service-Thread-Creator.json": {
+        "hash": "0cff9f8ff00afad488aed1c4041ae60e"
+    },
+    "XF-Service-Thread-Editor_SV-ThreadReplyBanner-XF-Service-Thread-Editor.json": {
+        "hash": "f9ac61230a4d39181ff614251c0018f0"
+    }
+}

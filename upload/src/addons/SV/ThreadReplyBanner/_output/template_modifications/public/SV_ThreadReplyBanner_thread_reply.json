@@ -4,6 +4,6 @@
     "execution_order": 10,
     "enabled": true,
     "action": "str_replace",
-    "find": "<!-- slot: after_guest -->",
-    "replace": "$0\n<xen:include template=\"SV_ThreadReplyBanner\" />"
+    "find": "<xf:form action",
+    "replace": "<xf:include template=\"SV_ThreadReplyBanner\" />\n\n$0"
 }
