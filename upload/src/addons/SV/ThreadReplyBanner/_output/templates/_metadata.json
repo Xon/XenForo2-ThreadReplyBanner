@@ -8,10 +8,5 @@
         "version_id": 2000000,
         "version_string": "2.0.0",
         "hash": "7c4cc20b7115cd2b68fd4eb2a2cd4994"
-    },
-    "public/ThreadReplyBanner.css": {
-        "version_id": 2000000,
-        "version_string": "2.0.0",
-        "hash": "da8eabca945632c9da0dcc61cc36d7d5"
     }
 }
