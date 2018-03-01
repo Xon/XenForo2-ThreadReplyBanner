@@ -1,17 +1,17 @@
 {
     "XF-Entity-Thread_SV-ThreadReplyBanner-XF-Entity-Thread.json": {
-        "hash": "91b94c3763b44d8f96d2d48c73f75ac5"
+        "hash": "aeef1713bc0b4e969c509532151a0b99"
     },
     "XF-Pub-Controller-Forum_SV-ThreadReplyBanner-XF-Pub-Controller-Forum.json": {
-        "hash": "f9bcf89200ac4c7c53a829236c8cfa7a"
+        "hash": "17fcc9c26b49eb08244468d9b4b95831"
+    },
+    "XF-Pub-Controller-Thread_SV-ThreadReplyBanner-XF-Pub-Controller-Thread.json": {
+        "hash": "3083cc4a907b6ccad9a844d715f3868e"
     },
     "XF-Service-Thread-Creator_SV-ThreadReplyBanner-XF-Service-Thread-Creator.json": {
-        "hash": "0cff9f8ff00afad488aed1c4041ae60e"
+        "hash": "11651e92d186cac9c4b772dbe304717e"
     },
     "XF-Service-Thread-Editor_SV-ThreadReplyBanner-XF-Service-Thread-Editor.json": {
-        "hash": "f9ac61230a4d39181ff614251c0018f0"
-    },
-    "XF-Service-Thread-Replier_SV-ThreadReplyBanner-XF-Service-Thread-Replier.json": {
-        "hash": "d050deb96eeb23dfd6ebf9a04b249e26"
+        "hash": "4577be65e24f5bafa20d89b7e2ff1705"
     }
 }

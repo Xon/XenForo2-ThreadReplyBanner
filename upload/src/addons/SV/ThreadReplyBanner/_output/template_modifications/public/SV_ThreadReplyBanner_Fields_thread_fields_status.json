@@ -1,7 +1,7 @@
 {
     "template": "helper_thread_options",
     "description": "Edit thread reply banner from editing a thread",
-    "execution_order": 10,
+    "execution_order": 6222,
     "enabled": true,
     "action": "preg_replace",
     "find": "/(<xf:macro name=\"thread_status\".*)(<\\/xf:macro>)/s",

@@ -1,4 +1,22 @@
 {
+    "mod_log.thread_banner_activated.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "fb3b798d8d55f99e52f776702dc6f3b4"
+    },
+    "mod_log.thread_banner_deactivated.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "04cdcc78f04d7e56be0dcd3a44a3672a"
+    },
+    "mod_log.thread_banner_thread_reply_banner_edit.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "3604b124d862f8a58fd5cb23da6d3d7c"
+    },
     "moderator_log_thread_replybanner.txt": {
         "global_cache": false,
         "version_id": 10000,
@@ -35,6 +53,24 @@
         "version_string": "1.0.0",
         "hash": "62215075780963b756098b54a576c11b"
     },
+    "please_enter_valid_banner_text.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "8ef0531cc17084f1226e39a73cafac03"
+    },
+    "sv_thread_banner_active.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "1203cd27e4d1ab6f1296728c021d9c1a"
+    },
+    "sv_thread_banner_last_edited_by_x.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "812222495b742414028c64d2c6f508cb"
+    },
     "thread_reply_banner.txt": {
         "global_cache": false,
         "version_id": 10000,
@@ -46,5 +82,11 @@
         "version_id": 10000,
         "version_string": "1.0.0",
         "hash": "453cfdce4f2badf939e63e37f6ff1694"
+    },
+    "thread_reply_banner_history.txt": {
+        "global_cache": false,
+        "version_id": 2000000,
+        "version_string": "2.0.0",
+        "hash": "4c17360f2f2a6dba9b9be30588c1ad4c"
     }
 }

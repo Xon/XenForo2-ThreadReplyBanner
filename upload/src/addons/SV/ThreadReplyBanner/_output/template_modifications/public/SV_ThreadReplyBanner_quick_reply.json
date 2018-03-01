@@ -1,7 +1,7 @@
 {
     "template": "thread_view",
     "description": "Add Thread Reply Banner to quick reply",
-    "execution_order": 10,
+    "execution_order": 6222,
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:if is=\"$thread.canReply()\">",

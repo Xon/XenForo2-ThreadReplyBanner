@@ -1,7 +1,7 @@
 {
     "template": "thread_reply",
     "description": "Add Thread Reply banner to 'more options' reply",
-    "execution_order": 10,
+    "execution_order": 6222,
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:form action",
