@@ -11,11 +11,11 @@ use XF\Db\Schema\Create;
 
 class Setup extends AbstractSetup
 {
-	use StepRunnerInstallTrait;
-	use StepRunnerUpgradeTrait;
-	use StepRunnerUninstallTrait;
+    use StepRunnerInstallTrait;
+    use StepRunnerUpgradeTrait;
+    use StepRunnerUninstallTrait;
 
-	public function installStep1()
+    public function installStep1()
     {
         $sm = $this->schemaManager();
 
@@ -37,32 +37,34 @@ class Setup extends AbstractSetup
 
     public function installStep3()
     {
-		$this->db()->query("
+        $this->db()->query("
 	        INSERT IGNORE INTO xf_permission_entry (user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
 	            SELECT DISTINCT user_group_id, user_id, convert(permission_group_id USING utf8), 'sv_replybanner_show', permission_value, permission_value_int
 	            FROM xf_permission_entry
 	            WHERE permission_group_id = 'forum' AND  permission_id IN ('postReply')
         ");
 
-		$this->db()->query("
+        $this->db()->query("
             INSERT IGNORE INTO xf_permission_entry (user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
                 SELECT DISTINCT user_group_id, user_id, convert(permission_group_id USING utf8), 'sv_replybanner_manage', permission_value, permission_value_int
                 FROM xf_permission_entry
                 WHERE permission_group_id = 'forum' AND permission_id IN ('warn','editAnyPost','deleteAnyPost')
     	");
-	}
+    }
 
-	public function upgrade2000070Step3() {
-		// clean-up orphaned thread banners.
-		$this->db()->query("
+    public function upgrade2000070Step3()
+    {
+        // clean-up orphaned thread banners.
+        $this->db()->query("
             DELETE
             FROM xf_thread_banner
             WHERE NOT EXISTS (SELECT thread_id FROM xf_thread)
         ");
-	}
+    }
 
-    public function upgrade2000070Step1() {
-	    $this->installStep1();
+    public function upgrade2000070Step1()
+    {
+        $this->installStep1();
 
         $sm = $this->schemaManager();
 
@@ -72,7 +74,8 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function upgrade2000070Step2() {
+    public function upgrade2000070Step2()
+    {
         $this->installStep2();
     }
 
@@ -96,7 +99,8 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function uninstallStep3(){
+    public function uninstallStep3()
+    {
         $this->db()->query("
             DELETE FROM xf_permission_entry
             WHERE permission_group_id = 'forum' 
@@ -130,8 +134,7 @@ class Setup extends AbstractSetup
         }
         else
         {
-            throw new \LogicException("Unknown schema DDL type ". get_class($table));
-
+            throw new \LogicException("Unknown schema DDL type " . get_class($table));
         }
     }
 
@@ -142,21 +145,20 @@ class Setup extends AbstractSetup
     {
         $tables = [];
 
-        $tables['xf_thread_banner'] = function ($table)
-        {
+        $tables['xf_thread_banner'] = function ($table) {
             /** @var Create|Alter $table */
             if ($table instanceof Create)
             {
                 $table->checkExists(true);
             }
 
-            $this->addOrChangeColumn($table,'thread_id')->type('int');
-            $this->addOrChangeColumn($table,'raw_text')->type('mediumtext');
-            $this->addOrChangeColumn($table,'banner_state')->type('tinyint')->length(3)->setDefault(1);
-            $this->addOrChangeColumn($table,'banner_user_id')->type('int')->setDefault(0);
-            $this->addOrChangeColumn($table,'banner_edit_count')->type('int')->setDefault(0);
-            $this->addOrChangeColumn($table,'banner_last_edit_date')->type('int')->setDefault(0);
-            $this->addOrChangeColumn($table,'banner_last_edit_user_id')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'thread_id')->type('int');
+            $this->addOrChangeColumn($table, 'raw_text')->type('mediumtext');
+            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(3)->setDefault(1);
+            $this->addOrChangeColumn($table, 'banner_user_id')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'banner_edit_count')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'banner_last_edit_date')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'banner_last_edit_user_id')->type('int')->setDefault(0);
 
             $table->addPrimaryKey('thread_id');
         };
@@ -171,9 +173,8 @@ class Setup extends AbstractSetup
     {
         $tables = [];
 
-        $tables['xf_thread'] = function (Alter $table)
-        {
-            $this->addOrChangeColumn($table,'has_banner')->type('tinyint')->setDefault(0);
+        $tables['xf_thread'] = function (Alter $table) {
+            $this->addOrChangeColumn($table, 'has_banner')->type('tinyint')->setDefault(0);
         };
 
         return $tables;
@@ -183,12 +184,10 @@ class Setup extends AbstractSetup
     {
         $tables = [];
 
-        $tables['xf_thread'] = function (Alter $table)
-        {
+        $tables['xf_thread'] = function (Alter $table) {
             $table->dropColumns('has_banner');
         };
 
         return $tables;
     }
-
 }
