@@ -1,9 +1,11 @@
 <xf:if is="{{ $thread.canViewBanner() }}">
 
+	<div class="thread-reply-banner">
 	<xf:macro template="notice_macros"
 			  name="notice_list"
 			  arg-notices="{{ [$thread.getThreadBanner()] }}"
 			  arg-type="scrolling"
 	/>
+	</div>
 
 </xf:if>
