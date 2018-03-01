@@ -15,20 +15,28 @@ class Setup extends AbstractSetup
 	use StepRunnerUpgradeTrait;
 	use StepRunnerUninstallTrait;
 
-	public function installStep1() {
-		$this->schemaManager()->alterTable('xf_thread', function(Alter $table) {
-			$table->addColumn('has_banner')->type('tinyint')->setDefault(0);
-		});
-		$this->schemaManager()->createTable('xf_thread_banner', function(Create $table) {
-			$table->addColumn('thread_id')->type('uint')->primaryKey();
-			$table->addColumn('raw_text')->type('mediumtext');
-			$table->addColumn('banner_state')->type('tinyint')->length(3)->setDefault(1);
-			$table->addColumn('banner_user_id')->type('int')->setDefault(0);
-			$table->addColumn('banner_edit_count')->type('int')->setDefault(0);
-			$table->addColumn('banner_last_edit_date')->type('int')->setDefault(0);
-			$table->addColumn('banner_last_edit_user_id')->type('int')->setDefault(0);
-		});
+	public function installStep1()
+    {
+        $sm = $this->schemaManager();
 
+        foreach ($this->getTables() as $tableName => $callback)
+        {
+            $sm->createTable($tableName, $callback);
+        }
+    }
+
+    public function installStep2()
+    {
+        $sm = $this->schemaManager();
+
+        foreach ($this->getAlterTables() as $tableName => $callback)
+        {
+            $sm->alterTable($tableName, $callback);
+        }
+    }
+
+    public function installStep3()
+    {
 		$this->db()->query("
 	        INSERT IGNORE INTO xf_permission_entry (user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
 	            SELECT DISTINCT user_group_id, user_id, convert(permission_group_id USING utf8), 'sv_replybanner_show', permission_value, permission_value_int
@@ -44,7 +52,7 @@ class Setup extends AbstractSetup
     	");
 	}
 
-	public function upgrade1000402Step1() {
+	public function upgrade2000070Step3() {
 		// clean-up orphaned thread banners.
 		$this->db()->query("
             DELETE
@@ -53,17 +61,134 @@ class Setup extends AbstractSetup
         ");
 	}
 
-	public function uninstallStep1(){
-		$this->schemaManager()->dropTable('xf_thread_banner');
+    public function upgrade2000070Step1() {
+	    $this->installStep1();
 
-		$this->db()->query("
+        $sm = $this->schemaManager();
+
+        foreach ($this->getTables() as $tableName => $callback)
+        {
+            $sm->alterTable($tableName, $callback);
+        }
+    }
+
+    public function upgrade2000070Step2() {
+        $this->installStep2();
+    }
+
+    public function uninstallStep1()
+    {
+        $sm = $this->schemaManager();
+
+        foreach ($this->getTables() as $tableName => $callback)
+        {
+            $sm->dropTable($tableName);
+        }
+    }
+
+    public function uninstallStep2()
+    {
+        $sm = $this->schemaManager();
+
+        foreach ($this->getRemoveAlterTables() as $tableName => $callback)
+        {
+            $sm->alterTable($tableName, $callback);
+        }
+    }
+
+    public function uninstallStep3(){
+        $this->db()->query("
             DELETE FROM xf_permission_entry
             WHERE permission_group_id = 'forum' 
             AND permission_id IN ('sv_replybanner_show', 'sv_replybanner_manage')
         ");
+    }
 
-		$this->schemaManager()->alterTable('xf_thread', function(Alter $table) {
-			$table->dropColumns(['has_banner']);
-		});
-	}
+    /**
+     * @param Create|Alter $table
+     * @param string       $name
+     * @param string|null  $type
+     * @param string|null  $length
+     * @return \XF\Db\Schema\Column
+     */
+    protected function addOrChangeColumn($table, $name, $type = null, $length = null)
+    {
+        if ($table instanceof Create)
+        {
+            $table->checkExists(true);
+
+            return $table->addColumn($name, $type, $length);
+        }
+        else if ($table instanceof Alter)
+        {
+            if ($table->getColumnDefinition($name))
+            {
+                return $table->changeColumn($name, $type, $length);
+            }
+
+            return $table->addColumn($name, $type, $length);
+        }
+        else
+        {
+            throw new \LogicException("Unknown schema DDL type ". get_class($table));
+
+        }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTables()
+    {
+        $tables = [];
+
+        $tables['xf_thread_banner'] = function ($table)
+        {
+            /** @var Create|Alter $table */
+            if ($table instanceof Create)
+            {
+                $table->checkExists(true);
+            }
+
+            $this->addOrChangeColumn($table,'thread_id')->type('int');
+            $this->addOrChangeColumn($table,'raw_text')->type('mediumtext');
+            $this->addOrChangeColumn($table,'banner_state')->type('tinyint')->length(3)->setDefault(1);
+            $this->addOrChangeColumn($table,'banner_user_id')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table,'banner_edit_count')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table,'banner_last_edit_date')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table,'banner_last_edit_user_id')->type('int')->setDefault(0);
+
+            $table->addPrimaryKey('thread_id');
+        };
+
+        return $tables;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAlterTables()
+    {
+        $tables = [];
+
+        $tables['xf_thread'] = function (Alter $table)
+        {
+            $this->addOrChangeColumn($table,'has_banner')->type('tinyint')->setDefault(0);
+        };
+
+        return $tables;
+    }
+
+    protected function getRemoveAlterTables()
+    {
+        $tables = [];
+
+        $tables['xf_thread'] = function (Alter $table)
+        {
+            $table->dropColumns('has_banner');
+        };
+
+        return $tables;
+    }
+
 }
