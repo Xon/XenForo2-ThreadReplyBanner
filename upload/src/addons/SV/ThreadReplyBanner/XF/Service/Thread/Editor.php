@@ -2,74 +2,102 @@
 
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
+use SV\ThreadReplyBanner\Entity\ThreadBanner;
 use XF\Entity\Thread;
-
+use XF\PrintableException;
 
 class Editor extends XFCP_Editor
 {
-
+    /** @var bool  */
     protected $logEdit = true;
-
-    protected $bannerText;
-    protected $bannerActive;
-    protected $oldBanner;
-
+    /** @var int */
     protected $logDelay;
+    /** @var bool */
     protected $logHistory = true;
 
-    protected $threadBanner;
+    /** @var ThreadBanner */
+    protected $threadBanner = null;
+    /** @var string */
+    protected $oldBanner = null;
 
-    public function __construct(\XF\App $app, Thread $thread)
-    {
-        $upstream = parent::__construct($app, $thread);
-
-        /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner $threadBanner */
-        $this->threadBanner = $this->finder('SV\ThreadReplyBanner:ThreadBanner')->whereId($thread->thread_id)->fetchOne();
-
-        return $upstream;
-    }
-
-
+    /**
+     * @param int $logDelay
+     */
     public function logDelay($logDelay)
     {
         $this->logDelay = $logDelay;
     }
 
+    /**
+     * @param bool $logEdit
+     */
     public function logEdit($logEdit)
     {
         $this->logEdit = $logEdit;
     }
 
+    /**
+     * @param bool $logHistory
+     */
     public function logHistory($logHistory)
     {
         $this->logHistory = $logHistory;
     }
 
+    /**
+     * @param string $banner
+     * @param bool   $active
+     * @return ThreadBanner|null
+     */
     public function setReplyBanner($banner, $active)
     {
-        $oldBanner = isset($this->threadBanner['raw_text']) ? $this->threadBanner['raw_text'] : '';
+        /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
+        $thread = $this->thread;
+        $threadBanner = $thread->ThreadBanner;
 
-        $this->thread->has_banner = $active;
-
-        $this->bannerText = $banner;
-        $this->bannerActive = $active;
-
-        if (!empty($this->threadBanner))
+        if (!$threadBanner)
         {
-            $this->threadBanner->raw_text = $banner;
-            $this->threadBanner->banner_state = $active;
+            // do not create a banner if one doesn't exist and the text is empty (even if the active flag is set)
+            if (empty($banner))
+            {
+                return null;
+            }
+
+            $threadBanner = $thread->getRelationOrDefault('ThreadBanner');
+            $threadBanner->banner_user_id = \XF::visitor()->user_id;
+            $threadBanner->banner_edit_count = 0;
+            $threadBanner->banner_last_edit_date = \XF::$time;
+            $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
+            $oldBanner = '';
+        }
+        else
+        {
+            $thread->addCascadedSave($threadBanner);
+            $oldBanner = $threadBanner->raw_text;
         }
 
-        if (empty($this->threadBanner) || $this->threadBanner->isChanged('raw_text'))
+        $threadBanner->raw_text = $banner;
+        $threadBanner->banner_state = $active;
+        $thread->has_banner = $active;
+
+        if ($threadBanner && $threadBanner->isChanged('raw_text'))
         {
             $this->setupReplyBannerEditHistory($oldBanner);
         }
+
+        $this->threadBanner = $threadBanner;
+
+        return $threadBanner;
     }
 
+    /**
+     * @param string $oldBanner
+     */
     protected function setupReplyBannerEditHistory($oldBanner)
     {
+        /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->thread;
-        $threadBanner = $this->threadBanner;
+        $threadBanner = $thread->ThreadBanner;
 
         $options = $this->app->options();
         if ($options->editLogDisplay['enabled'] && $this->logEdit)
@@ -77,12 +105,9 @@ class Editor extends XFCP_Editor
             $delay = is_null($this->logDelay) ? $options->editLogDisplay['delay'] * 60 : $this->logDelay;
             if ($thread->post_date + $delay <= \XF::$time)
             {
-                if (!empty($threadBanner))
-                {
-                    $threadBanner->banner_edit_count++;
-                    $threadBanner->banner_last_edit_date = \XF::$time;
-                    $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
-                }
+                $threadBanner->banner_edit_count++;
+                $threadBanner->banner_last_edit_date = \XF::$time;
+                $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
             }
         }
 
@@ -94,7 +119,8 @@ class Editor extends XFCP_Editor
 
 
     /**
-     * @return \XF\Entity\Thread
+     * @return Thread
+     * @throws \Exception
      */
     protected function _save()
     {
@@ -105,21 +131,7 @@ class Editor extends XFCP_Editor
 
         $thread = parent::_save();
 
-        if (empty($this->threadBanner))
-        {
-            $this->threadBanner = $thread->getRelationOrDefault('ThreadBanner');
-
-            $this->threadBanner->banner_user_id = \XF::visitor()->user_id;
-            $this->threadBanner->banner_edit_count = 0;
-            $this->threadBanner->banner_last_edit_date = \XF::$time;
-            $this->threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
-            $this->threadBanner->raw_text = $this->bannerText;
-            $this->threadBanner->banner_state = $this->bannerActive;
-        }
-
-        $this->threadBanner->save();
-
-        if ($this->oldBanner)
+        if ($this->threadBanner && $this->oldBanner)
         {
             /** @var \XF\Repository\EditHistory $repo */
             $repo = $this->repository('XF:EditHistory');
