@@ -33,7 +33,7 @@ class ThreadBanner extends Entity
             'raw_text'                 => [
                 'type'      => self::STR,
                 'maxLength' => self::MAX_BANNER_LENGTH,
-                'required'  => 'please_enter_valid_banner_text',
+                //'required'  => 'please_enter_valid_banner_text',
             ],
             'banner_state'             => ['type' => self::UINT, 'required' => true],
             'banner_user_id'           => ['type' => self::UINT, 'required' => true],

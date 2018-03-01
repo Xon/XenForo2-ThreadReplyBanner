@@ -75,6 +75,11 @@ class Editor extends XFCP_Editor
             $thread->addCascadedSave($threadBanner);
             $oldBanner = $threadBanner->raw_text;
         }
+        // if there is no banner text, disable for the thread
+        if ($active && !$banner)
+        {
+            $active = false;
+        }
 
         $threadBanner->raw_text = $banner;
         $threadBanner->banner_state = $active;
