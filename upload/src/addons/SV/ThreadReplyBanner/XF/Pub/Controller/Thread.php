@@ -21,35 +21,6 @@ class Thread extends XFCP_Thread
 		);
 	}
 
-	public function actionIndex(ParameterBag $params) {
-		$reply = parent::actionIndex($params);
-
-		if ($reply instanceof View) {
-			if ($reply->getParam('thread')->getRelation('ThreadBanner')) {
-				$notice = [
-					'title' => '',
-					'message' => $reply->getParam('thread')->getRelation('ThreadBanner')->getValue('raw_text'),
-					'active' => true,
-					'display_order' => 1,
-					'dismissible' => false,
-					'user_criteria' => [],
-					'page_criteria' => [],
-					'notice_type' => 'scrolling',
-					'display_style' => 'primary',
-					'css_class' => '',
-					'display_duration' => 0,
-					'delay_duration' => 0,
-					'auto_dismiss' => 0
-				];
-
-				$reply->setParam('bannerNotices', [$notice]);
-
-			}
-		}
-
-		return $reply;
-	}
-
 	protected function setupThreadEdit(\XF\Entity\Thread $thread)
 	{
 		$editor = parent::setupThreadEdit($thread);
@@ -63,7 +34,10 @@ class Thread extends XFCP_Thread
 	 * @param \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor
 	*/
 	protected function addBannerFields(&$editor) {
-		if ($this->filter('banner_fields', 'boolean')) {
+		if (
+			$editor->getThread()->canManageThreadReplyBanner() &&
+			$this->filter('banner_fields', 'boolean')
+		) {
 			$editor->setReplyBanner(
 				$this->filter('thread_reply_banner', 'string'),
 				$this->filter('thread_banner_state', 'boolean')

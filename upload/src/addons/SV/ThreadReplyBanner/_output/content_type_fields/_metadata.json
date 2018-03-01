@@ -4,5 +4,8 @@
     },
     "thread_banner-entity.json": {
         "hash": "11dca0bdfe534d55db28270a40189b10"
+    },
+    "thread_banner-moderator_log_handler_class.json": {
+        "hash": "dd2835af954a04ea70e9a2e2d691e00c"
     }
 }

@@ -11,12 +11,15 @@ class Forum extends XFCP_Forum {
 		/** @var \SV\ThreadReplyBanner\XF\Service\Thread\Creator $creator */
 		$creator = parent::setupThreadCreate($forum);
 
-		$replyBanner = $this->filter('thread_reply_banner', 'str');
-		$replyBannerActive = $this->filter('thread_banner_state', 'bool');
-		if (!empty($replyBanner)) {
-			$creator->setReplyBanner($replyBanner, $replyBannerActive);
+		if($creator->getThread()->canManageThreadReplyBanner()){
+			$replyBanner = $this->filter('thread_reply_banner', 'str');
+			$replyBannerActive = $this->filter('thread_banner_state', 'bool');
+			if (!empty($replyBanner)) {
+				$creator->setReplyBanner($replyBanner, $replyBannerActive);
+			}
 		}
 
 		return $creator;
 	}
+
 }

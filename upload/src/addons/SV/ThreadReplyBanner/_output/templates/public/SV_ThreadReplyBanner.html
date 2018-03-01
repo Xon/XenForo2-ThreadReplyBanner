@@ -1,14 +1,8 @@
-<xf:if is="{{
-	(
-		$xf.visitor.hasPermission('forum','sv_replybanner_show') ||
-		$xf.visitor.hasPermission('forum','sv_replybanner_manage')
-	) &&
-	($bannerNotices && $thread.ThreadBanner.banner_state)
-}}">
+<xf:if is="{{ $thread.canViewBanner() }}">
 
 	<xf:macro template="notice_macros"
 			  name="notice_list"
-			  arg-notices="{$bannerNotices}"
+			  arg-notices="{{ [$thread.getThreadBanner()] }}"
 			  arg-type="scrolling"
 	/>
 

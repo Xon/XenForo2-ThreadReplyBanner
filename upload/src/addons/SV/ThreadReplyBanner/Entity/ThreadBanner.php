@@ -5,6 +5,19 @@ namespace SV\ThreadReplyBanner\Entity;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure;
 
+/**
+ * COLUMNS
+ * @property int thread_id
+ * @property string raw_text
+ * @property int banner_state
+ * @property int banner_user_id
+ * @property int banner_edit_count
+ * @property int banner_last_edit_date
+ * @property int banner_last_edit_user_id
+ *
+ * RELATIONS
+ * @property \XF\Entity\Thread Thread
+ */
 class ThreadBanner extends Entity {
 	const MAX_BANNER_LENGTH = 65536;
 
@@ -32,8 +45,31 @@ class ThreadBanner extends Entity {
 			'conditions' => 'thread_id',
 			'primary' => true,
 		];
+		$structure->options = [
+			'log_moderator' => true
+		];
 
 		return $structure;
+	}
+
+	public function getRenderedBannerText(){
+		return \XF::app()->bbCode()->render(
+			$this->raw_text,
+			'html',
+			'post',
+			null
+		);
+	}
+
+	protected function _postSave() {
+		$upstream = parent::_postSave();
+
+		if ($this->isUpdate() && $this->getOption('log_moderator'))
+		{
+			$this->app()->logger()->logModeratorChanges('thread_banner', $this);
+		}
+
+		return $upstream;
 	}
 
 }

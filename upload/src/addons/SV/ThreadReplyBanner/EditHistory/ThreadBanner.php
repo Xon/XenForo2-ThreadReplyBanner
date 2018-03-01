@@ -33,7 +33,7 @@ class ThreadBanner extends AbstractHandler {
 	 * @return string
 	 */
 	public function getContentTitle(Entity $content) {
-		$prefixEntity = $content->getRelation('Thread')->getRelation('Prefix');
+		$prefixEntity = $content->Thread->Prefix;
 		$prefix =  $prefixEntity ? "[".$prefixEntity->getTitle()."]" : "";
 		return $prefix . ' ' . $content->getRelation('Thread')->title;
 	}
@@ -119,7 +119,8 @@ class ThreadBanner extends AbstractHandler {
 		return [
 			'Thread',
 			'Thread.Forum',
-			'Thread.Forum.Node.Permissions|' . $visitor->permission_combination_id
+			'Thread.Forum.Node.Permissions|' . $visitor->permission_combination_id,
+			'Thread.Prefix'
 		];
 	}
 }

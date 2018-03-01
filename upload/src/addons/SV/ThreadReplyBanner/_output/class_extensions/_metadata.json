@@ -10,5 +10,8 @@
     },
     "XF-Service-Thread-Editor_SV-ThreadReplyBanner-XF-Service-Thread-Editor.json": {
         "hash": "f9ac61230a4d39181ff614251c0018f0"
+    },
+    "XF-Service-Thread-Replier_SV-ThreadReplyBanner-XF-Service-Thread-Replier.json": {
+        "hash": "d050deb96eeb23dfd6ebf9a04b249e26"
     }
 }

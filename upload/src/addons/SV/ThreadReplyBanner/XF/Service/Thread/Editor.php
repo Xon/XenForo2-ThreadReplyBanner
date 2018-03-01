@@ -47,6 +47,8 @@ class Editor extends XFCP_Editor {
 	public function setReplyBanner($banner, $active) {
 		$oldBanner = isset($this->threadBanner['raw_text']) ? $this->threadBanner['raw_text'] : '';
 
+		$this->thread->has_banner = $active;
+
 		$this->bannerText   = $banner;
 		$this->bannerActive = $active;
 
@@ -100,8 +102,7 @@ class Editor extends XFCP_Editor {
 		$thread = parent::_save();
 
 		if(empty($this->threadBanner)){
-			$this->threadBanner = $this->em()->create('SV\ThreadReplyBanner:ThreadBanner');
-			$this->threadBanner->thread_id = $this->thread->thread_id;
+			$this->threadBanner = $thread->getRelationOrDefault('ThreadBanner');
 
 			$this->threadBanner->banner_user_id = \XF::visitor()->user_id;
 			$this->threadBanner->banner_edit_count = 0;
