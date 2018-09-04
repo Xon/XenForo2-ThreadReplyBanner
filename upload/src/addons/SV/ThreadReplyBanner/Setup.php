@@ -69,13 +69,6 @@ class Setup extends AbstractSetup
     public function upgrade2000070Step1()
     {
         $this->installStep1();
-
-        $sm = $this->schemaManager();
-
-        foreach ($this->getTables() as $tableName => $callback)
-        {
-            $sm->alterTable($tableName, $callback);
-        }
     }
 
     public function upgrade2000070Step2()
