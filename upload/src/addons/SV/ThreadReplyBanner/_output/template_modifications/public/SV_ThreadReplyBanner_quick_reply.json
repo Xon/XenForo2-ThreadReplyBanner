@@ -3,7 +3,7 @@
     "description": "Add Thread Reply Banner to quick reply",
     "execution_order": 6222,
     "enabled": true,
-    "action": "str_replace",
-    "find": "<xf:if is=\"$thread.canReply()\">",
-    "replace": "$0\n<xf:include template=\"SV_ThreadReplyBanner\" />"
+    "action": "preg_replace",
+    "find": "#[\\t ]*<xf:form action=\"{{ link\\('threads/add-reply'#si",
+    "replace": "<xf:include template=\"SV_ThreadReplyBanner\" />\n$0"
 }
