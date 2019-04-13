@@ -46,4 +46,10 @@ class Thread extends XFCP_Thread
             );
         }
     }
+
+    protected function assertViewableThread($threadId, array $extraWith = [])
+    {
+        $extraWith[] = 'ThreadBanner';
+        return parent::assertViewableThread($threadId, $extraWith);
+    }
 }
