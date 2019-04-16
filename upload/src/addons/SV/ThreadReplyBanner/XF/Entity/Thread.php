@@ -72,6 +72,9 @@ class Thread extends XFCP_Thread
         ];
     }
 
+    /**
+     * @throws \XF\PrintableException
+     */
     protected function _postDelete()
     {
         parent::_postDelete();
@@ -81,6 +84,11 @@ class Thread extends XFCP_Thread
         }
     }
 
+    /**
+     * @param Structure $structure
+     *
+     * @return Structure
+     */
     public static function getStructure(Structure $structure)
     {
         $structure = parent::getStructure($structure);

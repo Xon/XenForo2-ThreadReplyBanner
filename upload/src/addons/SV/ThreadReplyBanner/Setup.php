@@ -10,6 +10,11 @@ use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
 use XF\Db\Schema\Create;
 
+/**
+ * Class Setup
+ *
+ * @package SV\ThreadReplyBanner
+ */
 class Setup extends AbstractSetup
 {
     // from https://github.com/Xon/XenForo2-Utils cloned to src/addons/SV/Utils
@@ -39,6 +44,9 @@ class Setup extends AbstractSetup
         }
     }
 
+    /**
+     * @throws \XF\Db\Exception
+     */
     public function installStep3()
     {
         $this->db()->query("
@@ -56,14 +64,17 @@ class Setup extends AbstractSetup
     	");
     }
 
+    /**
+     * @throws \XF\Db\Exception
+     */
     public function upgrade2000070Step3()
     {
         // clean-up orphaned thread banners.
-        $this->db()->query("
+        $this->db()->query('
             DELETE
             FROM xf_thread_banner
             WHERE NOT EXISTS (SELECT thread_id FROM xf_thread)
-        ");
+        ');
     }
 
     public function upgrade2000070Step1()
@@ -96,6 +107,9 @@ class Setup extends AbstractSetup
         }
     }
 
+    /**
+     * @throws \XF\Db\Exception
+     */
     public function uninstallStep3()
     {
         $this->db()->query("
@@ -147,6 +161,9 @@ class Setup extends AbstractSetup
         return $tables;
     }
 
+    /**
+     * @return array
+     */
     protected function getRemoveAlterTables()
     {
         $tables = [];

@@ -4,11 +4,20 @@ namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
 use XF\Mvc\ParameterBag;
 
-/*
+/**
+ * Class Thread
+ *
  * Extends \XF\Pub\Controller\Thread
+ *
+ * @package SV\ThreadReplyBanner\XF\Pub\Controller
  */
 class Thread extends XFCP_Thread
 {
+    /**
+     * @param ParameterBag $params
+     *
+     * @return \XF\Mvc\Reply\Reroute
+     */
     public function actionReplyBannerHistory(ParameterBag $params)
     {
         return $this->rerouteController(
@@ -20,6 +29,11 @@ class Thread extends XFCP_Thread
         );
     }
 
+    /**
+     * @param \XF\Entity\Thread $thread
+     *
+     * @return \SV\ThreadReplyBanner\XF\Service\Thread\Editor|\XF\Service\Thread\Editor
+     */
     protected function setupThreadEdit(\XF\Entity\Thread $thread)
     {
         /** @var \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor */
@@ -47,6 +61,13 @@ class Thread extends XFCP_Thread
         }
     }
 
+    /**
+     * @param int $threadId
+     * @param array $extraWith
+     *
+     * @return \XF\Entity\Thread
+     * @throws \XF\Mvc\Reply\Exception
+     */
     protected function assertViewableThread($threadId, array $extraWith = [])
     {
         $extraWith[] = 'ThreadBanner';

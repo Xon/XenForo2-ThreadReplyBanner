@@ -4,21 +4,28 @@ namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
 use SV\ThreadReplyBanner\Entity\ThreadBanner;
 use XF\Entity\Thread;
-use XF\PrintableException;
 
+/**
+ * Class Editor
+ *
+ * @package SV\ThreadReplyBanner\XF\Service\Thread
+ */
 class Editor extends XFCP_Editor
 {
     /** @var bool  */
     protected $logEdit = true;
+
     /** @var int */
     protected $logDelay;
+
     /** @var bool */
     protected $logHistory = true;
 
     /** @var ThreadBanner */
-    protected $threadBanner = null;
+    protected $threadBanner;
+
     /** @var string */
-    protected $oldBanner = null;
+    protected $oldBanner;
 
     /**
      * @param int $logDelay
@@ -105,9 +112,9 @@ class Editor extends XFCP_Editor
         $threadBanner = $thread->ThreadBanner;
 
         $options = $this->app->options();
-        if ($options->editLogDisplay['enabled'] && $this->logEdit)
+        if ($this->logEdit && $options->editLogDisplay['enabled'])
         {
-            $delay = is_null($this->logDelay) ? $options->editLogDisplay['delay'] * 60 : $this->logDelay;
+            $delay = $this->logDelay === null ? $options->editLogDisplay['delay'] * 60 : $this->logDelay;
             if ($thread->post_date + $delay <= \XF::$time)
             {
                 $threadBanner->banner_edit_count++;
@@ -116,7 +123,7 @@ class Editor extends XFCP_Editor
             }
         }
 
-        if ($options->editHistory['enabled'] && $this->logHistory)
+        if ($this->logHistory && $options->editHistory['enabled'])
         {
             $this->oldBanner = $oldBanner;
         }

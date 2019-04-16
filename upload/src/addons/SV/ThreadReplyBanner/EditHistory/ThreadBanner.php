@@ -8,6 +8,11 @@ use XF\EditHistory\AbstractHandler;
 use XF\Entity\EditHistory;
 use XF\Mvc\Entity\Entity;
 
+/**
+ * Class ThreadBanner
+ *
+ * @package SV\ThreadReplyBanner\EditHistory
+ */
 class ThreadBanner extends AbstractHandler
 {
 
@@ -37,7 +42,7 @@ class ThreadBanner extends AbstractHandler
     public function getContentTitle(Entity $content)
     {
         $prefixEntity = $content->Thread->Prefix;
-        $prefix = $prefixEntity ? "[" . $prefixEntity->getTitle() . "]" : "";
+        $prefix = $prefixEntity ? '[' . $prefixEntity->getTitle() . ']' : '';
 
         return $prefix . ' ' . $content->getRelation('Thread')->title;
     }
@@ -82,12 +87,12 @@ class ThreadBanner extends AbstractHandler
         $editor->logEdit(false);
         $editor->setReplyBanner($history->old_text, true);
 
-        if (!$previous || $previous->edit_user_id != $content->banner_user_id)
+        if (!$previous || $previous->edit_user_id !== $content->banner_user_id)
         {
             // if previous is a mod edit, don't show as it may have been hidden
             $content->banner_last_edit_date = 0;
         }
-        else if ($previous && $previous->edit_user_id == $content->banner_user_id)
+        else if ($previous && $previous->edit_user_id === $content->banner_user_id)
         {
             $content->banner_last_edit_date = $previous->edit_date;
             $content->banner_last_edit_user_id = $previous->edit_user_id;

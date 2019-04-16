@@ -22,6 +22,11 @@ class ThreadBanner extends Entity
 {
     const MAX_BANNER_LENGTH = 65536;
 
+    /**
+     * @param Structure $structure
+     *
+     * @return Structure
+     */
     public static function getStructure(Structure $structure)
     {
         $structure->table = 'xf_thread_banner';
@@ -54,6 +59,9 @@ class ThreadBanner extends Entity
         return $structure;
     }
 
+    /**
+     * @return string
+     */
     public function getRenderedBannerText()
     {
         return \XF::app()->bbCode()->render(

@@ -2,12 +2,22 @@
 
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
-
+/**
+ * Class Creator
+ *
+ * @package SV\ThreadReplyBanner\XF\Service\Thread
+ */
 class Creator extends XFCP_Creator
 {
-    /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner */
-    protected $threadBanner = null;
+    /**
+     * @var \SV\ThreadReplyBanner\Entity\ThreadBanner
+     */
+    protected $threadBanner;
 
+    /**
+     * @param string $text
+     * @param bool $active
+     */
     public function setReplyBanner($text, $active)
     {
         $thread = $this->getThread();

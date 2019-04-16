@@ -7,8 +7,21 @@ use XF\Entity\ModeratorLog;
 use XF\ModeratorLog\AbstractHandler;
 use XF\Mvc\Entity\Entity;
 
+/**
+ * Class ThreadBanner
+ *
+ * @package SV\ThreadReplyBanner\ModeratorLog
+ */
 class ThreadBanner extends AbstractHandler
 {
+    /**
+     * @param Entity $content
+     * @param string $field
+     * @param mixed $newValue
+     * @param mixed $oldValue
+     *
+     * @return bool|string
+     */
     protected function getLogActionForChange(Entity $content, $field, $newValue, $oldValue)
     {
         switch ($field)
@@ -22,6 +35,10 @@ class ThreadBanner extends AbstractHandler
         return false;
     }
 
+    /**
+     * @param ModeratorLog $log
+     * @param Entity       $content
+     */
     protected function setupLogEntityContent(ModeratorLog $log, Entity $content)
     {
         /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner $content */
