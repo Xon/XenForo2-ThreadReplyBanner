@@ -1,8 +1,9 @@
 _releases
 _data
+_vendor
 hashes.json
 /.idea/
 .DS_Store
-git.json
 .phpstorm.meta.php
 _metadata.json
+composer.lock
