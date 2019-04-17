@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#[\\t ]*<xf:form action=\"{{ link\\('threads/add-reply'#si",
-    "replace": "<xf:include template=\"SV_ThreadReplyBanner\" />\n$0"
+    "replace": "<xf:include template=\"svThreadReplyBanner\" />\n$0"
 }

@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "/(<xf:macro name=\"thread_status\".*)(<\\/xf:macro>)/s",
-    "replace": "$1\n<xf:include template=\"SV_ThreadReplyBanner_Fields\" />\n$2"
+    "replace": "$1\n<xf:include template=\"svThreadReplyBannerFields\" />\n$2"
 }
