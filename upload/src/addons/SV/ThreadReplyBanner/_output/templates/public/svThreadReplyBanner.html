@@ -41,7 +41,7 @@
 		<ul class="tabPanes js-threadReplyBannerTabPanes">
 			<!--[XF:tab_panes:start]-->
 			<li class="is-active" role="tabpanel" id="thread-reply-banner">
-				{$bannerHtml}
+				{$bannerHtml|raw}
 			</li>
 
 			<li data-href="{{ link('threads/reply-banner-history', $thread) }}" role="tabpanel" aria-labelledby="thread-reply-banner-history">
@@ -50,6 +50,6 @@
 			<!--[XF:tab_panes:end]-->
 		</ul>
 	<xf:else />
-
+		{$bannerHtml|raw}
 	</xf:if>
 </xf:if>
