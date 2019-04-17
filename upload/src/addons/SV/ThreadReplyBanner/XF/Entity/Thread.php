@@ -82,6 +82,8 @@ class Thread extends XFCP_Thread
             'primary'    => true,
         ];
 
+        $structure->options['svThreadBanner'] = true;
+
         return $structure;
     }
 }

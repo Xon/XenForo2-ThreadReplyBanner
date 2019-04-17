@@ -1,4 +1,4 @@
-<xf:if is="{{ $thread.canManageThreadReplyBanner() }}">
+<xf:if is="$thread.getOption('svThreadBanner') && $thread.canManageThreadReplyBanner()">
 	<xf:textarearow
 			name="thread_reply_banner"
 			value="{$thread.ThreadBanner.raw_text}"
@@ -16,7 +16,7 @@
 		/>
 	</xf:checkboxrow>
 
-	<xf:if is="{$thread.ThreadBanner.banner_edit_count}">
+	<xf:if is="$thread.ThreadBanner.banner_edit_count">
 		<xf:formrow>
 			<span class="u-muted">
 				<a href="{{ link('threads/reply-banner-history', $thread) }}"

@@ -16,18 +16,28 @@ use XF\Mvc\Entity\Structure;
  * @property int banner_last_edit_user_id
  *
  * RELATIONS
- * @property \XF\Entity\Thread Thread
+ * @property \SV\ThreadReplyBanner\XF\Entity\Thread Thread
  */
 class ThreadBanner extends Entity
 {
     const MAX_BANNER_LENGTH = 65536;
+
+    public function canView()
+    {
+        return $this->Thread->canViewBanner();
+    }
+
+    public function canEdit()
+    {
+        return $this->Thread->canManageThreadReplyBanner();
+    }
 
     /**
      * @param null $error
      *
      * @return bool
      */
-    public function canViewHistory(&$error = null)
+    public function canViewHistory(/** @noinspection PhpUnusedParameterInspection */ &$error = null)
     {
         $visitor = \XF::visitor();
         if (!$visitor->user_id)
@@ -40,12 +50,7 @@ class ThreadBanner extends Entity
             return false;
         }
 
-        if ($visitor->hasNodePermission($this->Thread->node_id, 'editAnyPost'))
-        {
-            return true;
-        }
-
-        return false;
+        return $this->Thread->canManageThreadReplyBanner();
     }
 
     /**

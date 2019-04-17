@@ -22,8 +22,9 @@ class ThreadBanner extends AbstractHandler
      */
     public function canViewHistory(Entity $content)
     {
-        return $content->getRelation('Thread')->canManageThreadReplyBanner() &&
-               $content->getRelation('Thread')->canView();
+        // note; canView would prevent checks in Thread Tools to view edit history
+        return //$content->canView() &&
+               $content->canViewHistory();
     }
 
     /**
@@ -32,7 +33,7 @@ class ThreadBanner extends AbstractHandler
      */
     public function canRevertContent(Entity $content)
     {
-        return $content->getRelation('Thread')->canManageThreadReplyBanner();
+        return $content->canEdit();
     }
 
     /**
