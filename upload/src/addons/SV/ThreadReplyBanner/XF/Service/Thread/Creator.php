@@ -20,15 +20,17 @@ class Creator extends XFCP_Creator
      */
     public function setReplyBanner($text, $active)
     {
+        /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->getThread();
         $thread->has_banner = $active;
 
+        /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner $threadBanner */
         $threadBanner = $thread->getRelationOrDefault('ThreadBanner');
 
         $threadBanner->banner_user_id = \XF::visitor()->user_id;
         $threadBanner->banner_edit_count = 0;
-        $threadBanner->banner_last_edit_date = \XF::$time;
-        $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
+        $threadBanner->banner_last_edit_date = 0;
+        $threadBanner->banner_last_edit_user_id = 0;
         $threadBanner->raw_text = $text;
         $threadBanner->banner_state = $active;
 

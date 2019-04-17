@@ -60,6 +60,7 @@ class Editor extends XFCP_Editor
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->thread;
+        /** @var ThreadBanner $threadBanner */
         $threadBanner = $thread->ThreadBanner;
 
         if (!$threadBanner)
