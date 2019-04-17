@@ -60,7 +60,7 @@ class ThreadBanner extends Entity
      */
     public static function getStructure(Structure $structure)
     {
-        $structure->table = 'xf_thread_banner';
+        $structure->table = 'xf_sv_thread_banner';
         $structure->shortName = 'SV\ThreadReplyBanner:ThreadBanner';
         $structure->contentType = 'thread_banner';
         $structure->primaryKey = 'thread_id';

@@ -67,22 +67,22 @@ class Setup extends AbstractSetup
     /**
      * @throws \XF\Db\Exception
      */
-    public function upgrade2000070Step3()
+    public function upgrade2010000Step3()
     {
         // clean-up orphaned thread banners.
         $this->db()->query('
             DELETE
-            FROM xf_thread_banner
+            FROM xf_sv_thread_banner
             WHERE NOT EXISTS (SELECT thread_id FROM xf_thread)
         ');
     }
 
-    public function upgrade2000070Step1()
+    public function upgrade2010000Step1()
     {
         $this->installStep1();
     }
 
-    public function upgrade2000070Step2()
+    public function upgrade2010000Step2()
     {
         $this->installStep2();
     }
@@ -126,7 +126,9 @@ class Setup extends AbstractSetup
     {
         $tables = [];
 
-        $tables['xf_thread_banner'] = function ($table) {
+        $this->migrateTable('xf_thread_banner', 'xf_sv_thread_banner');
+
+        $tables['xf_sv_thread_banner'] = function ($table) {
             /** @var Create|Alter $table */
             if ($table instanceof Create)
             {
