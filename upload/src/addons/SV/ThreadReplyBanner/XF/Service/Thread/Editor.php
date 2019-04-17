@@ -113,13 +113,9 @@ class Editor extends XFCP_Editor
         $options = $this->app->options();
         if ($this->logEdit && $options->editLogDisplay['enabled'])
         {
-            $delay = $this->logDelay === null ? $options->editLogDisplay['delay'] * 60 : $this->logDelay;
-            if ($thread->post_date + $delay <= \XF::$time)
-            {
-                $threadBanner->banner_edit_count++;
-                $threadBanner->banner_last_edit_date = \XF::$time;
-                $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
-            }
+            $threadBanner->banner_edit_count++;
+            $threadBanner->banner_last_edit_date = \XF::$time;
+            $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
         }
 
         if ($this->logHistory && $options->editHistory['enabled'])
