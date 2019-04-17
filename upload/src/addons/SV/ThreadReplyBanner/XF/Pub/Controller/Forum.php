@@ -11,7 +11,6 @@ class Forum extends XFCP_Forum
 {
     /**
      * @param \XF\Entity\Forum $forum
-     *
      * @return \SV\ThreadReplyBanner\XF\Service\Thread\Creator|\XF\Service\Thread\Creator
      */
     protected function setupThreadCreate(\XF\Entity\Forum $forum)

@@ -12,7 +12,7 @@ use XF\Entity\Thread;
  */
 class Editor extends XFCP_Editor
 {
-    /** @var bool  */
+    /** @var bool */
     protected $logEdit = true;
 
     /** @var int */

@@ -22,11 +22,17 @@ class ThreadBanner extends Entity
 {
     const MAX_BANNER_LENGTH = 65536;
 
+    /**
+     * @return bool
+     */
     public function canView()
     {
         return $this->Thread->canViewBanner();
     }
 
+    /**
+     * @return bool
+     */
     public function canEdit()
     {
         return $this->Thread->canManageThreadReplyBanner();
@@ -50,20 +56,6 @@ class ThreadBanner extends Entity
         }
 
         return $this->Thread->canManageThreadReplyBanner();
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getRenderedBannerText()
-    {
-        return \XF::app()->bbCode()->render(
-            $this->raw_text,
-            'html',
-            'post',
-            null
-        );
     }
 
     protected function _postSave()

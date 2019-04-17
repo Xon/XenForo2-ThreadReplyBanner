@@ -16,7 +16,7 @@ class Creator extends XFCP_Creator
 
     /**
      * @param string $text
-     * @param bool $active
+     * @param bool   $active
      */
     public function setReplyBanner($text, $active)
     {
