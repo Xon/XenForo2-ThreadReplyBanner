@@ -23,6 +23,32 @@ class ThreadBanner extends Entity
     const MAX_BANNER_LENGTH = 65536;
 
     /**
+     * @param null $error
+     *
+     * @return bool
+     */
+    public function canViewHistory(&$error = null)
+    {
+        $visitor = \XF::visitor();
+        if (!$visitor->user_id)
+        {
+            return false;
+        }
+
+        if (!$this->app()->options()->editHistory['enabled'])
+        {
+            return false;
+        }
+
+        if ($visitor->hasNodePermission($this->Thread->node_id, 'editAnyPost'))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param Structure $structure
      *
      * @return Structure

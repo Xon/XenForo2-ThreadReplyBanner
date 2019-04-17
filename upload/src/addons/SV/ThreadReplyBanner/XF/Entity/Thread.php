@@ -21,7 +21,13 @@ class Thread extends XFCP_Thread
      */
     public function canManageThreadReplyBanner(/** @noinspection PhpUnusedParameterInspection */&$error = null)
     {
-        return \XF::visitor()->hasNodePermission($this->node_id, 'sv_replybanner_manage');
+        $visitor = \XF::visitor();
+        if (!$visitor->user_id)
+        {
+            return false;
+        }
+
+        return $visitor->hasNodePermission($this->node_id, 'sv_replybanner_manage');
     }
 
     /**
@@ -34,8 +40,8 @@ class Thread extends XFCP_Thread
         {
             return false;
         }
-        $visitor = \XF::visitor();
 
+        $visitor = \XF::visitor();
         if (!$visitor->hasPermission('forum', 'sv_replybanner_show') &&
             !$visitor->hasPermission('forum', 'sv_replybanner_manage'))
         {
@@ -46,38 +52,12 @@ class Thread extends XFCP_Thread
     }
 
     /**
-     * @return array
-     */
-    public function getThreadBanner()
-    {
-        $threadBanner = $this->ThreadBanner;
-        if (!$threadBanner || !$threadBanner->banner_state)
-        {
-            return [];
-        }
-        return [
-            'title'            => '',
-            'message'          => $threadBanner->getRenderedBannerText(),
-            'active'           => true,
-            'display_order'    => 1,
-            'dismissible'      => false,
-            'user_criteria'    => [],
-            'page_criteria'    => [],
-            'notice_type'      => 'scrolling',
-            'display_style'    => 'primary',
-            'css_class'        => '',
-            'display_duration' => 0,
-            'delay_duration'   => 0,
-            'auto_dismiss'     => 0
-        ];
-    }
-
-    /**
      * @throws \XF\PrintableException
      */
     protected function _postDelete()
     {
         parent::_postDelete();
+
         if ($this->ThreadBanner)
         {
             $this->ThreadBanner->delete();
