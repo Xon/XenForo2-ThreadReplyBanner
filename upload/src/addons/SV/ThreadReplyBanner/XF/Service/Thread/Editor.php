@@ -72,15 +72,14 @@ class Editor extends XFCP_Editor
 
             $threadBanner = $thread->getRelationOrDefault('ThreadBanner');
             $threadBanner->banner_user_id = \XF::visitor()->user_id;
-            $threadBanner->banner_edit_count = 0;
-            $threadBanner->banner_last_edit_date = \XF::$time;
-            $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
             $oldBanner = '';
+            $newBanner = true;
         }
         else
         {
             $thread->addCascadedSave($threadBanner);
             $oldBanner = $threadBanner->raw_text;
+            $newBanner = false;
         }
         // if there is no banner text, disable for the thread
         if ($active && !$banner)
@@ -92,7 +91,7 @@ class Editor extends XFCP_Editor
         $threadBanner->banner_state = $active;
         $thread->has_banner = $active;
 
-        if ($threadBanner && $threadBanner->isChanged('raw_text'))
+        if (!$newBanner && $threadBanner && $threadBanner->isChanged('raw_text'))
         {
             $this->setupReplyBannerEditHistory($oldBanner);
         }

@@ -34,7 +34,6 @@ class ThreadBanner extends Entity
 
     /**
      * @param null $error
-     *
      * @return bool
      */
     public function canViewHistory(/** @noinspection PhpUnusedParameterInspection */ &$error = null)
@@ -53,9 +52,30 @@ class ThreadBanner extends Entity
         return $this->Thread->canManageThreadReplyBanner();
     }
 
+
+    /**
+     * @return string
+     */
+    public function getRenderedBannerText()
+    {
+        return \XF::app()->bbCode()->render(
+            $this->raw_text,
+            'html',
+            'post',
+            null
+        );
+    }
+
+    protected function _postSave()
+    {
+        if ($this->getOption('log_moderator'))
+        {
+            $this->app()->logger()->logModeratorChanges('thread_banner', $this);
+        }
+    }
+
     /**
      * @param Structure $structure
-     *
      * @return Structure
      */
     public static function getStructure(Structure $structure)
@@ -73,9 +93,9 @@ class ThreadBanner extends Entity
             ],
             'banner_state'             => ['type' => self::UINT, 'required' => true],
             'banner_user_id'           => ['type' => self::UINT, 'required' => true],
-            'banner_edit_count'        => ['type' => self::UINT, 'required' => true],
-            'banner_last_edit_date'    => ['type' => self::UINT, 'required' => true],
-            'banner_last_edit_user_id' => ['type' => self::UINT, 'required' => true],
+            'banner_edit_count'        => ['type' => self::UINT, 'default' => 0],
+            'banner_last_edit_date'    => ['type' => self::UINT, 'default' => 0],
+            'banner_last_edit_user_id' => ['type' => self::UINT, 'default' => 0],
         ];
         $structure->relations['Thread'] = [
             'entity'     => 'XF:Thread',
@@ -88,26 +108,5 @@ class ThreadBanner extends Entity
         ];
 
         return $structure;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRenderedBannerText()
-    {
-        return \XF::app()->bbCode()->render(
-            $this->raw_text,
-            'html',
-            'post',
-            null
-        );
-    }
-
-    protected function _postSave()
-    {
-        if ($this->isUpdate() && $this->getOption('log_moderator'))
-        {
-            $this->app()->logger()->logModeratorChanges('thread_banner', $this);
-        }
     }
 }
