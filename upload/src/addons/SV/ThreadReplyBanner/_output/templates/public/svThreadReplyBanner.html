@@ -1,4 +1,4 @@
-<xf:if is="$thread.getOption('svThreadBanner') && $thread.canViewBanner()">
+<xf:if is="$thread.hasOption('svThreadBanner') && $thread.canViewBanner()">
 	<xf:css src="svThreadReplyBanner.less" />
 
 	<xf:set var="$bannerHtml">

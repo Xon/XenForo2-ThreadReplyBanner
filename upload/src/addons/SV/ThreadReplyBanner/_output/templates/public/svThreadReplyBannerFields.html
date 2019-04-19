@@ -1,4 +1,4 @@
-<xf:if is="$thread.getOption('svThreadBanner') && $thread.canManageThreadReplyBanner()">
+<xf:if is="$thread.hasOption('svThreadBanner') && $thread.canManageThreadReplyBanner()">
 	<xf:textarearow
 			name="thread_reply_banner"
 			value="{$thread.ThreadBanner.raw_text}"
