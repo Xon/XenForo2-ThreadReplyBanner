@@ -2,8 +2,8 @@
     "legacy_addon_id": "SV_ThreadReplyBanner",
     "title": "Thread Reply Banner",
     "description": "Displayed per-thread banners above the editor to users who can post",
-    "version_id": 2010100,
-    "version_string": "2.1.1",
+    "version_id": 2020000,
+    "version_string": "2.2.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",
     "faq_url": "",
@@ -11,8 +11,8 @@
     "extra_urls": [],
     "require": {
         "XF": [
-            2000070,
-            "XenForo 2.0.0+"
+            2010070,
+            "XenForo 2.1.0+"
         ],
         "php": [
             "5.6.0",
