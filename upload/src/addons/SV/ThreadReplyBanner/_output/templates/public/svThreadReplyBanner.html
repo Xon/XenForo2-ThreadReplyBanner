@@ -1,4 +1,28 @@
 <xf:if is="$thread.hasOption('svThreadBanner') && $thread.canViewBanner()">
+	<xf:js>
+		$(document).ready(function() {
+			var focusEditor = XF.focusEditor;
+			XF.focusEditor = function ($container, notConstraints) {
+				var $el = $container.closest('.js-quickReply');
+				if ($el.length > 0)
+				{
+					var height = $(".p-navSticky.is-sticky").height();
+					if (height > 0)
+					{
+						var viewportOffset = $el.get(0).getBoundingClientRect();
+						if (viewportOffset.top < height)
+						{
+							window.scroll(0, window.scrollY - height + viewportOffset.top - 1);
+						}
+					}
+				}
+				else 
+				{
+					focusEditor($container, notConstraints);
+				}
+			};
+		});
+	</xf:js>
 	<xf:css src="svThreadReplyBanner.less" />
 
 	<xf:set var="$bannerHtml">

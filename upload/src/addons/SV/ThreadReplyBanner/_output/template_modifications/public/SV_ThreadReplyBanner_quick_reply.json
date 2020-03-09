@@ -4,6 +4,6 @@
     "execution_order": 6222,
     "enabled": true,
     "action": "preg_replace",
-    "find": "#[\\t ]*<xf:form action=\"{{ link\\('threads/add-reply'#si",
-    "replace": "<xf:include template=\"svThreadReplyBanner\" />\n$0"
+    "find": "#([\\t ]*<xf:form action=\"{{ link\\('threads/add-reply'.*)(js-quickReply)(.*</xf:form>)#si",
+    "replace": "<div class=\"js-quickReply\">\n<xf:include template=\"svThreadReplyBanner\" />\n$1$3\n</div>"
 }
