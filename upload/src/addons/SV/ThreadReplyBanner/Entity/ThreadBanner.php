@@ -16,6 +16,7 @@ use XF\Mvc\Entity\Structure;
  * @property int banner_last_edit_user_id
  *
  * RELATIONS
+ * @property \XF\Entity\User User
  * @property \SV\ThreadReplyBanner\XF\Entity\Thread Thread
  */
 class ThreadBanner extends Entity
@@ -88,6 +89,13 @@ class ThreadBanner extends Entity
             'banner_edit_count'        => ['type' => self::UINT, 'default' => 0],
             'banner_last_edit_date'    => ['type' => self::UINT, 'default' => 0],
             'banner_last_edit_user_id' => ['type' => self::UINT, 'default' => 0],
+        ];
+        // this is used to determine "ownership" of the banner
+        $structure->relations['User'] = [
+            'entity'     => 'XF:User',
+            'type'       => self::TO_ONE,
+            'conditions' => [['user_id', '=', '$banner_user_id']],
+            'primary'    => true,
         ];
         $structure->relations['Thread'] = [
             'entity'     => 'XF:Thread',
