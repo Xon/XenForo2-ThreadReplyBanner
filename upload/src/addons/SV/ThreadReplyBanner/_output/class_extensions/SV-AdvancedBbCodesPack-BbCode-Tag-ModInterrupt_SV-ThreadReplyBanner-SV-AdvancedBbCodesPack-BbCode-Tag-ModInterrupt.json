@@ -1,0 +1,6 @@
+{
+    "from_class": "SV\\AdvancedBbCodesPack\\BbCode\\Tag\\ModInterrupt",
+    "to_class": "SV\\ThreadReplyBanner\\SV\\AdvancedBbCodesPack\\BbCode\\Tag\\ModInterrupt",
+    "execute_order": 10,
+    "active": true
+}

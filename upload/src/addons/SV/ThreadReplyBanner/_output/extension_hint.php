@@ -3,6 +3,11 @@
 // ################## THIS IS A GENERATED FILE ##################
 // DO NOT EDIT DIRECTLY. EDIT THE CLASS EXTENSIONS IN THE CONTROL PANEL.
 
+namespace SV\ThreadReplyBanner\SV\AdvancedBbCodesPack\BbCode\Tag
+{
+	class XFCP_ModInterrupt extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt {}
+}
+
 namespace SV\ThreadReplyBanner\XF\Entity
 {
 	class XFCP_Thread extends \XF\Entity\Thread {}
