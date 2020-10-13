@@ -2,7 +2,7 @@
 
 namespace SV\ThreadReplyBanner;
 
-use SV\Utils\InstallerHelper;
+use SV\StandardLib\InstallerHelper;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
@@ -17,7 +17,6 @@ use XF\Db\Schema\Create;
  */
 class Setup extends AbstractSetup
 {
-    // from https://github.com/Xon/XenForo2-Utils cloned to src/addons/SV/Utils
     use InstallerHelper;
     use StepRunnerInstallTrait;
     use StepRunnerUpgradeTrait;
@@ -40,7 +39,10 @@ class Setup extends AbstractSetup
 
         foreach ($this->getAlterTables() as $tableName => $callback)
         {
-            $sm->alterTable($tableName, $callback);
+            if ($sm->tableExists($tableName))
+            {
+                $sm->alterTable($tableName, $callback);
+            }
         }
     }
 
@@ -103,7 +105,10 @@ class Setup extends AbstractSetup
 
         foreach ($this->getRemoveAlterTables() as $tableName => $callback)
         {
-            $sm->alterTable($tableName, $callback);
+            if ($sm->tableExists($tableName))
+            {
+                $sm->alterTable($tableName, $callback);
+            }
         }
     }
 
