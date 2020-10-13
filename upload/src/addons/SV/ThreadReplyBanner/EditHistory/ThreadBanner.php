@@ -4,6 +4,7 @@
 namespace SV\ThreadReplyBanner\EditHistory;
 
 use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
+use SV\ThreadReplyBanner\XF\Entity\Thread;
 use XF\EditHistory\AbstractHandler;
 use XF\Entity\EditHistory;
 use XF\Mvc\Entity\Entity;
@@ -42,10 +43,12 @@ class ThreadBanner extends AbstractHandler
      */
     public function getContentTitle(Entity $content)
     {
-        $prefixEntity = $content->Thread->Prefix;
+        /** @var Thread $thread */
+        $thread = $content->Thread;
+        $prefixEntity = $thread->Prefix;
         $prefix = $prefixEntity ? '[' . $prefixEntity->getTitle() . ']' : '';
 
-        return $prefix . ' ' . $content->getRelation('Thread')->title;
+        return $prefix . ' ' . $thread->title;
     }
 
     /**
@@ -63,7 +66,9 @@ class ThreadBanner extends AbstractHandler
      */
     public function getContentLink(Entity $content)
     {
-        return \XF::app()->router('public')->buildLink('threads', $content->getRelation('Thread'));
+        /** @var Thread $thread */
+        $thread = $content->Thread;
+        return \XF::app()->router('public')->buildLink('threads', $thread);
     }
 
     /**
@@ -72,7 +77,9 @@ class ThreadBanner extends AbstractHandler
      */
     public function getBreadcrumbs(Entity $content)
     {
-        return $content->getRelation('Thread')->getBreadcrumbs();
+        /** @var Thread $thread */
+        $thread = $content->Thread;
+        return $thread->getBreadcrumbs();
     }
 
     /**

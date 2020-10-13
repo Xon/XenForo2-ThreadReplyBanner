@@ -60,7 +60,6 @@ class Editor extends XFCP_Editor
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->thread;
-        /** @var ThreadBanner $threadBanner */
         $threadBanner = $thread->ThreadBanner;
 
         if (!$threadBanner)
@@ -71,6 +70,7 @@ class Editor extends XFCP_Editor
                 return null;
             }
 
+            /** @var ThreadBanner $threadBanner */
             $threadBanner = $thread->getRelationOrDefault('ThreadBanner');
             $threadBanner->banner_user_id = \XF::visitor()->user_id;
             $oldBanner = '';

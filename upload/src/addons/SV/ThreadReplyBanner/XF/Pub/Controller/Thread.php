@@ -44,6 +44,7 @@ class Thread extends XFCP_Thread
 
     /**
      * @param \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function addBannerFields(&$editor)
     {
