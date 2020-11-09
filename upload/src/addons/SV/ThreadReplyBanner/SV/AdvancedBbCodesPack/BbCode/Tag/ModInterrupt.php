@@ -12,17 +12,17 @@ class ModInterrupt extends XFCP_ModInterrupt
     /**
      * @var array
      */
-    protected $tagOptions;
+    protected $renderOptions;
 
     /**
      * @param string $context
      * @return bool|null
      */
-    protected function validContext($context)
+    protected function validContext(string $context)
     {
-        if (is_array($this->tagOptions) &&
-            isset($this->tagOptions['entity']) &&
-            ($this->tagOptions['entity'] instanceof \SV\ThreadReplyBanner\Entity\ThreadBanner))
+        if (is_array($this->renderOptions) &&
+            isset($this->renderOptions['entity']) &&
+            ($this->renderOptions['entity'] instanceof \SV\ThreadReplyBanner\Entity\ThreadBanner))
         {
             return true;
         }
@@ -31,15 +31,15 @@ class ModInterrupt extends XFCP_ModInterrupt
     }
 
     /**
-     * @param array  $tagChildren
-     * @param string $tagOption
-     * @param array  $tag
-     * @param array  $options
+     * @param array           $tagChildren
+     * @param string|string[] $tagOption
+     * @param array           $tag
+     * @param array           $options
      * @return string
      */
-    public function render(array $tagChildren, $tagOption, array $tag, array $options)
+    public function render(array $tagChildren, $tagOption, array $tag, array $options): string
     {
-        $this->tagOptions = $options;
+        $this->renderOptions = $options;
         return parent::render($tagChildren, $tagOption, $tag, $options);
     }
 }
