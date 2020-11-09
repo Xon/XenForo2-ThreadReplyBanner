@@ -92,7 +92,7 @@ class ThreadBanner extends AbstractHandler
         /** @var \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor */
         $editor = \XF::app()->service('XF:Thread\Editor', $content->getRelation('Thread'));
 
-        $editor->logEdit(false);
+        $editor->logBannerEdit(false);
         $editor->setReplyBanner($history->old_text, true);
 
         if (!$previous || $previous->edit_user_id !== $content->banner_user_id)
@@ -100,7 +100,7 @@ class ThreadBanner extends AbstractHandler
             // if previous is a mod edit, don't show as it may have been hidden
             $content->banner_last_edit_date = 0;
         }
-        else if ($previous && $previous->edit_user_id === $content->banner_user_id)
+        else if ($previous->edit_user_id === $content->banner_user_id)
         {
             $content->banner_last_edit_date = $previous->edit_date;
             $content->banner_last_edit_user_id = $previous->edit_user_id;
@@ -113,6 +113,7 @@ class ThreadBanner extends AbstractHandler
      * @param  string                   $text
      * @param ThreadBannerEntity|Entity $content
      * @return string
+     * @noinspection PhpMissingParamTypeInspection
      */
     public function getHtmlFormattedContent($text, Entity $content = null)
     {

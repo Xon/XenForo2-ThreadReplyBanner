@@ -3,6 +3,7 @@
 namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
 use XF\Mvc\ParameterBag;
+use XF\Mvc\Reply\AbstractReply;
 
 /**
  * Class Thread
@@ -15,7 +16,7 @@ class Thread extends XFCP_Thread
 {
     /**
      * @param ParameterBag $params
-     * @return \XF\Mvc\Reply\Reroute
+     * @return AbstractReply
      */
     public function actionReplyBannerHistory(ParameterBag $params)
     {
@@ -44,9 +45,9 @@ class Thread extends XFCP_Thread
 
     /**
      * @param \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor
-     * @noinspection PhpMissingParamTypeInspection
+     * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
      */
-    protected function addBannerFields(&$editor)
+    protected function addBannerFields(\SV\ThreadReplyBanner\XF\Service\Thread\Editor &$editor)
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $editor->getThread();
@@ -65,6 +66,7 @@ class Thread extends XFCP_Thread
      * @param array $extraWith
      * @return \XF\Entity\Thread
      * @throws \XF\Mvc\Reply\Exception
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function assertViewableThread($threadId, array $extraWith = [])
     {

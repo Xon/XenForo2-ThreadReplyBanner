@@ -14,11 +14,7 @@ class Creator extends XFCP_Creator
      */
     protected $threadBanner;
 
-    /**
-     * @param string $text
-     * @param bool   $active
-     */
-    public function setReplyBanner($text, $active)
+    public function setReplyBanner(string $text, bool $active)
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->getThread();
@@ -38,7 +34,7 @@ class Creator extends XFCP_Creator
     }
 
     /**
-     * @return \SV\ThreadReplyBanner\Entity\ThreadBanner
+     * @return \SV\ThreadReplyBanner\Entity\ThreadBanner|null
      */
     public function getThreadBanner()
     {

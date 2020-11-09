@@ -13,13 +13,10 @@ use XF\Entity\Thread;
 class Editor extends XFCP_Editor
 {
     /** @var bool */
-    protected $logEdit = true;
-
-    /** @var int */
-    protected $logDelay;
+    protected $logBannerEdit = true;
 
     /** @var bool */
-    protected $logHistory = true;
+    protected $logBannerHistory = true;
 
     /** @var ThreadBanner */
     protected $threadBanner;
@@ -27,28 +24,15 @@ class Editor extends XFCP_Editor
     /** @var string */
     protected $oldBanner;
 
-    /**
-     * @param int $logDelay
-     */
-    public function logDelay($logDelay)
+
+    public function logBannerEdit(bool $logBannerEdit)
     {
-        $this->logDelay = $logDelay;
+        $this->logBannerEdit = $logBannerEdit;
     }
 
-    /**
-     * @param bool $logEdit
-     */
-    public function logEdit($logEdit)
+    public function logBannerHistory(bool $logBannerHistory)
     {
-        $this->logEdit = $logEdit;
-    }
-
-    /**
-     * @param bool $logHistory
-     */
-    public function logHistory($logHistory)
-    {
-        $this->logHistory = $logHistory;
+        $this->logBannerHistory = $logBannerHistory;
     }
 
     /**
@@ -56,7 +40,7 @@ class Editor extends XFCP_Editor
      * @param bool   $active
      * @return ThreadBanner|null
      */
-    public function setReplyBanner($banner, $active)
+    public function setReplyBanner(string $banner, bool $active)
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->thread;
@@ -105,21 +89,21 @@ class Editor extends XFCP_Editor
     /**
      * @param string $oldBanner
      */
-    protected function setupReplyBannerEditHistory($oldBanner)
+    protected function setupReplyBannerEditHistory(string $oldBanner)
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $this->thread;
         $threadBanner = $thread->ThreadBanner;
 
         $options = $this->app->options();
-        if ($this->logEdit && $options->editLogDisplay['enabled'])
+        if ($this->logBannerEdit && $options->editLogDisplay['enabled'])
         {
             $threadBanner->banner_edit_count++;
             $threadBanner->banner_last_edit_date = \XF::$time;
             $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
         }
 
-        if ($this->logHistory && $options->editHistory['enabled'])
+        if ($this->logBannerHistory && $options->editHistory['enabled'])
         {
             $this->oldBanner = $oldBanner;
         }

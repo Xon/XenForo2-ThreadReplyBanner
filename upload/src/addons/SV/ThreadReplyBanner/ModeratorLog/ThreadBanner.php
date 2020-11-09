@@ -20,8 +20,8 @@ class ThreadBanner extends AbstractHandler
      * @param string $field
      * @param mixed $newValue
      * @param mixed $oldValue
-     *
      * @return bool|string
+     * @noinspection PhpMissingParamTypeInspection
      */
     protected function getLogActionForChange(Entity $content, $field, $newValue, $oldValue)
     {
