@@ -1,0 +1,1 @@
+Always show thread reply banner in locked threads
