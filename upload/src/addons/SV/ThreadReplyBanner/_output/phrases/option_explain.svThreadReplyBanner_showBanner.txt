@@ -1,0 +1,1 @@
+Requires the "View Thread Reply Banner" permission to actually view the banner
