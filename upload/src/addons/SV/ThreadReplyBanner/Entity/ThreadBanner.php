@@ -9,7 +9,7 @@ use XF\Mvc\Entity\Structure;
  * COLUMNS
  * @property int thread_id
  * @property string raw_text
- * @property int banner_state
+ * @property bool banner_state
  * @property int banner_user_id
  * @property int banner_edit_count
  * @property int banner_last_edit_date
@@ -84,7 +84,7 @@ class ThreadBanner extends Entity
                 'maxLength' => self::MAX_BANNER_LENGTH,
                 //'required'  => 'please_enter_valid_banner_text',
             ],
-            'banner_state'             => ['type' => self::UINT, 'required' => true],
+            'banner_state'             => ['type' => self::BOOL, 'required' => true],
             'banner_user_id'           => ['type' => self::UINT, 'required' => true],
             'banner_edit_count'        => ['type' => self::UINT, 'default' => 0],
             'banner_last_edit_date'    => ['type' => self::UINT, 'default' => 0],
