@@ -1,0 +1,12 @@
+{
+    "edit_format": "radio",
+    "edit_format_params": "0={{ phrase('svThreadReplyBanner_replyable_thread') }}\n1={{ phrase('svThreadReplyBanner_locked_thread') }}\n2={{ phrase('svThreadReplyBanner_all_thread') }}",
+    "data_type": "unsigned_integer",
+    "sub_options": [],
+    "validation_class": "",
+    "validation_method": "",
+    "default_value": "0",
+    "relations": {
+        "svThreadReplyBanner": 10
+    }
+}

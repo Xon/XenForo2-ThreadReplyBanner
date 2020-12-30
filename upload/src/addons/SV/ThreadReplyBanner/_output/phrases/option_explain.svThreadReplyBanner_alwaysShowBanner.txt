@@ -1,1 +1,0 @@
-If checked, thread reply banner will be shown in locked threads regardless the visitor has permission to reply.
