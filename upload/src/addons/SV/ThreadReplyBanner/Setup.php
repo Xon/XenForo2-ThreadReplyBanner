@@ -79,48 +79,28 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function upgrade2010000Step1()
+    public function upgrade2040000Step1()
     {
         $this->installStep1();
     }
 
-    public function upgrade2010000Step2()
+    public function upgrade2040000Step2()
     {
         $this->installStep2();
     }
 
-    public function upgrade2040000Step1()
-    {
-        $sm = $this->schemaManager();
-
-        $sm->alterTable('xf_thread', function (Alter $table)
-        {
-            $table->renameColumn('has_banner', 'sv_has_thread_banner')->length(3);
-        });
-    }
-
-    public function upgrade2040000Step2()
+    public function upgrade2040000Step3()
     {
         $this->db()->update('xf_moderator_log', [
             'content_type' => 'sv_thread_banner'
         ], 'content_type = ?', 'thread_banner');
     }
 
-    public function upgrade2040000Step3()
+    public function upgrade2040000Step4()
     {
         $this->db()->update('xf_edit_history', [
             'content_type' => 'sv_thread_banner'
         ], 'content_type = ?', 'thread_banner');
-    }
-
-    public function upgrade2040000Step4()
-    {
-        $this->installStep1();
-    }
-
-    public function upgrade2040000Step5()
-    {
-        $this->installStep2();
     }
 
     public function uninstallStep1()
@@ -167,14 +147,9 @@ class Setup extends AbstractSetup
         $tables['xf_sv_thread_banner'] = function ($table)
         {
             /** @var Create|Alter $table */
-            if ($table instanceof Create)
-            {
-                $table->checkExists(true);
-            }
-
             $this->addOrChangeColumn($table, 'thread_id')->type('int');
             $this->addOrChangeColumn($table, 'raw_text')->type('mediumtext');
-            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(3)->setDefault(1);
+            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(1)->setDefault(1);
             $this->addOrChangeColumn($table, 'banner_user_id')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_edit_count')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_last_edit_date')->type('int')->setDefault(0);
@@ -186,14 +161,9 @@ class Setup extends AbstractSetup
         $tables['xf_sv_forum_banner'] = function ($table)
         {
             /** @var Create|Alter $table */
-            if ($table instanceof Create)
-            {
-                $table->checkExists(true);
-            }
-
             $this->addOrChangeColumn($table, 'node_id')->type('int');
             $this->addOrChangeColumn($table, 'raw_text')->type('mediumtext');
-            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(3)->setDefault(1);
+            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(1)->setDefault(1);
             $this->addOrChangeColumn($table, 'banner_user_id')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_edit_count')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_last_edit_date')->type('int')->setDefault(0);
@@ -211,12 +181,12 @@ class Setup extends AbstractSetup
 
         $tables['xf_thread'] = function (Alter $table)
         {
-            $this->addOrChangeColumn($table, 'sv_has_thread_banner')->type('tinyint', 3)->setDefault(0);
+            $this->addOrChangeColumn($table, 'sv_has_thread_banner', 'tinyint', 1, ['has_banner'])->setDefault(0);
         };
 
         $tables['xf_forum'] = function (Alter $table)
         {
-            $this->addOrChangeColumn($table, 'sv_has_forum_banner', 'tinyint', 3)->setDefault(0);
+            $this->addOrChangeColumn($table, 'sv_has_forum_banner', 'tinyint', 1)->setDefault(0);
         };
 
         return $tables;
