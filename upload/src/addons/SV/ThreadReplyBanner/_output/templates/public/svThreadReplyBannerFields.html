@@ -1,22 +1,20 @@
-<xf:if is="$thread.hasOption('svThreadBanner') && $thread.canManageThreadReplyBanner()">
+<xf:if is="$thread.hasOption('svThreadReplyBanner') && $thread.canManageSvContentReplyBanner()">
 	<xf:textarearow
-			name="thread_reply_banner"
-			value="{$thread.ThreadBanner.raw_text}"
-			autosize="true"
-			label="{{ phrase('thread_reply_banner') }}"
-			explain="{{ phrase('thread_reply_banner_explain') }}<br>{{ phrase('you_may_use_bb_code') }}"
-			maxlength="65536"
-	/>
+					name="thread_reply_banner"
+					value="{$thread.SvThreadBanner.raw_text}"
+					autosize="true"
+					label="{{ phrase('thread_reply_banner') }}"
+					explain="{{ phrase('thread_reply_banner_explain') }}<br>{{ phrase('you_may_use_bb_code') }}"
+					maxlength="65536" />
 
 	<xf:checkboxrow>
 		<xf:option
 				name="thread_banner_state"
-				checked="{{ $thread.ThreadBanner.banner_state ? 'checked' : '' }}"
-				label="{{ phrase('sv_thread_banner_active') }}"
-		/>
+				checked="{{ $thread.SvThreadBanner.banner_state ? 'checked' : '' }}"
+				label="{{ phrase('sv_thread_banner_active') }}" />
 	</xf:checkboxrow>
 
-	<xf:if is="$thread.ThreadBanner.banner_edit_count">
+	<xf:if is="$thread.SvThreadBanner.banner_edit_count">
 		<xf:formrow>
 			<span class="u-muted">
 				<a href="{{ link('threads/reply-banner-history', $thread) }}"
@@ -24,8 +22,7 @@
 				   dir="auto"
 				   data-xf-click="toggle"
 				   data-target=".js-threadReplyBannerHistoryTarget"
-				   data-menu-closer="true"
-				>
+				   data-menu-closer="true">
 					{{ phrase('thread_reply_banner_history') }}
 				</a>
 			</span>
@@ -36,5 +33,4 @@
 	</xf:if>
 
 	<xf:hiddenval name="banner_fields">1</xf:hiddenval>
-
 </xf:if>

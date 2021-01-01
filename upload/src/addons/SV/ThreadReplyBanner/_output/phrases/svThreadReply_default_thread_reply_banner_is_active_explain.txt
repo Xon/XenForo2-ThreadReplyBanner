@@ -1,0 +1,1 @@
+If checked and the thread does not have any thread reply banner, default thread reply banner would be used instead.

@@ -89,6 +89,40 @@ class Setup extends AbstractSetup
         $this->installStep2();
     }
 
+    public function upgrade2040000Step1()
+    {
+        $sm = $this->schemaManager();
+
+        $sm->alterTable('xf_thread', function (Alter $table)
+        {
+            $table->renameColumn('has_banner', 'sv_has_thread_banner')->length(3);
+        });
+    }
+
+    public function upgrade2040000Step2()
+    {
+        $this->db()->update('xf_moderator_log', [
+            'content_type' => 'sv_thread_banner'
+        ], 'content_type = ?', 'thread_banner');
+    }
+
+    public function upgrade2040000Step3()
+    {
+        $this->db()->update('xf_edit_history', [
+            'content_type' => 'sv_thread_banner'
+        ], 'content_type = ?', 'thread_banner');
+    }
+
+    public function upgrade2040000Step4()
+    {
+        $this->installStep1();
+    }
+
+    public function upgrade2040000Step5()
+    {
+        $this->installStep2();
+    }
+
     public function uninstallStep1()
     {
         $sm = $this->schemaManager();
@@ -124,16 +158,14 @@ class Setup extends AbstractSetup
         ");
     }
 
-    /**
-     * @return array
-     */
-    protected function getTables()
+    protected function getTables() : array
     {
         $tables = [];
 
         $this->migrateTable('xf_thread_banner', 'xf_sv_thread_banner');
 
-        $tables['xf_sv_thread_banner'] = function ($table) {
+        $tables['xf_sv_thread_banner'] = function ($table)
+        {
             /** @var Create|Alter $table */
             if ($table instanceof Create)
             {
@@ -151,32 +183,57 @@ class Setup extends AbstractSetup
             $table->addPrimaryKey('thread_id');
         };
 
-        return $tables;
-    }
+        $tables['xf_sv_forum_banner'] = function ($table)
+        {
+            /** @var Create|Alter $table */
+            if ($table instanceof Create)
+            {
+                $table->checkExists(true);
+            }
 
-    /**
-     * @return array
-     */
-    protected function getAlterTables()
-    {
-        $tables = [];
+            $this->addOrChangeColumn($table, 'node_id')->type('int');
+            $this->addOrChangeColumn($table, 'raw_text')->type('mediumtext');
+            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(3)->setDefault(1);
+            $this->addOrChangeColumn($table, 'banner_user_id')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'banner_edit_count')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'banner_last_edit_date')->type('int')->setDefault(0);
+            $this->addOrChangeColumn($table, 'banner_last_edit_user_id')->type('int')->setDefault(0);
 
-        $tables['xf_thread'] = function (Alter $table) {
-            $this->addOrChangeColumn($table, 'has_banner')->type('tinyint')->setDefault(0);
+            $table->addPrimaryKey('node_id');
         };
 
         return $tables;
     }
 
-    /**
-     * @return array
-     */
-    protected function getRemoveAlterTables()
+    protected function getAlterTables() : array
     {
         $tables = [];
 
-        $tables['xf_thread'] = function (Alter $table) {
-            $table->dropColumns('has_banner');
+        $tables['xf_thread'] = function (Alter $table)
+        {
+            $this->addOrChangeColumn($table, 'sv_has_thread_banner')->type('tinyint', 3)->setDefault(0);
+        };
+
+        $tables['xf_forum'] = function (Alter $table)
+        {
+            $this->addOrChangeColumn($table, 'sv_has_forum_banner', 'tinyint', 3)->setDefault(0);
+        };
+
+        return $tables;
+    }
+
+    protected function getRemoveAlterTables() : array
+    {
+        $tables = [];
+
+        $tables['xf_thread'] = function (Alter $table)
+        {
+            $table->dropColumns('sv_has_thread_banner');
+        };
+
+        $tables['xf_forum'] = function (Alter $table)
+        {
+            $table->dropColumns('sv_has_forum_banner');
         };
 
         return $tables;

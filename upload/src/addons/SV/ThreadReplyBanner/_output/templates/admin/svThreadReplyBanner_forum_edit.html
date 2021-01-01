@@ -1,0 +1,19 @@
+<h3 class="block-formSectionHeader">
+	<span class="collapseTrigger collapseTrigger--block is-active" data-xf-click="toggle" data-target="< :up:next">
+		<span class="block-formSectionHeader-aligner">{{ phrase('svThreadReplyBanner_default_thread_reply_banner') }}</span>
+	</span>
+</h3>
+
+<div class="block-body block-body--collapsible is-active">
+	<xf:editorrow name="sv_forum_reply_banner_raw_text"
+				  label="{{ phrase('svThreadReply_default_thread_reply_banner_text') }}"
+				  explain="{{ phrase('svThreadReply_default_thread_reply_banner_text_explain') }}"
+				  value="{{ $forum.SvForumBanner ? $forum.SvForumBanner.raw_text : '' }}" />
+
+	<xf:checkboxrow>
+		<xf:option name="sv_forum_reply_banner_is_active"
+				   label="{{ phrase('svThreadReply_default_thread_reply_banner_is_active') }}"
+				   hint="{{ phrase('svThreadReply_default_thread_reply_banner_is_active_explain') }}"
+				   checked="{{ $forum.SvForumBanner ? $forum.SvForumBanner.banner_state : '' }}" />
+	</xf:checkboxrow>
+</div>

@@ -4,27 +4,22 @@ namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
+use XF\Mvc\Reply\Reroute as RerouteReply;
 
-/**
- * Class Thread
- *
- * Extends \XF\Pub\Controller\Thread
- *
- * @package SV\ThreadReplyBanner\XF\Pub\Controller
- */
 class Thread extends XFCP_Thread
 {
     /**
-     * @param ParameterBag $params
-     * @return AbstractReply
+     * @param ParameterBag $parameterBag
+     *
+     * @return RerouteReply
      */
-    public function actionReplyBannerHistory(ParameterBag $params)
+    public function actionReplyBannerHistory(ParameterBag $parameterBag) : AbstractReply
     {
         return $this->rerouteController(
             'XF:EditHistory', 'index',
             [
-                'content_type' => 'thread_banner',
-                'content_id'   => $params->get('thread_id')
+                'content_type' => 'sv_thread_banner',
+                'content_id'   => $parameterBag->thread_id
             ]
         );
     }
@@ -51,10 +46,9 @@ class Thread extends XFCP_Thread
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $editor->getThread();
-        if ($thread->canManageThreadReplyBanner() &&
-            $this->filter('banner_fields', 'boolean'))
+        if ($thread->canManageSvContentReplyBanner() && $this->filter('banner_fields', 'boolean'))
         {
-            $editor->setReplyBanner(
+            $editor->setupReplyBannerSvcForSv(
                 $this->filter('thread_reply_banner', 'string'),
                 $this->filter('thread_banner_state', 'boolean')
             );
@@ -70,7 +64,7 @@ class Thread extends XFCP_Thread
      */
     protected function assertViewableThread($threadId, array $extraWith = [])
     {
-        $extraWith[] = 'ThreadBanner';
+        $extraWith[] = 'SvThreadBanner';
 
         return parent::assertViewableThread($threadId, $extraWith);
     }

@@ -1,0 +1,120 @@
+<xf:macro name="reply_banner_html" arg-replyBanner="!">
+	<xf:css src="svThreadReplyBanner_macros_reply_banner_html.less" />
+	
+	<xf:if contentcheck="true">
+		<div class="block block--contentReplyBanner" data-content-type="{$replyBanner.getEntityContentType()}" data-content-id="{$replyBanner.getEntityId()}">
+			<div class="block-container">
+				<div class="block-body">
+					<div class="block-row block-row--message">
+						<xf:contentcheck>
+							{{ bb_code($replyBanner.raw_text, $replyBanner.getEntityContentType(), $replyBanner) }}
+						</xf:contentcheck>
+					</div>
+					
+					<xf:if is="$replyBanner.banner_last_edit_date">
+						<div class="block-row block-row--lastEdit">
+							<xf:if is="$replyBanner.banner_user_id == $replyBanner.banner_last_edit_user_id">
+								{{ phrase('last_edited:') }} <xf:date time="{$replyBanner.banner_last_edit_date}" />
+							<xf:else />
+								{{ phrase('last_edited_by_moderator:') }} <xf:date time="{$replyBanner.banner_last_edit_date}" />
+							</xf:if>
+						</div>
+					</xf:if>
+				</div>
+			</div>
+		</div>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="reply_banner_block" arg-content="!" arg-editHistoryRoute="!">
+	<xf:if is="$content && $content.hasOption('svThreadReplyBanner') && $content.canViewSvContentReplyBanner()">
+		<xf:set var="$replyBanner" value="{{ $content.getSvContentReplyBanner() }}" />
+
+		<xf:if is="$replyBanner.banner_edit_count && $replyBanner.canViewEditHistory()">
+			<div class="tabs tabs--standalone">
+				<div class="hScroller" data-xf-init="tabs h-scroller"
+					 data-panes=".js-svContentReplyBannerTabPanes"
+					 data-state="replace"
+					 role="tablist">
+					<span class="hScroller-scroll">
+						<a class="tabs-tab is-active"
+						   role="tab"
+						   aria-controls="sv-content-reply-banner"
+						   href="{{ link('threads', $thread) }}">{{ phrase('svThreadReplyBanner_thread_reply_banner') }}</a>
+
+						<a class="tabs-tab"
+						   id="content-reply-banner-history"
+						   role="tab"
+						   aria-controls="content-reply-banner-history"
+						   href="{{ link($editHistoryRoute, $content) }}">{{ phrase('history') }}</a>
+					</span>
+				</div>
+			</div>
+
+			<ul class="tabPanes js-svContentReplyBannerTabPanes">
+				<!--[XF:tab_panes:start]-->
+				<li class="is-active" role="tabpanel" id="content-reply-banner">
+					<xf:macro name="reply_banner_html" arg-replyBanner="{$replyBanner}" />
+				</li>
+
+				<li data-href="{{ link($editHistoryRoute, $content) }}" role="tabpanel" aria-labelledby="content-reply-banner-history">
+					<div class="blockMessage">{{ phrase('loading...') }}</div>
+				</li>
+				<!--[XF:tab_panes:end]-->
+			</ul>
+		<xf:else />
+			<xf:macro name="reply_banner_html" arg-replyBanner="{$replyBanner}" />
+		</xf:if>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="reply_banner_block_between" arg-preferred="!" arg-alternative="!">
+	<xf:macro name="focus_editor_js" />
+	
+	<xf:set var="$preferredHtml"><xf:trim>
+		<xf:macro name="reply_banner_block"
+				  arg-content="{$preferred}"
+				  arg-editHistoryRoute="threads/reply-banner-history" />
+	</xf:trim></xf:set>
+	
+	<xf:set var="$alternativeHtml"><xf:trim>
+		<xf:macro name="reply_banner_block"
+				  arg-content="{$alternative}"
+				  arg-editHistoryRoute="forums/reply-banner-history" />
+	</xf:trim></xf:set>
+	
+	<xf:if is="$preferredHtml is not empty">
+		{{ $preferredHtml|raw }}
+	<xf:elseif is="$alternativeHtml is not empty" />
+		{{ $alternativeHtml|raw }}
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="focus_editor_js">
+	<xf:js>
+		$(document).ready(function()
+		{
+			var focusEditor = XF.focusEditor;
+			XF.focusEditor = function ($container, notConstraints)
+			{
+				var $el = $container.closest('.js-quickReply');
+				if ($el.length > 0)
+				{
+					var height = $(".p-navSticky.is-sticky").height();
+					if (height > 0)
+					{
+						var viewportOffset = $el.get(0).getBoundingClientRect();
+						if (viewportOffset.top < height)
+						{
+							window.scroll(0, window.scrollY - height + viewportOffset.top - 1);
+						}
+					}
+				}
+				else 
+				{
+					focusEditor($container, notConstraints);
+				}
+			};
+		});
+	</xf:js>
+</xf:macro>

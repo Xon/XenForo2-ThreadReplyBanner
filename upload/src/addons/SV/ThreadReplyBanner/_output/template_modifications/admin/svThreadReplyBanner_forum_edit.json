@@ -1,0 +1,9 @@
+{
+    "template": "forum_edit",
+    "description": "Add fields to manage forum reply banner",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#^\\s*<xf:if is=\"\\$availablePrompts.*?<\\/xf:checkboxrow>.*?<\\/xf:if>$#sim",
+    "replace": "$0\n\n<xf:include template=\"svThreadReplyBanner_forum_edit\" />"
+}

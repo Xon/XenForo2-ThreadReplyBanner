@@ -1,0 +1,1 @@
+This will be shown to the user if the thread has no reply banner or is inactive.

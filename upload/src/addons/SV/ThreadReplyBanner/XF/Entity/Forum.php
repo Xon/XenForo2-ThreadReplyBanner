@@ -4,40 +4,37 @@ namespace SV\ThreadReplyBanner\XF\Entity;
 
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
 use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
-use XF\Mvc\Entity\Structure;
+use SV\ThreadReplyBanner\Entity\ForumBanner as ForumBannerEntity;
+use XF\Mvc\Entity\Structure as EntityStructure;
 use XF\Phrase;
-use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
 
 /**
- * Extends \XF\Entity\Thread
+ * @since 2.4.0
  *
  * COLUMNS
- * @property bool sv_has_thread_banner
+ * @property bool sv_has_forum_banner
  *
  * RELATIONS
- * @property ThreadBannerEntity SvThreadBanner
+ * @property ForumBannerEntity SvForumBanner
  */
-class Thread extends XFCP_Thread implements ContentBannerEntityInterface
+class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 {
     use ContentBannerEntityTrait;
 
-    public function canViewSvContentReplyBanner(Phrase &$error = null): bool
+    public function canViewSvContentReplyBanner(Phrase &$error = null) : bool
     {
-        if (!$this->sv_has_thread_banner)
+        if (!$this->sv_has_forum_banner)
         {
             return false;
         }
 
-        $visitor = \XF::visitor();
-        if (
-            !$visitor->hasNodePermission($this->node_id, 'sv_replybanner_show')
-            && !$visitor->hasNodePermission($this->node_id, 'sv_replybanner_manage')
-        )
+        $forumBanner = $this->SvForumBanner;
+        if (!$forumBanner)
         {
             return false;
         }
 
-        return $this->SvThreadBanner && $this->SvThreadBanner->banner_state;
+        return $forumBanner->banner_state;
     }
 
     public function canManageSvContentReplyBanner(Phrase &$error = null): bool
@@ -48,7 +45,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
             return false;
         }
 
-        return $visitor->hasNodePermission($this->node_id, 'sv_replybanner_manage');
+        return $visitor->hasAdminPermission('node');
     }
 
     /**
@@ -56,12 +53,12 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
      */
     public function getSvContentReplyBanner()
     {
-        if (!$this->sv_has_thread_banner)
+        if (!$this->sv_has_forum_banner)
         {
-            return false;
+            return null;
         }
 
-        return $this->SvThreadBanner;
+        return $this->SvForumBanner;
     }
 
     /**
@@ -75,16 +72,16 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
     }
 
     /**
-     * @param Structure $structure
+     * @param EntityStructure $structure
      *
-     * @return Structure
+     * @return EntityStructure
      */
-    public static function getStructure(Structure $structure)
+    public static function getStructure(EntityStructure $structure)
     {
         $structure = parent::getStructure($structure);
 
         static::setupDefaultStructureForSvBanner($structure);
-
+    
         return $structure;
     }
 }

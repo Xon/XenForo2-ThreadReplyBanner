@@ -2,42 +2,114 @@
 
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
+use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
+use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
+use XF\Entity\Thread as ThreadEntity;
+
 /**
- * Class Creator
- *
- * @package SV\ThreadReplyBanner\XF\Service\Thread
+ * @method ExtendedThreadEntity getThread()
  */
 class Creator extends XFCP_Creator
 {
     /**
-     * @var \SV\ThreadReplyBanner\Entity\ThreadBanner
+     * @var null|ReplyBannerManagerSvc
      */
-    protected $threadBanner;
+    protected $replyBannerManagerSvcForSv;
 
-    public function setReplyBanner(string $text, bool $active)
+    /**
+     * @return ReplyBannerManagerSvc|null
+     */
+    public function getReplyBannerManagerSvcForSv()
     {
-        /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
-        $thread = $this->getThread();
-        $thread->has_banner = $active;
-
-        /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner $threadBanner */
-        $threadBanner = $thread->getRelationOrDefault('ThreadBanner');
-
-        $threadBanner->banner_user_id = \XF::visitor()->user_id;
-        $threadBanner->banner_edit_count = 0;
-        $threadBanner->banner_last_edit_date = 0;
-        $threadBanner->banner_last_edit_user_id = 0;
-        $threadBanner->raw_text = $text;
-        $threadBanner->banner_state = $active;
-
-        $this->threadBanner = $threadBanner;
+        return $this->replyBannerManagerSvcForSv;
     }
 
     /**
-     * @return \SV\ThreadReplyBanner\Entity\ThreadBanner|null
+     * @deprecated Since 2.4.0
+     *
+     * @param string $text
+     * @param bool $active
      */
-    public function getThreadBanner()
+    public function setReplyBanner(string $text, bool $active)
     {
-        return $this->threadBanner;
+        $this->setupReplyBannerSvcForSv($text, $active);
+    }
+
+    /**
+     * @since 2.4.0
+     *
+     * @param string $text
+     * @param bool $active
+     */
+    public function setupReplyBannerSvcForSv(string $text, bool $active)
+    {
+        if ($this->getReplyBannerManagerSvcForSv())
+        {
+            return;
+        }
+
+        /** @var ReplyBannerManagerSvc $replyBannerManagerSvc */
+        $replyBannerManagerSvc = $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $this->getThread());
+
+        $this->replyBannerManagerSvcForSv = $replyBannerManagerSvc
+            ->setUser(\XF::visitor())
+            ->setRawText($text)
+            ->setIsActive($active);
+    }
+
+    /**
+     * @return array
+     */
+    protected function _validate()
+    {
+        $errors = parent::_validate();
+
+        $replyBannerManagerSvc = $this->getReplyBannerManagerSvcForSv();
+        if ($replyBannerManagerSvc)
+        {
+            if (!$replyBannerManagerSvc->validate($moreErrors) && \is_array($moreErrors))
+            {
+                foreach ($moreErrors AS $index => $error)
+                {
+                    if (\is_numeric($index))
+                    {
+                        $errors[] = $error;
+                    }
+                    else
+                    {
+                        if (\array_key_exists($index, $errors))
+                        {
+                            $errors[] = $error;
+                        }
+                        else
+                        {
+                            $errors[$index] = $error;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * @return ThreadEntity|ExtendedThreadEntity
+     */
+    protected function _save()
+    {
+        $db = $this->db();
+        $db->beginTransaction();
+
+        $thread = parent::_save();
+        $replyBannerManagerSvc = $this->getReplyBannerManagerSvcForSv();
+        if ($replyBannerManagerSvc)
+        {
+            $replyBannerManagerSvc->save();
+        }
+
+        $db->commit();
+
+        return $thread;
     }
 }

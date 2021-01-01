@@ -2,30 +2,38 @@
 
 namespace SV\ThreadReplyBanner\Entity;
 
+use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
+use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure as EntityStructure;
+use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
 use XF\Phrase;
-use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 
 /**
+ * @since 2.4.0
+ *
  * COLUMNS
- * @property int thread_id
+ * @property int node_id
  *
  * RELATIONS
- * @property ExtendedThreadEntity Thread
+ * @property ExtendedForumEntity Forum
  */
-class ThreadBanner extends AbstractBanner
+class ForumBanner extends AbstractBanner
 {
-    const SUPPORTS_MOD_LOG = true;
-
-    public function canView(Phrase &$error = null): bool
+    public function canView(Phrase &$error = null) : bool
     {
-        return $this->Thread->canViewSvContentReplyBanner($error);
+        return $this->Forum->canViewSvContentReplyBanner($error);
     }
 
     public function canEdit(Phrase &$error = null): bool
     {
-        return $this->Thread->canManageSvContentReplyBanner($error);
+        $visitor = \XF::visitor();
+        if (!$visitor->user_id)
+        {
+            return false;
+        }
+
+        return $visitor->hasAdminPermission('node');
     }
 
     /**
@@ -48,40 +56,31 @@ class ThreadBanner extends AbstractBanner
             return false;
         }
 
-        return $this->Thread->canManageSvContentReplyBanner($error);
+        return $visitor->hasAdminPermission('node');
     }
 
     /**
-     * @deprecated Since 2.4.0
-     *
-     * @param null $error
-     *
-     * @return bool
+     * @inheritDoc
      */
-    public function canViewHistory(&$error = null)
-    {
-        return $this->canViewEditHistory($error);
-    }
-
     public function getAssociatedContent(): Entity
     {
-        return $this->Thread;
+        return $this->Forum;
     }
 
     public static function getStructure(EntityStructure $structure) : EntityStructure
     {
         static::setupDefaultStructure(
             $structure,
-            'xf_sv_thread_banner',
-            'SV\ThreadReplyBanner:ThreadBanner',
-            'thread_banner',
-            'thread_id'
+            'xf_sv_forum_banner',
+            'SV\ThreadReplyBanner:ForumBanner',
+            'sv_forum_banner',
+            'node_id'
         );
 
-        $structure->relations['Thread'] = [
-            'entity'     => 'XF:Thread',
+        $structure->relations['Forum'] = [
+            'entity'     => 'XF:Forum',
             'type'       => self::TO_ONE,
-            'conditions' => 'thread_id',
+            'conditions' => 'node_id',
             'primary'    => true,
         ];
 

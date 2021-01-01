@@ -2,8 +2,11 @@
 
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
-use SV\ThreadReplyBanner\Entity\ThreadBanner;
+use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
+use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
+use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 use XF\Entity\Thread;
+use XF\Entity\Thread as ThreadEntity;
 
 /**
  * Class Editor
@@ -12,122 +15,105 @@ use XF\Entity\Thread;
  */
 class Editor extends XFCP_Editor
 {
-    /** @var bool */
-    protected $logBannerEdit = true;
+    /**
+     * @var null|ReplyBannerManagerSvc
+     */
+    protected $replyBannerManagerSvcForSv;
 
-    /** @var bool */
-    protected $logBannerHistory = true;
-
-    /** @var ThreadBanner */
-    protected $threadBanner;
-
-    /** @var string */
-    protected $oldBanner;
-
-
-    public function logBannerEdit(bool $logBannerEdit)
+    /**
+     * @return ReplyBannerManagerSvc|null
+     */
+    public function getReplyBannerManagerSvcForSv()
     {
-        $this->logBannerEdit = $logBannerEdit;
-    }
-
-    public function logBannerHistory(bool $logBannerHistory)
-    {
-        $this->logBannerHistory = $logBannerHistory;
+        return $this->replyBannerManagerSvcForSv;
     }
 
     /**
+     * @since 2.4.0
+     *
+     * @param string $text
+     * @param bool $active
+     */
+    public function setupReplyBannerSvcForSv(string $text, bool $active)
+    {
+        if ($this->getReplyBannerManagerSvcForSv())
+        {
+            return;
+        }
+
+        /** @var ReplyBannerManagerSvc $replyBannerManagerSvc */
+        $replyBannerManagerSvc = $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $this->getThread());
+
+        $this->replyBannerManagerSvcForSv = $replyBannerManagerSvc
+            ->setUser(\XF::visitor())
+            ->setRawText($text)
+            ->setIsActive($active);
+    }
+
+    /**
+     * @deprecated Since 2.4.0
+     *
      * @param string $banner
      * @param bool   $active
-     * @return ThreadBanner|null
+     *
+     * @return null
      */
     public function setReplyBanner(string $banner, bool $active)
     {
-        /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
-        $thread = $this->thread;
-        $threadBanner = $thread->ThreadBanner;
+        $this->setupReplyBannerSvcForSv($banner, $active);
 
-        if (!$threadBanner)
-        {
-            // do not create a banner if one doesn't exist and the text is empty (even if the active flag is set)
-            if (empty($banner))
-            {
-                return null;
-            }
-
-            /** @var ThreadBanner $threadBanner */
-            $threadBanner = $thread->getRelationOrDefault('ThreadBanner');
-            $threadBanner->banner_user_id = \XF::visitor()->user_id;
-            $oldBanner = '';
-            $newBanner = true;
-        }
-        else
-        {
-            $thread->addCascadedSave($threadBanner);
-            $oldBanner = $threadBanner->raw_text;
-            $newBanner = false;
-        }
-        // if there is no banner text, disable for the thread
-        if ($active && !$banner)
-        {
-            $active = false;
-        }
-
-        $threadBanner->raw_text = $banner;
-        $threadBanner->banner_state = $active;
-        $thread->has_banner = $active;
-
-        if (!$newBanner && $threadBanner && $threadBanner->isChanged('raw_text'))
-        {
-            $this->setupReplyBannerEditHistory($oldBanner);
-        }
-
-        $this->threadBanner = $threadBanner;
-
-        return $threadBanner;
+        return null;
     }
 
     /**
-     * @param string $oldBanner
+     * @return array
      */
-    protected function setupReplyBannerEditHistory(string $oldBanner)
+    protected function _validate()
     {
-        /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
-        $thread = $this->thread;
-        $threadBanner = $thread->ThreadBanner;
+        $errors = parent::_validate();
 
-        $options = $this->app->options();
-        if ($this->logBannerEdit && $options->editLogDisplay['enabled'])
+        $replyBannerManagerSvc = $this->getReplyBannerManagerSvcForSv();
+        if ($replyBannerManagerSvc)
         {
-            $threadBanner->banner_edit_count++;
-            $threadBanner->banner_last_edit_date = \XF::$time;
-            $threadBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
+            if (!$replyBannerManagerSvc->validate($moreErrors) && \is_array($moreErrors))
+            {
+                foreach ($moreErrors AS $index => $error)
+                {
+                    if (\is_numeric($index))
+                    {
+                        $errors[] = $error;
+                    }
+                    else
+                    {
+                        if (\array_key_exists($index, $errors))
+                        {
+                            $errors[] = $error;
+                        }
+                        else
+                        {
+                            $errors[$index] = $error;
+                        }
+                    }
+                }
+            }
         }
 
-        if ($this->logBannerHistory && $options->editHistory['enabled'])
-        {
-            $this->oldBanner = $oldBanner;
-        }
+        return $errors;
     }
 
-
     /**
-     * @return Thread
-     * @throws \Exception
+     * @return ThreadEntity|ExtendedThreadEntity
      */
     protected function _save()
     {
-        $visitor = \XF::visitor();
-
         $db = $this->db();
         $db->beginTransaction();
 
         $thread = parent::_save();
-
-        if ($this->threadBanner && $this->oldBanner)
+        $replyBannerManagerSvc = $this->getReplyBannerManagerSvcForSv();
+        if ($replyBannerManagerSvc)
         {
-            /** @var \XF\Repository\EditHistory $repo */
-            $repo = $this->repository('XF:EditHistory');
-            $repo->insertEditHistory('thread_banner', $this->threadBanner, $visitor, $this->oldBanner, $this->app->request()->getIp());
+            $replyBannerManagerSvc->save();
         }
 
         $db->commit();

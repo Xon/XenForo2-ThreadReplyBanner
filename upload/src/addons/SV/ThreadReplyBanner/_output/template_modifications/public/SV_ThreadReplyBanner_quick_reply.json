@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#([\\t ]*<xf:form action=\"{{ link\\('threads\\/add-reply'.*)(js-quickReply)(.*<\\/xf:form>)(.*?<\\/xf:if>)#si",
-    "replace": "<div class=\"js-quickReply\">\n<xf:include template=\"svThreadReplyBanner\" />\n$1$3\n</div>\n$4\n\n<xf:set var=\"$svShowBanner\" value=\"{{ 0 + $xf.options.svThreadReplyBanner_showBanner }}\" />\n<xf:if is=\"($svShowBanner === 2 || ($svShowBanner === 1 && !$thread.discussion_open)) AND !$thread.canReply()\">\n\t<xf:macro template=\"svThreadReplyBanner\"\n\t\t  name=\"thread_reply_banner\"\n\t\t  arg-thread=\"{$thread}\"\n\t\t  arg-includeJs=\"{{ false }}\" />\n</xf:if>"
+    "replace": "<div class=\"js-quickReply\">\n\t<xf:macro template=\"svThreadReplyBanner_macros\" name=\"reply_banner_block_between\"\n\t\t\t  arg-preferred=\"{$thread}\" arg-alternative=\"{$thread.Forum}\" />\n$1$3\n</div>\n$4"
 }

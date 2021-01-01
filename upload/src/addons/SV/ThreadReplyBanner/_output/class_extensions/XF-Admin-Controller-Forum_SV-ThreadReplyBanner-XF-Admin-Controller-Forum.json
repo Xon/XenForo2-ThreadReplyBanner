@@ -1,0 +1,6 @@
+{
+    "from_class": "XF\\Admin\\Controller\\Forum",
+    "to_class": "SV\\ThreadReplyBanner\\XF\\Admin\\Controller\\Forum",
+    "execute_order": 6222,
+    "active": true
+}

@@ -8,8 +8,14 @@ namespace SV\ThreadReplyBanner\SV\AdvancedBbCodesPack\BbCode\Tag
 	class XFCP_ModInterrupt extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt {}
 }
 
+namespace SV\ThreadReplyBanner\XF\Admin\Controller
+{
+	class XFCP_Forum extends \XF\Admin\Controller\Forum {}
+}
+
 namespace SV\ThreadReplyBanner\XF\Entity
 {
+	class XFCP_Forum extends \XF\Entity\Forum {}
 	class XFCP_Thread extends \XF\Entity\Thread {}
 }
 
