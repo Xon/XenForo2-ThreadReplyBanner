@@ -86,7 +86,7 @@ trait ContentBannerTrait
 
         if ($replyBanner === null && $this->get($hasBannerCol))
         {
-            $replyBanner = $this->get($relationship);
+            $replyBanner = $this->get($relationship . '_');
         }
 
         if ($createNew && $replyBanner === null)
