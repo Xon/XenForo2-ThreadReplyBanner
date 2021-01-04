@@ -1,0 +1,1 @@
+If no thread specific reply banner is active, the default reply banner for this forum will be used.

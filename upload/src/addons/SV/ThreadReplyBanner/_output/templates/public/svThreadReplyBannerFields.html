@@ -6,12 +6,13 @@
 					label="{{ phrase('thread_reply_banner') }}"
 					explain="{{ phrase('thread_reply_banner_explain') }}<br>{{ phrase('you_may_use_bb_code') }}"
 					maxlength="65536" />
-
+	
 	<xf:checkboxrow>
 		<xf:option
-				name="thread_banner_state"
-				checked="{{ $thread.SvThreadBanner.banner_state ? 'checked' : '' }}"
-				label="{{ phrase('sv_thread_banner_active') }}" />
+				   name="thread_banner_state"
+				   checked="{{ $thread.SvThreadBanner.banner_state ? 'checked' : '' }}"
+				   label="{{ phrase('sv_thread_banner_active') }}"
+				   hint="{{ $thread.Forum.canViewSvContentReplyBanner() ? phrase('svThreadReplyBanner_if_no_thread_specific_reply_banner_is_active_default_will_be_used') : '' }}" />
 	</xf:checkboxrow>
 
 	<xf:if is="$thread.SvThreadBanner.banner_edit_count">
