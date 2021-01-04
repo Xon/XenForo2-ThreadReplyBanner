@@ -46,6 +46,11 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
         return $visitor->hasAdminPermission('node');
     }
 
+    public function getSvReplyBannerEditHistoryRoute(): string
+    {
+        return 'forums/reply-banner-history';
+    }
+
     /**
      * @throws \XF\PrintableException
      */

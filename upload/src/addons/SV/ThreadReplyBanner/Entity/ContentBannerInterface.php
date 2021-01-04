@@ -19,4 +19,6 @@ interface ContentBannerInterface
      * @return AbstractBannerEntity|null
      */
     public function getSvContentReplyBanner(bool $createNew = false);
+
+    public function getSvReplyBannerEditHistoryRoute(): string;
 }

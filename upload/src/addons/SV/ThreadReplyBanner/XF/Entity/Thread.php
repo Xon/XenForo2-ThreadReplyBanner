@@ -54,6 +54,11 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
         return $visitor->hasNodePermission($this->node_id, 'sv_replybanner_manage');
     }
 
+    public function getSvReplyBannerEditHistoryRoute(): string
+    {
+        return 'threads/reply-banner-history';
+    }
+
     /**
      * @throws \XF\PrintableException
      */

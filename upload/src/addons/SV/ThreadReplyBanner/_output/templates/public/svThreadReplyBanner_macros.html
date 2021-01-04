@@ -71,22 +71,27 @@
 <xf:macro name="reply_banner_block_between" arg-preferred="!" arg-alternative="!">
 	<xf:macro name="focus_editor_js" />
 	
-	<xf:set var="$preferredHtml"><xf:trim>
-		<xf:macro name="reply_banner_block"
-				  arg-content="{$preferred}"
-				  arg-editHistoryRoute="threads/reply-banner-history" />
-	</xf:trim></xf:set>
+	<xf:set var="$html" value="" />
+
+	<xf:if is="$html is empty && $preferred">
+		<xf:set var="$html"><xf:trim>
+			<xf:macro name="reply_banner_block"
+					  arg-content="{$preferred}"
+					  arg-editHistoryRoute="{{ $preferred.getSvReplyBannerEditHistoryRoute() }}" />
+		</xf:trim></xf:set>
+	</xf:if>
 	
-	<xf:set var="$alternativeHtml"><xf:trim>
-		<xf:macro name="reply_banner_block"
-				  arg-content="{$alternative}"
-				  arg-editHistoryRoute="forums/reply-banner-history" />
-	</xf:trim></xf:set>
-	
-	<xf:if is="$preferredHtml is not empty">
-		{{ $preferredHtml|raw }}
-	<xf:elseif is="$alternativeHtml is not empty" />
-		{{ $alternativeHtml|raw }}
+	<xf:if is="$html is empty && $alternative">
+		<xf:set var="$html"><xf:trim>
+			<xf:macro name="reply_banner_block"
+					  arg-content="{$alternative}"
+					  arg-editHistoryRoute="{{ $alternative.getSvReplyBannerEditHistoryRoute() }}" />
+		</xf:trim></xf:set>
+		
+	</xf:if>
+
+	<xf:if is="$html is not empty">
+		{{ $html|raw }}
 	</xf:if>
 </xf:macro>
 
