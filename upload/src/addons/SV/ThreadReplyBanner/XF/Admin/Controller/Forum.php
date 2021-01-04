@@ -1,20 +1,17 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\XF\Admin\Controller;
 
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use XF\ControllerPlugin\Editor as EditorControllerPlugin;
 use XF\Mvc\FormAction;
-use XF\Mvc\Reply\AbstractReply;
-use XF\Mvc\Reply\View as ViewReply;
-use XF\Mvc\Reply\Redirect as RedirectReply;
-use XF\Mvc\Reply\Reroute as RerouteReply;
-use XF\Mvc\Reply\Message as MessageReply;
-use XF\Mvc\Reply\Exception as ExceptionReply;
-use XF\Mvc\Reply\Error as ErrorReply;
 use XF\Entity\Node as NodeEntity;
 use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
 use XF\Entity\Forum as ForumEntity;
+use XF\Service\AbstractService;
 
 /**
  * @since 2.4.0
@@ -51,6 +48,10 @@ class Forum extends XFCP_Forum
         return $formAction;
     }
 
+    /**
+     * @param ForumEntity $forum
+     * @return ReplyBannerManagerSvc|AbstractService
+     */
     protected function getReplyBannerManagerSvcForSv(ForumEntity $forum) : ReplyBannerManagerSvc
     {
         return $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $forum);

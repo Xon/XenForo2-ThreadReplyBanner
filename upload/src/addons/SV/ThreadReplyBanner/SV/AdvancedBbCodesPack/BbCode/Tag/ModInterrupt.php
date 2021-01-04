@@ -1,8 +1,9 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\SV\AdvancedBbCodesPack\BbCode\Tag;
-
-
 
 /**
  * Extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt

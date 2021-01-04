@@ -2,8 +2,6 @@
 
 namespace SV\ThreadReplyBanner\Entity;
 
-use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
-use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure as EntityStructure;
 use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @noinspection PhpMissingParamTypeInspection
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\Service\ReplyBanner;
 
@@ -8,7 +12,7 @@ use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
 use XF\Entity\User as UserEntity;
 use XF\Http\Request as HttpRequest;
 use XF\Mvc\Entity\Entity;
-use XF\Phrase;
+use XF\Mvc\Entity\Repository;
 use XF\Repository\EditHistory as EditHistoryRepo;
 use XF\Service\AbstractService;
 use XF\Service\ValidateAndSavableTrait;
@@ -243,6 +247,9 @@ class Manager extends AbstractService
         return $this->app()->options();
     }
 
+    /**
+     * @return EditHistoryRepo|Repository
+     */
     protected function getEditHistoryRepo() : EditHistoryRepo
     {
         return $this->repository('XF:EditHistory');

@@ -11,13 +11,15 @@ use XF\Mvc\Entity\Entity;
 class ForumBanner extends AbstractBanner
 {
     /**
-     * @param ForumBannerEntity|Entity $content
+     * @param Entity $content
      *
      * @return string
      */
     public function getContentTitle(Entity $content) : string
     {
-        return $content->Forum->Node->title;
+        /** @var ForumBannerEntity $content */
+        $forum = $content->Forum;
+        return $forum->Node->title;
     }
 
     /**
@@ -27,7 +29,10 @@ class ForumBanner extends AbstractBanner
      */
     public function getContentLink(Entity $content) : string
     {
-        return $this->router('public')->buildLink('forums', $content->Forum);
+        /** @var ForumBannerEntity $content */
+        $forum = $content->Forum;
+
+        return $this->router('public')->buildLink('forums', $forum);
     }
 
     /**
@@ -37,7 +42,9 @@ class ForumBanner extends AbstractBanner
      */
     public function getBreadcrumbs(Entity $content) : array
     {
-        return $content->Forum->Node->getBreadcrumbs();
+        /** @var ForumBannerEntity $content */
+        $forum = $content->Forum;
+        return $forum->Node->getBreadcrumbs();
     }
 
     public function getEntityWith() : array

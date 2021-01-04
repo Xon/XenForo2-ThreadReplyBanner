@@ -1,11 +1,13 @@
 <?php
+/**
+ * @noinspection PhpMissingParamTypeInspection
+ */
 
 
 namespace SV\ThreadReplyBanner\EditHistory;
 
 use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
-use SV\ThreadReplyBanner\XF\Entity\Thread;
 use XF\App as BaseApp;
 use XF\EditHistory\AbstractHandler;
 use XF\Entity\EditHistory;

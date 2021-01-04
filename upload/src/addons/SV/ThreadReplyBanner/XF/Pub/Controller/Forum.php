@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
@@ -18,6 +21,7 @@ class Forum extends XFCP_Forum
      */
     public function actionReplyBannerHistory(ParameterBag $parameterBag) : AbstractReply
     {
+        /** @noinspection PhpUndefinedFieldInspection */
         return $this->rerouteController(
             'XF:EditHistory', 'index',
             [

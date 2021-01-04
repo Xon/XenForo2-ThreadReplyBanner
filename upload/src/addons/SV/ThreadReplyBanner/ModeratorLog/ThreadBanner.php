@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @noinspection PhpMissingParamTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\ModeratorLog;
 
@@ -21,7 +23,6 @@ class ThreadBanner extends AbstractHandler
      * @param mixed $newValue
      * @param mixed $oldValue
      * @return bool|string
-     * @noinspection PhpMissingParamTypeInspection
      */
     protected function getLogActionForChange(Entity $content, $field, $newValue, $oldValue)
     {

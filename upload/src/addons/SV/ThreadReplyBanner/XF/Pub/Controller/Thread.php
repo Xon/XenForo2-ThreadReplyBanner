@@ -1,4 +1,8 @@
 <?php
+/**
+ * @noinspection PhpMissingParamTypeInspection
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
@@ -15,6 +19,7 @@ class Thread extends XFCP_Thread
      */
     public function actionReplyBannerHistory(ParameterBag $parameterBag) : AbstractReply
     {
+        /** @noinspection PhpUndefinedFieldInspection */
         return $this->rerouteController(
             'XF:EditHistory', 'index',
             [
@@ -60,7 +65,6 @@ class Thread extends XFCP_Thread
      * @param array $extraWith
      * @return \XF\Entity\Thread
      * @throws \XF\Mvc\Reply\Exception
-     * @noinspection PhpMissingParamTypeInspection
      */
     protected function assertViewableThread($threadId, array $extraWith = [])
     {

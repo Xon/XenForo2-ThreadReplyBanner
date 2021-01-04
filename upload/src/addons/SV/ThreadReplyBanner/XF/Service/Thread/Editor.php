@@ -1,8 +1,10 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
-use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 use XF\Entity\Thread;
