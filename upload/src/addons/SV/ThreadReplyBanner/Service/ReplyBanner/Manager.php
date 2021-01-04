@@ -55,8 +55,8 @@ class Manager extends AbstractService
         }
         else if ($content instanceof AbstractBannerEntity)
         {
-            $this->content = $content;
-            $this->replyBanner = $content->getAssociatedContent();
+            $this->content = $content->getAssociatedContent();
+            $this->replyBanner = $content;
         }
 
         parent::__construct($app);
