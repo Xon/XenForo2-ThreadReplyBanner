@@ -65,29 +65,36 @@ trait ContentBannerTrait
     }
 
     /**
+     * @param bool $createNew
      * @return null|\SV\ThreadReplyBanner\EditHistory\AbstractBanner
      */
-    public function getSvContentReplyBanner()
+    public function getSvContentReplyBanner(bool $createNew = false)
     {
         /** @noinspection PhpUnusedLocalVariableInspection */
         list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
 
-        if (\array_key_exists($relationship, $this->_getterCache))
+        $replyBanner =  null;
+        if ($replyBanner === null && \array_key_exists($relationship, $this->_getterCache))
         {
-            return $this->_getterCache[$relationship];
+            $replyBanner = $this->_getterCache[$relationship];
         }
 
-        if (\array_key_exists($relationship, $this->_relations))
+        if ($replyBanner === null && \array_key_exists($relationship, $this->_relations))
         {
-            return $this->_relations[$relationship];
+            $replyBanner = $this->_relations[$relationship];
         }
 
-        if (!$this->get($hasBannerCol))
+        if ($replyBanner === null && $this->get($hasBannerCol))
         {
-            return null;
+            $replyBanner = $this->get($relationship);
         }
 
-        return $this->get($relationship);
+        if ($createNew && $replyBanner === null)
+        {
+            $replyBanner = $this->getRelationOrDefault($relationship);
+        }
+
+        return $replyBanner;
     }
 
     protected static function getSvBannerContentType($contentType): string

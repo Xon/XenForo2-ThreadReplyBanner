@@ -48,10 +48,8 @@ class Manager extends AbstractService
     {
         if ($content instanceof ContentBannerEntityInterface)
         {
-            $expectedRelationName = 'Sv' . utf8_ucfirst($content->getEntityContentType()) . 'Banner';
-
             $this->content = $content;
-            $this->replyBanner = $content->getRelationOrDefault($expectedRelationName);
+            $this->replyBanner = $content->getSvContentReplyBanner(true);
         }
         else if ($content instanceof AbstractBannerEntity)
         {

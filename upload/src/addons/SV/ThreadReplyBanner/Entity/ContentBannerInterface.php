@@ -15,7 +15,8 @@ interface ContentBannerInterface
     public function canManageSvContentReplyBanner(Phrase &$error = null) : bool;
 
     /**
-     * @return AbstractBannerEntity|null;
+     * @param bool $createNew
+     * @return AbstractBannerEntity|null
      */
-    public function getSvContentReplyBanner();
+    public function getSvContentReplyBanner(bool $createNew = false);
 }
