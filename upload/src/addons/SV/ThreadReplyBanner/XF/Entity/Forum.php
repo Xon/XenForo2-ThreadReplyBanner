@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\XF\Entity;
 
@@ -23,11 +26,6 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 
     public function canViewSvContentReplyBanner(Phrase &$error = null) : bool
     {
-        if (!$this->sv_has_forum_banner)
-        {
-            return false;
-        }
-
         $forumBanner = $this->SvForumBanner;
         if (!$forumBanner)
         {
@@ -46,19 +44,6 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
         }
 
         return $visitor->hasAdminPermission('node');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSvContentReplyBanner()
-    {
-        if (!$this->sv_has_forum_banner)
-        {
-            return null;
-        }
-
-        return $this->SvForumBanner;
     }
 
     /**

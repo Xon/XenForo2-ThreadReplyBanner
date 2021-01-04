@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\Entity;
 
@@ -15,14 +18,10 @@ trait ContentBannerTrait
      */
     protected function _postDeleteForSvContentBanner()
     {
-        $contentType = $this->getEntityContentType();
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
 
-        if (!$this->getValue('sv_has_' . $contentType . '_banner'))
-        {
-            return;
-        }
-
-        $contentBanner = $this->getRelationOrDefault('Sv' . utf8_ucfirst($contentType) . 'Banner');
+        $contentBanner = $this->getRelationOrDefault($relationship, false);
         if (!$contentBanner->exists())
         {
             return;
@@ -48,13 +47,16 @@ trait ContentBannerTrait
             return;
         }
 
-        $columnName = 'sv_has_' . $this->getEntityContentType() . '_banner';
-        if ($this->get($columnName) === $hasBanner)
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
+
+        if ($this->get($hasBannerCol) === $hasBanner)
         {
             return;
         }
 
-        $this->set($columnName, $hasBanner);
+        $this->set($hasBannerCol, $hasBanner);
+        unset($this->_getterCache[$relationship]);
 
         if ($this->exists()) // this helps with content that hasn't been saved yet
         {
@@ -62,21 +64,65 @@ trait ContentBannerTrait
         }
     }
 
+    /**
+     * @return null|\SV\ThreadReplyBanner\EditHistory\AbstractBanner
+     */
+    public function getSvContentReplyBanner()
+    {
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
+
+        if (\array_key_exists($relationship, $this->_getterCache))
+        {
+            return $this->_getterCache[$relationship];
+        }
+
+        if (\array_key_exists($relationship, $this->_relations))
+        {
+            return $this->_relations[$relationship];
+        }
+
+        if (!$this->get($hasBannerCol))
+        {
+            return null;
+        }
+
+        return $this->get($relationship);
+    }
+
+    protected static function getSvBannerContentType($contentType): string
+    {
+        $contentType = preg_replace('#[^a-z0-9]#i', ' ', $contentType);
+        $contentType = str_replace(' ', '', ucwords($contentType));
+
+        return $contentType;
+    }
+
+    public static function getSvBannerDefinitions($contentType): array
+    {
+        $contentType = static::getSvBannerContentType($contentType);
+        $hasBannerCol = 'sv_has_' . utf8_strtolower($contentType) . '_banner';
+        $relationship = 'Sv' . $contentType . 'Banner';
+
+        return [$contentType, $hasBannerCol, $relationship];
+    }
+
     protected static function setupDefaultStructureForSvBanner(EntityStructure $structure)
     {
-        $contentType = $structure->contentType;
-        $structure->columns['sv_has_' . $contentType . '_banner'] = [
+        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($structure->contentType);
+
+        $structure->columns[$hasBannerCol] = [
             'type' => Entity::BOOL,
             'default' => false
         ];
 
-        $ucContentType = utf8_ucfirst($contentType);
-        $structure->relations['Sv' . $ucContentType . 'Banner'] = [
-            'entity'     => 'SV\ThreadReplyBanner:' . $ucContentType . 'Banner',
+        $structure->relations[$relationship] = [
+            'entity'     => 'SV\ThreadReplyBanner:' . $contentType . 'Banner',
             'type'       => Entity::TO_ONE,
             'conditions' => $structure->primaryKey,
             'primary'    => true,
         ];
+        $structure->getters[$relationship] = ['getter' => 'getSvContentReplyBanner', 'cache' => true];
 
         $structure->options['svThreadReplyBanner'] = true; // used for detecting if the class is being extended
     }

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingReturnTypeInspection
+ */
 
 namespace SV\ThreadReplyBanner\XF\Entity;
 
@@ -23,7 +26,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
 
     public function canViewSvContentReplyBanner(Phrase &$error = null): bool
     {
-        if (!$this->sv_has_thread_banner)
+        if (!$this->SvThreadBanner)
         {
             return false;
         }
@@ -37,7 +40,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
             return false;
         }
 
-        return $this->SvThreadBanner && $this->SvThreadBanner->banner_state;
+        return $this->SvThreadBanner->banner_state;
     }
 
     public function canManageSvContentReplyBanner(Phrase &$error = null): bool
@@ -49,19 +52,6 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
         }
 
         return $visitor->hasNodePermission($this->node_id, 'sv_replybanner_manage');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSvContentReplyBanner()
-    {
-        if (!$this->sv_has_thread_banner)
-        {
-            return false;
-        }
-
-        return $this->SvThreadBanner;
     }
 
     /**
