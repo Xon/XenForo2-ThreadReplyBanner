@@ -56,6 +56,13 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
         $this->_postDeleteForSvContentBanner();
     }
 
+    /** @noinspection PhpUnusedParameterInspection */
+    protected static function getSvBannerContentType($contentType): string
+    {
+        // forums do not have content types :(
+        return 'Forum';
+    }
+
     /**
      * @param EntityStructure $structure
      *
