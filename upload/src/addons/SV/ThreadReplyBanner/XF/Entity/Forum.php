@@ -32,6 +32,16 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
             return false;
         }
 
+        $visitor = \XF::visitor();
+        if (
+            !$visitor->hasNodePermission($this->node_id, 'sv_replybanner_show')
+            && !$visitor->hasAdminPermission('node')
+        )
+        {
+            return false;
+        }
+
+
         return $forumBanner->banner_state;
     }
 
