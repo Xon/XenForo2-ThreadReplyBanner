@@ -91,16 +91,29 @@ class Setup extends AbstractSetup
 
     public function upgrade2040001Step3()
     {
-        $this->db()->update('xf_moderator_log', [
-            'content_type' => 'sv_thread_banner'
-        ], 'content_type = ?', 'thread_banner');
+        $this->query("
+            UPDATE xf_moderator_log 
+            SET content_type = 'sv_thread_banner', discussion_content_type = 'thread'
+            WHERE content_type = 'thread_banner'
+        ");
     }
 
     public function upgrade2040001Step4()
     {
-        $this->db()->update('xf_edit_history', [
-            'content_type' => 'sv_thread_banner'
-        ], 'content_type = ?', 'thread_banner');
+        $this->query("
+            UPDATE xf_edit_history 
+            SET content_type = 'sv_thread_banner' 
+            WHERE content_type = 'thread_banner'
+        ");
+    }
+
+    public function upgrade2040001Step5()
+    {
+        $this->query("
+            UPDATE xf_moderator_log 
+            SET discussion_content_type = 'thread'
+            WHERE content_type = 'sv_thread_banner' and discussion_content_type = 'thread_banner'
+        ");
     }
 
     public function uninstallStep1()

@@ -50,7 +50,7 @@ class ThreadBanner extends AbstractHandler
         $log->content_username = $thread->username;
         $log->content_title = $thread->title;
         $log->content_url = \XF::app()->router('public')->buildLink('nopath:threads', $thread);
-        $log->discussion_content_type = 'thread_banner';
+        $log->discussion_content_type = 'thread';
         $log->discussion_content_id = $content->thread_id;
     }
 }
