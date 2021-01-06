@@ -69,8 +69,8 @@
 </xf:macro>
 
 <xf:macro name="reply_banner_block_between" arg-preferred="!" arg-alternative="!">
+
 	<xf:macro name="focus_editor_js" />
-	
 	<xf:set var="$html" value="" />
 
 	<xf:if is="$html is empty && $preferred">
@@ -78,16 +78,16 @@
 			<xf:macro name="reply_banner_block"
 					  arg-content="{$preferred}"
 					  arg-editHistoryRoute="{{ $preferred.getSvReplyBannerEditHistoryRoute() }}" />
-		</xf:trim></xf:set>
+			</xf:trim></xf:set>
 	</xf:if>
-	
+
 	<xf:if is="$html is empty && $alternative">
 		<xf:set var="$html"><xf:trim>
 			<xf:macro name="reply_banner_block"
 					  arg-content="{$alternative}"
 					  arg-editHistoryRoute="{{ $alternative.getSvReplyBannerEditHistoryRoute() }}" />
-		</xf:trim></xf:set>
-		
+			</xf:trim></xf:set>
+
 	</xf:if>
 
 	<xf:if is="$html is not empty">
