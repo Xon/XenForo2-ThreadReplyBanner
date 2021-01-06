@@ -79,24 +79,24 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function upgrade2040000Step1()
+    public function upgrade2040001Step1()
     {
         $this->installStep1();
     }
 
-    public function upgrade2040000Step2()
+    public function upgrade2040001Step2()
     {
         $this->installStep2();
     }
 
-    public function upgrade2040000Step3()
+    public function upgrade2040001Step3()
     {
         $this->db()->update('xf_moderator_log', [
             'content_type' => 'sv_thread_banner'
         ], 'content_type = ?', 'thread_banner');
     }
 
-    public function upgrade2040000Step4()
+    public function upgrade2040001Step4()
     {
         $this->db()->update('xf_edit_history', [
             'content_type' => 'sv_thread_banner'

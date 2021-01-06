@@ -77,7 +77,7 @@ class ThreadBanner extends AbstractBanner
             $structure,
             'xf_sv_thread_banner',
             'SV\ThreadReplyBanner:ThreadBanner',
-            'thread_banner',
+            'sv_thread_banner',
             'thread_id'
         );
 

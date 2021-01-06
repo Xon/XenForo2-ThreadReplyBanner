@@ -2,7 +2,7 @@
     "legacy_addon_id": "SV_ThreadReplyBanner",
     "title": "Thread Reply Banner",
     "description": "Displayed per-thread banners above the editor to users who can post",
-    "version_id": 2040000,
+    "version_id": 2040001,
     "version_string": "2.4.0",
     "dev": "Xon",
     "dev_url": "https://atelieraphelion.com",

@@ -52,7 +52,7 @@ abstract class AbstractBanner extends Entity
     {
         if (static::SUPPORTS_MOD_LOG && $this->getOption('log_moderator'))
         {
-            $this->app()->logger()->logModeratorChanges('thread_banner', $this);
+            $this->app()->logger()->logModeratorChanges('sv_thread_banner', $this);
         }
     }
 
