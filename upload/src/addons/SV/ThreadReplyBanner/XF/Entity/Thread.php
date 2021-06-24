@@ -35,11 +35,6 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
             return false;
         }
 
-        if (!$this->sv_has_thread_banner)
-        {
-            return false;
-        }
-
         $threadBanner = $this->SvThreadBanner;
         if (!$threadBanner)
         {

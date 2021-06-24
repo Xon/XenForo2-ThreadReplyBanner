@@ -35,11 +35,6 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
             return false;
         }
 
-        if (!$this->sv_has_forum_banner)
-        {
-            return false;
-        }
-
         $forumBanner = $this->SvForumBanner;
         if (!$forumBanner)
         {
