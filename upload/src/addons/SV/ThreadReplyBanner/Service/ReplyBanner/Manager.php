@@ -152,9 +152,16 @@ class Manager extends AbstractService
         return $this;
     }
 
-    public function setIsActive(bool $isActive) : self
+    public function setIsActive(bool $active) : self
     {
-        $this->getReplyBanner()->banner_state = $isActive;
+        $replyBanner = $this->getReplyBanner();
+
+        if (!\strlen($replyBanner->raw_text))
+        {
+            $active = false;
+        }
+
+        $replyBanner->banner_state = $active;
 
         return $this;
     }
@@ -194,7 +201,7 @@ class Manager extends AbstractService
         $replyBanner->save(true, false);
 
         $content = $this->getContent();
-        $content->markHasSvContentBanner(false);
+        $content->updateHasSvContentBanner($replyBanner->banner_state, false);
 
         $oldMessage = $this->getOldMessage();
         if ($oldMessage)
@@ -225,7 +232,7 @@ class Manager extends AbstractService
         $replyBanner->delete(true, false);
 
         $content = $this->getContent();
-        $content->markDoesNotHaveSvContentBanner(false);
+        $content->updateHasSvContentBanner(false, false);
 
         $db->commit();
     }

@@ -29,20 +29,18 @@ class Forum extends XFCP_Forum
 
         /** @var ExtendedForumEntity $forum */
         $forum = $node->getDataRelationOrDefault(false);
-        $formAction->setupEntityInput($forum, $this->filter([
-            'sv_has_forum_banner' => 'bool'
-        ]));
 
         $replyBannerSvc = $this->getReplyBannerManagerSvcForSv($forum);
 
         /** @var EditorControllerPlugin $editorPlugin */
         $editorPlugin = $this->plugin('XF:Editor');
         $rawText = $editorPlugin->fromInput('sv_forum_reply_banner_raw_text');
-        $isActive = $this->filter('sv_forum_reply_banner_is_active', 'bool');
+        $active = $this->filter('sv_forum_reply_banner_is_active', 'bool');
 
-        $formAction->basicValidateServiceSave($replyBannerSvc, function () use($replyBannerSvc, $rawText, $isActive)
+        $formAction->basicValidateServiceSave($replyBannerSvc, function () use($replyBannerSvc, $rawText, $active)
         {
-            $replyBannerSvc->setRawText($rawText)->setIsActive($isActive);
+            $replyBannerSvc->setRawText($rawText)
+                           ->setIsActive($active);
         });
 
         return $formAction;

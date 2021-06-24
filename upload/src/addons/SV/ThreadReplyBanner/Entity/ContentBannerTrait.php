@@ -30,17 +30,7 @@ trait ContentBannerTrait
         $contentBanner->delete();
     }
 
-    public function markHasSvContentBanner(bool $newTransaction = true)
-    {
-        $this->updateHasSvContentBanner(true, $newTransaction);
-    }
-
-    public function markDoesNotHaveSvContentBanner(bool $newTransaction = true)
-    {
-        $this->updateHasSvContentBanner(false, $newTransaction);
-    }
-
-    protected function updateHasSvContentBanner(bool $hasBanner, bool $newTransaction = true)
+    public function updateHasSvContentBanner(bool $hasBanner, bool $newTransaction = true)
     {
         if ($this->isDeleted()) // already deleted so no need to make this change
         {
