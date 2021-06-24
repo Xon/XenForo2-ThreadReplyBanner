@@ -116,7 +116,22 @@ class Setup extends AbstractSetup
         ");
     }
 
-    public function upgrade2040100Step1()
+    public function upgrade2040101Step1()
+    {
+        /** @noinspection SqlWithoutWhere */
+        $this->query('
+            DELETE FROM xf_sv_thread_banner WHERE banner_state = 0 AND LENGTH(raw_text) = 0 AND banner_edit_count = 0;
+        ');
+    }
+
+    public function upgrade2040101Step2()
+    {
+        $this->query('
+            DELETE FROM xf_sv_forum_banner WHERE banner_state = 0 AND LENGTH(raw_text) = 0 AND banner_edit_count = 0;
+        ');
+    }
+
+    public function upgrade2040101Step3()
     {
         /** @noinspection SqlWithoutWhere */
         $this->query('
@@ -126,7 +141,7 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function upgrade2040100Step2()
+    public function upgrade2040101Step4()
     {
         /** @noinspection SqlWithoutWhere */
         $this->query('
