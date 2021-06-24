@@ -28,7 +28,7 @@
 
 <xf:macro name="reply_banner_block" arg-content="!" arg-editHistoryRoute="!">
 	<xf:if is="$content.canViewSvContentReplyBanner()">
-		<xf:set var="$replyBanner" value="{{ $content.getSvContentReplyBanner() }}" />
+		<xf:set var="$replyBanner" value="{{ $content.svThreadReplyBanner }}" />
 
 		<xf:if is="$replyBanner.banner_edit_count && $replyBanner.canViewEditHistory()">
 			<div class="tabs tabs--standalone">

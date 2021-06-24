@@ -8,12 +8,12 @@
 	<xf:editorrow name="sv_forum_reply_banner_raw_text"
 				  label="{{ phrase('svThreadReply_default_thread_reply_banner_text') }}"
 				  explain="{{ phrase('svThreadReply_default_thread_reply_banner_text_explain') }}"
-				  value="{{ $forum.SvForumBanner ? $forum.SvForumBanner.raw_text : '' }}" />
+				  value="{{ $forum.svThreadReplyBanner ? $forum.svThreadReplyBanner.raw_text : '' }}" />
 
 	<xf:checkboxrow>
 		<xf:option name="sv_forum_reply_banner_is_active"
 				   label="{{ phrase('svThreadReply_default_thread_reply_banner_is_active') }}"
 				   hint="{{ phrase('svThreadReply_default_thread_reply_banner_is_active_explain') }}"
-				   checked="{{ $forum.SvForumBanner ? $forum.SvForumBanner.banner_state : '' }}" />
+				   checked="{{ $forum.svThreadReplyBanner ? $forum.svThreadReplyBanner.banner_state : '' }}" />
 	</xf:checkboxrow>
 </div>

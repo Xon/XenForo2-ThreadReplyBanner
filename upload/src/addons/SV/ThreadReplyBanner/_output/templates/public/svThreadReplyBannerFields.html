@@ -10,12 +10,12 @@
 	<xf:checkboxrow>
 		<xf:option
 				   name="thread_banner_state"
-				   checked="{{ $thread.SvThreadBanner.banner_state ? 'checked' : '' }}"
+				   checked="{{ $thread.svThreadReplyBanner.banner_state ? 'checked' : '' }}"
 				   label="{{ phrase('sv_thread_banner_active') }}"
 				   hint="{{ $thread.Forum.canViewSvContentReplyBanner() ? phrase('svThreadReplyBanner_if_no_thread_specific_reply_banner_is_active_default_will_be_used') : '' }}" />
 	</xf:checkboxrow>
 
-	<xf:if is="$thread.SvThreadBanner.banner_edit_count">
+	<xf:if is="$thread.svThreadReplyBanner.banner_edit_count">
 		<xf:formrow>
 			<span class="u-muted">
 				<a href="{{ link('threads/reply-banner-history', $thread) }}"

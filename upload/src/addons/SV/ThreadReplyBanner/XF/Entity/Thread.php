@@ -18,7 +18,7 @@ use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
  * @property bool sv_has_thread_banner
  *
  * RELATIONS
- * @property ThreadBannerEntity SvThreadBanner
+ * @property ThreadBannerEntity svThreadReplyBanner
  */
 class Thread extends XFCP_Thread implements ContentBannerEntityInterface
 {
@@ -35,7 +35,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
             return false;
         }
 
-        $threadBanner = $this->SvThreadBanner;
+        $threadBanner = $this->svThreadReplyBanner;
         if (!$threadBanner)
         {
             return false;

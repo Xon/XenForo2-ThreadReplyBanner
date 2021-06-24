@@ -18,7 +18,7 @@ use XF\Phrase;
  * @property bool sv_has_forum_banner
  *
  * RELATIONS
- * @property ForumBannerEntity SvForumBanner
+ * @property ForumBannerEntity svThreadReplyBanner
  */
 class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 {
@@ -35,7 +35,7 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
             return false;
         }
 
-        $forumBanner = $this->SvForumBanner;
+        $forumBanner = $this->svThreadReplyBanner;
         if (!$forumBanner)
         {
             return false;

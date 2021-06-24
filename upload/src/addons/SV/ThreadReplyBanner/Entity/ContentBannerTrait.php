@@ -117,7 +117,7 @@ trait ContentBannerTrait
             'conditions' => $structure->primaryKey,
             'primary'    => true,
         ];
-        $structure->getters[$relationship] = ['getter' => 'getSvContentReplyBanner', 'cache' => true];
+        $structure->getters['svThreadReplyBanner'] = ['getter' => 'getSvContentReplyBanner', 'cache' => true];
 
         $structure->options['svThreadReplyBanner'] = true; // used for detecting if the class is being extended
     }
