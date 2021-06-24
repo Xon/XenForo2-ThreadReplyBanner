@@ -116,6 +116,26 @@ class Setup extends AbstractSetup
         ");
     }
 
+    public function upgrade2040100Step1()
+    {
+        /** @noinspection SqlWithoutWhere */
+        $this->query('
+            UPDATE xf_thread AS thread
+            LEFT JOIN xf_sv_thread_banner AS threadBanner ON thread.thread_id = threadBanner.thread_id
+            SET thread.sv_has_thread_banner = if(threadBanner.banner_state = 1 and length(threadBanner.raw_text) > 0, 1, 0);
+        ');
+    }
+
+    public function upgrade2040100Step2()
+    {
+        /** @noinspection SqlWithoutWhere */
+        $this->query('
+            UPDATE xf_forum AS forum
+            LEFT JOIN xf_sv_forum_banner AS forumBanner ON forum.node_id = forumBanner.node_id
+            SET forum.sv_has_forum_banner = if(forumBanner.banner_state = 1 and length(forumBanner.raw_text) > 0, 1, 0);
+        ');
+    }
+
     public function uninstallStep1()
     {
         $sm = $this->schemaManager();
