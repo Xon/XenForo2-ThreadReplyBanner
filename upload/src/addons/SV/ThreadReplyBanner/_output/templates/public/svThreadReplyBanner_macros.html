@@ -13,7 +13,7 @@
 					
 					<xf:if is="$replyBanner.banner_last_edit_date">
 						<div class="block-row block-row--lastEdit">
-							<xf:if is="$replyBanner.banner_user_id == $replyBanner.banner_last_edit_user_id">
+							<xf:if is="$replyBanner.banner_user_id === $replyBanner.banner_last_edit_user_id">
 								{{ phrase('last_edited:') }} <xf:date time="{$replyBanner.banner_last_edit_date}" />
 							<xf:else />
 								{{ phrase('last_edited_by_moderator:') }} <xf:date time="{$replyBanner.banner_last_edit_date}" />
