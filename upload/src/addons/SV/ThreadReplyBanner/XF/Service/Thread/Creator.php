@@ -97,7 +97,7 @@ class Creator extends XFCP_Creator
     }
 
     /**
-     * @return ThreadEntity|ExtendedThreadEntity
+     * @return ThreadEntity
      */
     protected function _save()
     {

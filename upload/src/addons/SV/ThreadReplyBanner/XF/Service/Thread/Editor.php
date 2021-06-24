@@ -6,7 +6,6 @@
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
-use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 use XF\Entity\Thread;
 use XF\Entity\Thread as ThreadEntity;
 
@@ -104,7 +103,7 @@ class Editor extends XFCP_Editor
     }
 
     /**
-     * @return ThreadEntity|ExtendedThreadEntity
+     * @return ThreadEntity
      */
     protected function _save()
     {

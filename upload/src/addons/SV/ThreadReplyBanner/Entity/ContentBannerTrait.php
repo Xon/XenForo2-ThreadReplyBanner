@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\Entity;
 
@@ -87,10 +84,11 @@ trait ContentBannerTrait
         return $replyBanner;
     }
 
+    /** @noinspection PhpUnnecessaryLocalVariableInspection */
     protected static function getSvBannerContentType($contentType): string
     {
         $contentType = \preg_replace('#[^a-z0-9]#i', ' ', $contentType);
-        $contentType = \str_replace(' ', '', ucwords($contentType));
+        $contentType = \str_replace(' ', '', \ucwords($contentType));
 
         return $contentType;
     }

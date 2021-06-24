@@ -139,9 +139,6 @@ class Setup extends AbstractSetup
         }
     }
 
-    /**
-     * @throws \XF\Db\Exception
-     */
     public function uninstallStep3()
     {
         $this->db()->query("
@@ -157,32 +154,28 @@ class Setup extends AbstractSetup
 
         $this->migrateTable('xf_thread_banner', 'xf_sv_thread_banner');
 
-        $tables['xf_sv_thread_banner'] = function ($table)
+        $bannerSchema = function (string $primaryKey, $table)
         {
             /** @var Create|Alter $table */
-            $this->addOrChangeColumn($table, 'thread_id')->type('int');
+            $this->addOrChangeColumn($table, $primaryKey)->type('int');
+            $table->addPrimaryKey($primaryKey);
+
             $this->addOrChangeColumn($table, 'raw_text')->type('mediumtext');
             $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(1)->setDefault(1);
             $this->addOrChangeColumn($table, 'banner_user_id')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_edit_count')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_last_edit_date')->type('int')->setDefault(0);
             $this->addOrChangeColumn($table, 'banner_last_edit_user_id')->type('int')->setDefault(0);
-
-            $table->addPrimaryKey('thread_id');
         };
 
-        $tables['xf_sv_forum_banner'] = function ($table)
+        $tables['xf_sv_thread_banner'] = function ($table) use ($bannerSchema)
         {
-            /** @var Create|Alter $table */
-            $this->addOrChangeColumn($table, 'node_id')->type('int');
-            $this->addOrChangeColumn($table, 'raw_text')->type('mediumtext');
-            $this->addOrChangeColumn($table, 'banner_state')->type('tinyint')->length(1)->setDefault(1);
-            $this->addOrChangeColumn($table, 'banner_user_id')->type('int')->setDefault(0);
-            $this->addOrChangeColumn($table, 'banner_edit_count')->type('int')->setDefault(0);
-            $this->addOrChangeColumn($table, 'banner_last_edit_date')->type('int')->setDefault(0);
-            $this->addOrChangeColumn($table, 'banner_last_edit_user_id')->type('int')->setDefault(0);
+            $bannerSchema('thread_id', $table);
+        };
 
-            $table->addPrimaryKey('node_id');
+        $tables['xf_sv_forum_banner'] = function ($table) use ($bannerSchema)
+        {
+            $bannerSchema('node_id', $table);
         };
 
         return $tables;
