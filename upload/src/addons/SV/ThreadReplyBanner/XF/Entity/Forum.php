@@ -26,12 +26,6 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 
     public function canViewSvContentReplyBanner(Phrase &$error = null) : bool
     {
-        $forumBanner = $this->SvForumBanner;
-        if (!$forumBanner)
-        {
-            return false;
-        }
-
         $visitor = \XF::visitor();
         if (
             !$visitor->hasNodePermission($this->node_id, 'sv_replybanner_show')
@@ -41,6 +35,16 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
             return false;
         }
 
+        if (!$this->sv_has_forum_banner)
+        {
+            return false;
+        }
+
+        $forumBanner = $this->SvForumBanner;
+        if (!$forumBanner)
+        {
+            return false;
+        }
 
         return $forumBanner->banner_state;
     }

@@ -26,11 +26,6 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
 
     public function canViewSvContentReplyBanner(Phrase &$error = null): bool
     {
-        if (!$this->SvThreadBanner)
-        {
-            return false;
-        }
-
         $visitor = \XF::visitor();
         if (
             !$visitor->hasNodePermission($this->node_id, 'sv_replybanner_show')
@@ -40,7 +35,18 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
             return false;
         }
 
-        return $this->SvThreadBanner->banner_state;
+        if (!$this->sv_has_thread_banner)
+        {
+            return false;
+        }
+
+        $threadBanner = $this->SvThreadBanner;
+        if (!$threadBanner)
+        {
+            return false;
+        }
+
+        return $threadBanner->banner_state;
     }
 
     public function canManageSvContentReplyBanner(Phrase &$error = null): bool
