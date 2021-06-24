@@ -74,29 +74,11 @@ class Editor extends XFCP_Editor
         $errors = parent::_validate();
 
         $replyBannerManagerSvc = $this->getReplyBannerManagerSvcForSv();
-        if ($replyBannerManagerSvc)
+        if ($replyBannerManagerSvc &&
+            !$replyBannerManagerSvc->validate($moreErrors) &&
+            \is_array($moreErrors))
         {
-            if (!$replyBannerManagerSvc->validate($moreErrors) && \is_array($moreErrors))
-            {
-                foreach ($moreErrors AS $index => $error)
-                {
-                    if (\is_numeric($index))
-                    {
-                        $errors[] = $error;
-                    }
-                    else
-                    {
-                        if (\array_key_exists($index, $errors))
-                        {
-                            $errors[] = $error;
-                        }
-                        else
-                        {
-                            $errors[$index] = $error;
-                        }
-                    }
-                }
-            }
+            $errors = \array_merge($errors, $moreErrors);
         }
 
         return $errors;
