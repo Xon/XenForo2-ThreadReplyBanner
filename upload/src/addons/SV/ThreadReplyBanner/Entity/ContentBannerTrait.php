@@ -89,8 +89,8 @@ trait ContentBannerTrait
 
     protected static function getSvBannerContentType($contentType): string
     {
-        $contentType = preg_replace('#[^a-z0-9]#i', ' ', $contentType);
-        $contentType = str_replace(' ', '', ucwords($contentType));
+        $contentType = \preg_replace('#[^a-z0-9]#i', ' ', $contentType);
+        $contentType = \str_replace(' ', '', ucwords($contentType));
 
         return $contentType;
     }
@@ -98,7 +98,7 @@ trait ContentBannerTrait
     public static function getSvBannerDefinitions($contentType): array
     {
         $contentType = static::getSvBannerContentType($contentType);
-        $hasBannerCol = 'sv_has_' . utf8_strtolower($contentType) . '_banner';
+        $hasBannerCol = 'sv_has_' . \utf8_strtolower($contentType) . '_banner';
         $relationship = 'Sv' . $contentType . 'Banner';
 
         return [$contentType, $hasBannerCol, $relationship];

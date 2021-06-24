@@ -21,7 +21,7 @@ class ModInterrupt extends XFCP_ModInterrupt
      */
     protected function validContext(string $context)
     {
-        if (is_array($this->renderOptions) &&
+        if (\is_array($this->renderOptions) &&
             isset($this->renderOptions['entity']) &&
             ($this->renderOptions['entity'] instanceof \SV\ThreadReplyBanner\Entity\ThreadBanner))
         {
