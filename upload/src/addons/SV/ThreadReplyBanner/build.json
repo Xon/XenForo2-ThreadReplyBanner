@@ -1,4 +1,6 @@
 {
   "additional_files": [
-  ]
+      "js/sv/threadreplybanner"
+  ],
+  "minify": "*"
 }
