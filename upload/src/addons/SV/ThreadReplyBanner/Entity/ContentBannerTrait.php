@@ -96,7 +96,7 @@ trait ContentBannerTrait
     public static function getSvBannerDefinitions($contentType): array
     {
         $contentType = static::getSvBannerContentType($contentType);
-        $hasBannerCol = 'sv_has_' . \utf8_strtolower($contentType) . '_banner';
+        $hasBannerCol = 'sv_has_' . \mb_strtolower($contentType) . '_banner';
         $relationship = 'Sv' . $contentType . 'Banner';
 
         return [$contentType, $hasBannerCol, $relationship];
