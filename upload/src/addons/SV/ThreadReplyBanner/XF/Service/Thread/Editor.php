@@ -49,21 +49,6 @@ class Editor extends XFCP_Editor
     }
 
     /**
-     * @deprecated Since 2.4.0
-     *
-     * @param string $banner
-     * @param bool   $active
-     *
-     * @return null
-     */
-    public function setReplyBanner(string $banner, bool $active)
-    {
-        $this->setupReplyBannerSvcForSv($banner, $active);
-
-        return null;
-    }
-
-    /**
      * @return array
      */
     protected function _validate()

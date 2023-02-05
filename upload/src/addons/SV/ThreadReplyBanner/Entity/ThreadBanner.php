@@ -51,18 +51,6 @@ class ThreadBanner extends AbstractBanner
         return $this->Thread->canManageSvContentReplyBanner($error);
     }
 
-    /**
-     * @deprecated Since 2.4.0
-     *
-     * @param null $error
-     *
-     * @return bool
-     */
-    public function canViewHistory(&$error = null)
-    {
-        return $this->canViewEditHistory($error);
-    }
-
     public function getAssociatedContent(): Entity
     {
         return $this->Thread;

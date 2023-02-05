@@ -25,17 +25,6 @@ class Creator extends XFCP_Creator
     }
 
     /**
-     * @deprecated Since 2.4.0
-     *
-     * @param string $text
-     * @param bool $active
-     */
-    public function setReplyBanner(string $text, bool $active)
-    {
-        $this->setupReplyBannerSvcForSv($text, $active);
-    }
-
-    /**
      * @since 2.4.0
      *
      * @param string $text
