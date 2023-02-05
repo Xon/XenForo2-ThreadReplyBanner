@@ -1,0 +1,9 @@
+{
+    "template": "report_view",
+    "description": "Show thread/forum banner if any are available when viewing report",
+    "execution_order": 6222,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "{$handler.render($report)|raw}",
+    "replace": "$0\n\n<xf:macro template=\"svThreadReplyBanner_macros\"\n\t\t  name=\"viewingReport\"\n\t\t  arg-report=\"{$report}\"/>"
+}
