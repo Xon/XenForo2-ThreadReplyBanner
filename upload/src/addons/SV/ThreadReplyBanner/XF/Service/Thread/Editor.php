@@ -21,10 +21,7 @@ class Editor extends XFCP_Editor
      */
     protected $replyBannerManagerSvcForSv;
 
-    /**
-     * @return ReplyBannerManagerSvc|null
-     */
-    public function getReplyBannerManagerSvcForSv()
+    public function getReplyBannerManagerSvcForSv(): ?ReplyBannerManagerSvc
     {
         return $this->replyBannerManagerSvcForSv;
     }

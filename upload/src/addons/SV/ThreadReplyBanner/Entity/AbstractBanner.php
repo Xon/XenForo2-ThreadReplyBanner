@@ -13,7 +13,7 @@ use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
  * @since 2.4.0
  *
  * COLUMNS
- * @property string raw_text
+ * @property string|null raw_text
  * @property int banner_state
  * @property int banner_user_id
  * @property int banner_edit_count
@@ -40,7 +40,7 @@ abstract class AbstractBanner extends Entity
      */
     abstract public function getAssociatedContent() : Entity;
 
-    protected function _preSave()
+    protected function _preSave(): void
     {
         if ($this->isInsert() && !$this->isChanged('banner_user_id'))
         {
@@ -48,7 +48,7 @@ abstract class AbstractBanner extends Entity
         }
     }
 
-    protected function _postSave()
+    protected function _postSave(): void
     {
         if (static::SUPPORTS_MOD_LOG && $this->getOption('log_moderator'))
         {

@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\XF\Admin\Controller;
 
@@ -20,8 +17,8 @@ class Forum extends XFCP_Forum
 {
     /**
      * @param NodeEntity $node
-     *
      * @return FormAction
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function nodeSaveProcess(NodeEntity $node)
     {
@@ -35,7 +32,7 @@ class Forum extends XFCP_Forum
         /** @var EditorControllerPlugin $editorPlugin */
         $editorPlugin = $this->plugin('XF:Editor');
         $rawText = $editorPlugin->fromInput('sv_forum_reply_banner_raw_text');
-        $active = $this->filter('sv_forum_reply_banner_is_active', 'bool');
+        $active = (bool)$this->filter('sv_forum_reply_banner_is_active', 'bool');
 
         $formAction->basicValidateServiceSave($replyBannerSvc, function () use($replyBannerSvc, $rawText, $active)
         {

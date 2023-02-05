@@ -16,7 +16,7 @@ trait ContentBannerTrait
     protected function _postDeleteForSvContentBanner()
     {
         /** @noinspection PhpUnusedLocalVariableInspection */
-        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
+        [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($this->structure()->contentType);
 
         $contentBanner = $this->getRelationOrDefault($relationship, false);
         if (!$contentBanner->exists())
@@ -35,7 +35,7 @@ trait ContentBannerTrait
         }
 
         /** @noinspection PhpUnusedLocalVariableInspection */
-        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
+        [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($this->structure()->contentType);
 
         if ($this->get($hasBannerCol) === $hasBanner)
         {
@@ -51,16 +51,12 @@ trait ContentBannerTrait
         }
     }
 
-    /**
-     * @param bool $createNew
-     * @return null|\SV\ThreadReplyBanner\EditHistory\AbstractBanner
-     */
-    public function getSvContentReplyBanner(bool $createNew = false)
+    public function getSvContentReplyBanner(bool $createNew = false): ?AbstractBanner
     {
         /** @noinspection PhpUnusedLocalVariableInspection */
-        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($this->structure()->contentType);
+        [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($this->structure()->contentType);
 
-        $replyBanner =  null;
+        $replyBanner = null;
         if ($replyBanner === null && \array_key_exists($relationship, $this->_getterCache))
         {
             $replyBanner = $this->_getterCache[$relationship];
@@ -104,10 +100,10 @@ trait ContentBannerTrait
 
     protected static function setupDefaultStructureForSvBanner(EntityStructure $structure)
     {
-        list($contentType, $hasBannerCol, $relationship) = static::getSvBannerDefinitions($structure->contentType);
+        [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($structure->contentType);
 
         $structure->columns[$hasBannerCol] = [
-            'type' => Entity::BOOL,
+            'type'    => Entity::BOOL,
             'default' => false
         ];
 

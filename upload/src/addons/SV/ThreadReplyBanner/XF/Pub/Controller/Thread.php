@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
@@ -50,11 +47,11 @@ class Thread extends XFCP_Thread
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $editor->getThread();
-        if ($thread->canManageSvContentReplyBanner() && $this->filter('banner_fields', 'boolean'))
+        if ($thread->canManageSvContentReplyBanner() && $this->filter('banner_fields', 'bool'))
         {
             $editor->setupReplyBannerSvcForSv(
-                $this->filter('thread_reply_banner', 'string'),
-                $this->filter('thread_banner_state', 'boolean')
+                (string)$this->filter('thread_reply_banner', 'str'),
+                (bool)$this->filter('thread_banner_state', 'bool')
             );
         }
     }
@@ -64,6 +61,7 @@ class Thread extends XFCP_Thread
      * @param array $extraWith
      * @return \XF\Entity\Thread
      * @throws \XF\Mvc\Reply\Exception
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function assertViewableThread($threadId, array $extraWith = [])
     {

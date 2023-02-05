@@ -19,10 +19,7 @@ class Creator extends XFCP_Creator
      */
     protected $replyBannerManagerSvcForSv;
 
-    /**
-     * @return ReplyBannerManagerSvc|null
-     */
-    public function getReplyBannerManagerSvcForSv()
+    public function getReplyBannerManagerSvcForSv(): ?ReplyBannerManagerSvc
     {
         return $this->replyBannerManagerSvcForSv;
     }

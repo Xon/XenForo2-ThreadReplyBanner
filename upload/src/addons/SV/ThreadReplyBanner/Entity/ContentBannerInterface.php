@@ -3,7 +3,6 @@
 namespace SV\ThreadReplyBanner\Entity;
 
 use XF\Phrase;
-use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 
 interface ContentBannerInterface
 {
@@ -11,11 +10,7 @@ interface ContentBannerInterface
 
     public function canManageSvContentReplyBanner(Phrase &$error = null) : bool;
 
-    /**
-     * @param bool $createNew
-     * @return AbstractBannerEntity|null
-     */
-    public function getSvContentReplyBanner(bool $createNew = false);
+    public function getSvContentReplyBanner(bool $createNew = false): ?AbstractBanner;
 
     public function getSvReplyBannerEditHistoryRoute(): string;
 }

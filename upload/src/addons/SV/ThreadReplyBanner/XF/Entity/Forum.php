@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\XF\Entity;
 
@@ -36,7 +33,7 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
         }
 
         $forumBanner = $this->svThreadReplyBanner;
-        if (!$forumBanner)
+        if ($forumBanner === null)
         {
             return false;
         }
@@ -78,8 +75,8 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 
     /**
      * @param EntityStructure $structure
-     *
      * @return EntityStructure
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public static function getStructure(EntityStructure $structure)
     {

@@ -41,13 +41,13 @@ abstract class AbstractBanner extends AbstractHandler
      */
     public function getContentText(Entity $content) : string
     {
-        return $content->raw_text;
+        return $content->raw_text ?? '';
     }
 
     /**
      * @param AbstractBannerEntity|Entity $content
-     * @param EditHistory               $history
-     * @param EditHistory               $previous
+     * @param EditHistory                 $history
+     * @param EditHistory|null            $previous
      */
     public function revertToVersion(Entity $content, EditHistory $history, EditHistory $previous = null)
     {
@@ -96,13 +96,9 @@ abstract class AbstractBanner extends AbstractHandler
         return $this->app()->service($identifier, ...$arguments);
     }
 
-    /**
-     * @param AbstractBannerEntity $banner
-     *
-     * @return AbstractService|ReplyBannerManagerSvc
-     */
     protected function getReplyBannerManagerSvc(AbstractBannerEntity $banner) : ReplyBannerManagerSvc
     {
+        /** @var ReplyBannerManagerSvc */
         return $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $banner);
     }
 }

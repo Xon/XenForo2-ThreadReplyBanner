@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\XF\Entity;
 
@@ -36,7 +33,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
         }
 
         $threadBanner = $this->svThreadReplyBanner;
-        if (!$threadBanner)
+        if ($threadBanner === null)
         {
             return false;
         }
@@ -72,8 +69,8 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
 
     /**
      * @param Structure $structure
-     *
      * @return Structure
+     * @noinspection PhpMissingReturnTypeInspection
      */
     public static function getStructure(Structure $structure)
     {

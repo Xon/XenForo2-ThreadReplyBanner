@@ -1,8 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingParamTypeInspection
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\Service\ReplyBanner;
 
@@ -17,6 +13,7 @@ use XF\Repository\EditHistory as EditHistoryRepo;
 use XF\Service\AbstractService;
 use XF\Service\ValidateAndSavableTrait;
 use XF\App as BaseApp;
+use function strlen;
 
 class Manager extends AbstractService
 {
@@ -31,11 +28,11 @@ class Manager extends AbstractService
      * @var AbstractBannerEntity
      */
     protected $replyBanner;
-
+    /** @var bool */
     protected $logEdit = true;
-
+    /** @var bool */
     protected $logHistory = true;
-
+    /** @var string|null */
     protected $oldMessage;
 
     /**
@@ -97,27 +94,19 @@ class Manager extends AbstractService
         return $this->logHistory;
     }
 
-    /**
-     * @param string|null $oldMessage
-     *
-     * @return $this
-     */
-    public function setOldMessage($oldMessage)
+    public function setOldMessage(?string $oldMessage): self
     {
         $this->oldMessage = $oldMessage;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getOldMessage()
+    public function getOldMessage(): ?string
     {
         return $this->oldMessage;
     }
 
-    protected function setupEditHistory(string $oldMessage)
+    protected function setupEditHistory(string $oldMessage): void
     {
         $replyBanner = $this->getReplyBanner();
 
@@ -144,7 +133,7 @@ class Manager extends AbstractService
 
         $replyBanner->raw_text = $rawText;
 
-        if ($setupHistory && $replyBanner->isChanged('raw_text') && ($oldRawText !== null))
+        if ($setupHistory && $replyBanner->isChanged('raw_text') && $oldRawText !== null)
         {
             $this->setupEditHistory($oldRawText);
         }
@@ -156,7 +145,7 @@ class Manager extends AbstractService
     {
         $replyBanner = $this->getReplyBanner();
 
-        if (!\strlen($replyBanner->raw_text))
+        if (strlen($replyBanner->raw_text ?? '') === 0)
         {
             $active = false;
         }
@@ -173,7 +162,7 @@ class Manager extends AbstractService
         return $this;
     }
 
-    protected function finalSetup()
+    protected function finalSetup(): void
     {
     }
 
@@ -223,7 +212,7 @@ class Manager extends AbstractService
     /**
      * @throws \XF\PrintableException
      */
-    public function delete()
+    public function delete(): void
     {
         $db = $this->db();
         $db->beginTransaction();

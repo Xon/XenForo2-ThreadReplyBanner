@@ -15,6 +15,7 @@ class ModInterrupt extends XFCP_ModInterrupt
     /**
      * @param string $context
      * @return bool|null
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function validContext(string $context)
     {

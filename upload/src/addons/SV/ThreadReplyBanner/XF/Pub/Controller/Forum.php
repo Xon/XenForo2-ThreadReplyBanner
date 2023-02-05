@@ -1,7 +1,4 @@
 <?php
-/**
- * @noinspection PhpMissingReturnTypeInspection
- */
 
 namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
@@ -35,6 +32,7 @@ class Forum extends XFCP_Forum
      * @param ForumEntity|ExtendedForumEntity $forum
      *
      * @return ExtendedThreadCreatorSvc
+     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function setupThreadCreate(ForumEntity $forum)
     {
@@ -44,9 +42,9 @@ class Forum extends XFCP_Forum
         $thread = $threadCreatorSvc->getThread();
         if ($thread->canManageSvContentReplyBanner())
         {
-            $replyBanner = $this->filter('thread_reply_banner', 'str');
-            $replyBannerActive = $this->filter('thread_banner_state', 'bool');
-            if (!empty($replyBanner))
+            $replyBanner = (string)$this->filter('thread_reply_banner', 'str');
+            $replyBannerActive = (bool)$this->filter('thread_banner_state', 'bool');
+            if (strlen($replyBanner) !== 0)
             {
                 $threadCreatorSvc->setupReplyBannerSvcForSv($replyBanner, $replyBannerActive);
             }
