@@ -2,9 +2,12 @@
 
 namespace SV\ThreadReplyBanner\XF\Pub\Controller;
 
+use SV\ThreadReplyBanner\XF\Service\Thread\Editor as ExtendedEditorService;
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
+use XF\Mvc\Reply\Exception as ReplyException;
 use XF\Mvc\Reply\Reroute as RerouteReply;
+use XF\Service\Thread\Editor as EditorService;
 
 class Thread extends XFCP_Thread
 {
@@ -27,11 +30,11 @@ class Thread extends XFCP_Thread
 
     /**
      * @param \XF\Entity\Thread $thread
-     * @return \SV\ThreadReplyBanner\XF\Service\Thread\Editor|\XF\Service\Thread\Editor
+     * @return ExtendedEditorService|EditorService
      */
     protected function setupThreadEdit(\XF\Entity\Thread $thread)
     {
-        /** @var \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor */
+        /** @var ExtendedEditorService $editor */
         $editor = parent::setupThreadEdit($thread);
 
         $this->addBannerFields($editor);
@@ -40,10 +43,10 @@ class Thread extends XFCP_Thread
     }
 
     /**
-     * @param \SV\ThreadReplyBanner\XF\Service\Thread\Editor $editor
+     * @param ExtendedEditorService $editor
      * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
      */
-    protected function addBannerFields(\SV\ThreadReplyBanner\XF\Service\Thread\Editor &$editor)
+    protected function addBannerFields(ExtendedEditorService &$editor)
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $editor->getThread();
@@ -57,10 +60,10 @@ class Thread extends XFCP_Thread
     }
 
     /**
-     * @param int   $threadId
+     * @param ?int   $threadId
      * @param array $extraWith
      * @return \XF\Entity\Thread
-     * @throws \XF\Mvc\Reply\Exception
+     * @throws ReplyException
      * @noinspection PhpMissingReturnTypeInspection
      */
     protected function assertViewableThread($threadId, array $extraWith = [])

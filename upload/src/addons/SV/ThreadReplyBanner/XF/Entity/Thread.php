@@ -57,9 +57,6 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
         return 'threads/reply-banner-history';
     }
 
-    /**
-     * @throws \XF\PrintableException
-     */
     protected function _postDelete()
     {
         parent::_postDelete();

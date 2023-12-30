@@ -6,7 +6,6 @@
 namespace SV\ThreadReplyBanner\XF\Service\Thread;
 
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
-use XF\Entity\Thread;
 use XF\Entity\Thread as ThreadEntity;
 
 /**

@@ -2,6 +2,9 @@
 
 namespace SV\ThreadReplyBanner\SV\AdvancedBbCodesPack\BbCode\Tag;
 
+use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
+use function is_array;
+
 /**
  * Extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt
  */
@@ -19,9 +22,9 @@ class ModInterrupt extends XFCP_ModInterrupt
      */
     protected function validContext(string $context)
     {
-        if (\is_array($this->renderOptions) &&
+        if (is_array($this->renderOptions) &&
             isset($this->renderOptions['entity']) &&
-            ($this->renderOptions['entity'] instanceof \SV\ThreadReplyBanner\Entity\ThreadBanner))
+            ($this->renderOptions['entity'] instanceof ThreadBannerEntity))
         {
             return true;
         }

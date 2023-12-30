@@ -57,9 +57,6 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
         return 'forums/reply-banner-history';
     }
 
-    /**
-     * @throws \XF\PrintableException
-     */
     protected function _postDelete()
     {
         parent::_postDelete();

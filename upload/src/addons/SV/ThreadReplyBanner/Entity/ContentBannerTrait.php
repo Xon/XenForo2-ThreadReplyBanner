@@ -10,10 +10,7 @@ use XF\Mvc\Entity\Structure as EntityStructure;
  */
 trait ContentBannerTrait
 {
-    /**
-     * @throws \XF\PrintableException
-     */
-    protected function _postDeleteForSvContentBanner()
+    protected function _postDeleteForSvContentBanner(): void
     {
         /** @noinspection PhpUnusedLocalVariableInspection */
         [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($this->structure()->contentType);

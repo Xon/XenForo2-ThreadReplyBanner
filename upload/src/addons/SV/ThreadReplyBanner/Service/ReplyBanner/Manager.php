@@ -176,11 +176,6 @@ class Manager extends AbstractService
         return $replyBanner->getErrors();
     }
 
-    /**
-     * @return AbstractBannerEntity
-     *
-     * @throws \XF\PrintableException
-     */
     protected function _save() : AbstractBannerEntity
     {
         $db = $this->db();
@@ -209,9 +204,6 @@ class Manager extends AbstractService
         return $replyBanner;
     }
 
-    /**
-     * @throws \XF\PrintableException
-     */
     public function delete(): void
     {
         $db = $this->db();

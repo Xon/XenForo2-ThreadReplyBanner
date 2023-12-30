@@ -25,9 +25,9 @@ use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
  */
 abstract class AbstractBanner extends Entity
 {
-    const MAX_BANNER_LENGTH = 65536;
+    public const MAX_BANNER_LENGTH = 65536;
 
-    const SUPPORTS_MOD_LOG = false;
+    public const SUPPORTS_MOD_LOG = false;
 
     abstract public function canView(Phrase &$error = null) : bool;
 

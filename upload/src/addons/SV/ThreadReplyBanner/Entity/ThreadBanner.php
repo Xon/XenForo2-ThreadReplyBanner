@@ -16,7 +16,7 @@ use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
  */
 class ThreadBanner extends AbstractBanner
 {
-    const SUPPORTS_MOD_LOG = true;
+    public const SUPPORTS_MOD_LOG = true;
 
     public function canView(Phrase &$error = null): bool
     {
