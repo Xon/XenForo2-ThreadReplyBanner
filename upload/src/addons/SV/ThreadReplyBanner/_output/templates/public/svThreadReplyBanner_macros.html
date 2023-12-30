@@ -1,17 +1,16 @@
 <xf:macro name="viewingReport" arg-report="!">
-	<xf:if is="$report.content_type === 'post'">
-		<xf:set var="$thread" value="{{ $report.Content.Thread }}" />
-	<xf:elseif is="$report.content_type === 'thread'" />
-		<xf:set var="$thread" value="{{ $report.Content }}" />
+	<xf:set var="$content" value="{$report.Content}" />
+	<xf:if is="$content instanceof '\XF\Entity\Post' ">
+		<xf:set var="$content" value="{{ $content.Thread }}" />
 	</xf:if>
-	<xf:if is="$thread">
+	<xf:if is="$content instanceof '\XF\Entity\Thread' ">
 		<xf:set var="$html" value="" />
-		<xf:set var="$forum" value="{$thread.Forum}" />
+		<xf:set var="$forum" value="{$content.Forum}" />
 		<xf:if is="$html is empty && $thread && $thread.hasOption('svThreadReplyBanner')">
 			<xf:set var="$html"><xf:trim>
 				<xf:macro name="reply_banner_block"
-						  arg-content="{$thread}"
-						  arg-editHistoryRoute="{{ $thread.getSvReplyBannerEditHistoryRoute() }}" />
+						  arg-content="{$content}"
+						  arg-editHistoryRoute="{{ $content.getSvReplyBannerEditHistoryRoute() }}" />
 				</xf:trim></xf:set>
 		</xf:if>
 		<xf:if is="$html is empty && $forum && $forum.hasOption('svThreadReplyBanner')">
