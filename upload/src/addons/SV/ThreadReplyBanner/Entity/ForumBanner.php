@@ -2,7 +2,6 @@
 
 namespace SV\ThreadReplyBanner\Entity;
 
-use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure as EntityStructure;
 use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
 use XF\Phrase;
@@ -11,10 +10,10 @@ use XF\Phrase;
  * @since 2.4.0
  *
  * COLUMNS
- * @property int node_id
+ * @property int $node_id
  *
  * RELATIONS
- * @property ExtendedForumEntity Forum
+ * @property-read ExtendedForumEntity $Forum
  */
 class ForumBanner extends AbstractBanner
 {
@@ -57,31 +56,22 @@ class ForumBanner extends AbstractBanner
         return $visitor->hasAdminPermission('node');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getAssociatedContent(): Entity
-    {
-        return $this->Forum;
-    }
-
+    /** @noinspection PhpMissingParentCallCommonInspection */
     public static function getStructure(EntityStructure $structure) : EntityStructure
     {
-        static::setupDefaultStructure(
+        return static::setupDefaultStructure(
             $structure,
             'xf_sv_forum_banner',
             'SV\ThreadReplyBanner:ForumBanner',
             'sv_forum_banner',
-            'node_id'
+            'node_id',
+            'Forum',
+            [
+                'entity'     => 'XF:Forum',
+                'type'       => self::TO_ONE,
+                'conditions' => 'node_id',
+                'primary'    => true,
+            ]
         );
-
-        $structure->relations['Forum'] = [
-            'entity'     => 'XF:Forum',
-            'type'       => self::TO_ONE,
-            'conditions' => 'node_id',
-            'primary'    => true,
-        ];
-
-        return $structure;
     }
 }

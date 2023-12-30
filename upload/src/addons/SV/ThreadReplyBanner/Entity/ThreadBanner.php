@@ -2,17 +2,16 @@
 
 namespace SV\ThreadReplyBanner\Entity;
 
-use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure as EntityStructure;
 use XF\Phrase;
 use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 
 /**
  * COLUMNS
- * @property int thread_id
+ * @property int $thread_id
  *
  * RELATIONS
- * @property ExtendedThreadEntity Thread
+ * @property-read ExtendedThreadEntity $Thread
  */
 class ThreadBanner extends AbstractBanner
 {
@@ -51,28 +50,22 @@ class ThreadBanner extends AbstractBanner
         return $this->Thread->canManageSvContentReplyBanner($error);
     }
 
-    public function getAssociatedContent(): Entity
-    {
-        return $this->Thread;
-    }
-
+    /** @noinspection PhpMissingParentCallCommonInspection */
     public static function getStructure(EntityStructure $structure) : EntityStructure
     {
-        static::setupDefaultStructure(
+        return static::setupDefaultStructure(
             $structure,
             'xf_sv_thread_banner',
             'SV\ThreadReplyBanner:ThreadBanner',
             'sv_thread_banner',
-            'thread_id'
+            'thread_id',
+            'Thread',
+            [
+                'entity'     => 'XF:Thread',
+                'type'       => self::TO_ONE,
+                'conditions' => 'thread_id',
+                'primary'    => true,
+            ]
         );
-
-        $structure->relations['Thread'] = [
-            'entity'     => 'XF:Thread',
-            'type'       => self::TO_ONE,
-            'conditions' => 'thread_id',
-            'primary'    => true,
-        ];
-
-        return $structure;
     }
 }

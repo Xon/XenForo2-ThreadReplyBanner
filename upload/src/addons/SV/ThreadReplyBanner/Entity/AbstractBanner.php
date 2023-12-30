@@ -7,21 +7,20 @@ use XF\Mvc\Entity\Structure as EntityStructure;
 use XF\Entity\User as UserEntity;
 use XF\Phrase;
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
-use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
 
 /**
  * @since 2.4.0
  *
  * COLUMNS
- * @property string|null raw_text
- * @property int banner_state
- * @property int banner_user_id
- * @property int banner_edit_count
- * @property int banner_last_edit_date
- * @property int banner_last_edit_user_id
+ * @property string|null $raw_text
+ * @property int $banner_state
+ * @property int $banner_user_id
+ * @property int $banner_edit_count
+ * @property int $banner_last_edit_date
+ * @property int $banner_last_edit_user_id
  *
  * RELATIONS
- * @property UserEntity User
+ * @property-read UserEntity $User
  */
 abstract class AbstractBanner extends Entity
 {
@@ -35,13 +34,10 @@ abstract class AbstractBanner extends Entity
 
     abstract public function canViewEditHistory(Phrase &$error = null) : bool;
 
-    /**
-     * @return Entity|ContentBannerEntityInterface|ContentBannerEntityTrait
-     */
-    abstract public function getAssociatedContent() : Entity;
-
     protected function _preSave(): void
     {
+        parent::_preSave();
+
         if ($this->isInsert() && !$this->isChanged('banner_user_id'))
         {
             $this->banner_user_id = \XF::visitor()->user_id;
@@ -50,10 +46,17 @@ abstract class AbstractBanner extends Entity
 
     protected function _postSave(): void
     {
+        parent::_postSave();
+
         if (static::SUPPORTS_MOD_LOG && $this->getOption('log_moderator'))
         {
             $this->app()->logger()->logModeratorChanges('sv_thread_banner', $this);
         }
+    }
+
+    public function getAssociatedContent(): ContentBannerEntityInterface
+    {
+        return $this->getRelation($this->getOption('PrimaryRelationship'));
     }
 
     protected static function setupDefaultStructure(
@@ -61,8 +64,10 @@ abstract class AbstractBanner extends Entity
         string $table,
         string $shortName,
         string $contentType,
-        string $primaryKey
-    ): void
+        string $primaryKey,
+        string $primaryRelationship,
+        array $primaryRelationshipDefinition
+    ): EntityStructure
     {
         $structure->table = $table;
         $structure->shortName = $shortName;
@@ -90,12 +95,16 @@ abstract class AbstractBanner extends Entity
             ],
             'primary'    => true,
         ];
+        $structure->relations[$primaryRelationship] = $primaryRelationshipDefinition;
+        $structure->options = [
+            'PrimaryRelationship' => $primaryRelationship,
+        ];
 
         if (static::SUPPORTS_MOD_LOG)
         {
-            $structure->options = [
-                'log_moderator' => true
-            ];
+            $structure->options['log_moderator'] = true;
         }
+
+        return $structure;
     }
 }

@@ -12,10 +12,10 @@ use XF\Phrase;
  * @since 2.4.0
  *
  * COLUMNS
- * @property bool sv_has_forum_banner
+ * @property bool $sv_has_forum_banner
  *
  * RELATIONS
- * @property ForumBannerEntity svThreadReplyBanner
+ * @property-read ForumBannerEntity $svThreadReplyBanner
  */
 class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 {

@@ -12,10 +12,10 @@ use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
  * Extends \XF\Entity\Thread
  *
  * COLUMNS
- * @property bool sv_has_thread_banner
+ * @property bool $sv_has_thread_banner
  *
  * RELATIONS
- * @property ThreadBannerEntity svThreadReplyBanner
+ * @property-read ThreadBannerEntity $svThreadReplyBanner
  */
 class Thread extends XFCP_Thread implements ContentBannerEntityInterface
 {
