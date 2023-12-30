@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection PhpMissingParentCallCommonInspection
+ */
 
 namespace SV\ThreadReplyBanner\EditHistory;
 
@@ -10,11 +13,6 @@ use XF\Mvc\Entity\Entity;
  */
 class ForumBanner extends AbstractBanner
 {
-    /**
-     * @param Entity $content
-     *
-     * @return string
-     */
     public function getContentTitle(Entity $content) : string
     {
         /** @var ForumBannerEntity $content */
@@ -22,11 +20,6 @@ class ForumBanner extends AbstractBanner
         return $forum->Node->title;
     }
 
-    /**
-     * @param ForumBannerEntity|Entity $content
-     *
-     * @return string
-     */
     public function getContentLink(Entity $content) : string
     {
         /** @var ForumBannerEntity $content */
@@ -35,11 +28,6 @@ class ForumBanner extends AbstractBanner
         return \XF::app()->router('public')->buildLink('forums', $forum);
     }
 
-    /**
-     * @param ForumBannerEntity|Entity $content
-     *
-     * @return array
-     */
     public function getBreadcrumbs(Entity $content) : array
     {
         /** @var ForumBannerEntity $content */

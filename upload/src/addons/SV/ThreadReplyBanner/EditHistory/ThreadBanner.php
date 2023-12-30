@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @noinspection PhpMissingParentCallCommonInspection
+ */
 
 namespace SV\ThreadReplyBanner\EditHistory;
 
@@ -13,13 +15,9 @@ use XF\Mvc\Entity\Entity;
  */
 class ThreadBanner extends AbstractBanner
 {
-    /**
-     * @param ThreadBannerEntity|Entity $content
-     *
-     * @return string
-     */
     public function getContentTitle(Entity $content) : string
     {
+        /** @var ThreadBannerEntity $content */
         $thread = $content->Thread;
         $prefixEntity = $thread->Prefix;
         $prefix = $prefixEntity ? '[' . $prefixEntity->getTitle() . ']' : '';
@@ -27,23 +25,15 @@ class ThreadBanner extends AbstractBanner
         return $prefix . ' ' . $thread->title;
     }
 
-    /**
-     * @param ThreadBannerEntity|Entity $content
-     *
-     * @return string
-     */
     public function getContentLink(Entity $content) : string
     {
+        /** @var ThreadBannerEntity $content */
         return \XF::app()->router('public')->buildLink('threads', $content->Thread);
     }
 
-    /**
-     * @param ThreadBannerEntity|Entity $content
-     *
-     * @return array
-     */
     public function getBreadcrumbs(Entity $content) : array
     {
+        /** @var ThreadBannerEntity $content */
         return $content->Thread->getBreadcrumbs();
     }
 

@@ -4,8 +4,6 @@ namespace SV\ThreadReplyBanner\Service\ReplyBanner;
 
 use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
-use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
-use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use XF\Entity\User as UserEntity;
 use XF\Http\Request as HttpRequest;
 use XF\Mvc\Entity\Entity;
@@ -21,7 +19,7 @@ class Manager extends AbstractService
     use ValidateAndSavableTrait;
 
     /**
-     * @var Entity|ContentBannerEntityInterface|ContentBannerEntityTrait
+     * @var Entity|ContentBannerEntityInterface
      */
     protected $content;
 
@@ -69,7 +67,7 @@ class Manager extends AbstractService
     }
 
     /**
-     * @return Entity|ContentBannerEntityInterface|ContentBannerEntityTrait
+     * @return Entity|ContentBannerEntityInterface
      */
     public function getContent() : Entity
     {

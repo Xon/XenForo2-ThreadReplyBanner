@@ -8,7 +8,6 @@ use XF\Mvc\FormAction;
 use XF\Entity\Node as NodeEntity;
 use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
 use XF\Entity\Forum as ForumEntity;
-use XF\Service\AbstractService;
 
 /**
  * @since 2.4.0

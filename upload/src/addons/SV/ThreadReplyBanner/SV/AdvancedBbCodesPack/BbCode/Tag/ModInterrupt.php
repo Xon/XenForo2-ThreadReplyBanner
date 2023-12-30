@@ -3,7 +3,6 @@
 namespace SV\ThreadReplyBanner\SV\AdvancedBbCodesPack\BbCode\Tag;
 
 use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
-use function is_array;
 
 /**
  * Extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt

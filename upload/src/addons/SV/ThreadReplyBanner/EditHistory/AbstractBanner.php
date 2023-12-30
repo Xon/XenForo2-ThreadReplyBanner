@@ -1,46 +1,33 @@
 <?php
-
+/**
+ * @noinspection PhpMissingParentCallCommonInspection
+ */
 
 namespace SV\ThreadReplyBanner\EditHistory;
 
 use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
-use XF\App as BaseApp;
 use XF\EditHistory\AbstractHandler;
 use XF\Entity\EditHistory;
 use XF\Mvc\Entity\Entity;
-use XF\Mvc\Router;
-use XF\Service\AbstractService;
 
 abstract class AbstractBanner extends AbstractHandler
 {
-    /**
-     * @param Entity|AbstractBannerEntity $content
-     *
-     * @return bool
-     */
     public function canViewHistory(Entity $content) : bool
     {
+        /** @var AbstractBannerEntity $content */
         return $content->canViewEditHistory();
     }
 
-    /**
-     * @param Entity|AbstractBannerEntity $content
-     *
-     * @return bool
-     */
     public function canRevertContent(Entity $content) : bool
     {
+        /** @var AbstractBannerEntity $content */
         return $content->canEdit();
     }
 
-    /**
-     * @param Entity|AbstractBannerEntity $content
-     *
-     * @return string
-     */
     public function getContentText(Entity $content) : string
     {
+        /** @var AbstractBannerEntity $content */
         return $content->raw_text ?? '';
     }
 
@@ -71,13 +58,9 @@ abstract class AbstractBanner extends AbstractHandler
         return \XF::escapeString($text);
     }
 
-    /**
-     * @param Entity|AbstractBannerEntity $content
-     * @return int
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
     public function getEditCount(Entity $content) : int
     {
+        /** @var AbstractBannerEntity $content */
         return $content->banner_edit_count;
     }
 
