@@ -8,6 +8,7 @@ use SV\ThreadReplyBanner\XF\Service\Thread\Creator as ExtendedThreadCreatorSvc;
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
 use XF\Mvc\Reply\Reroute as RerouteReply;
+use function strlen;
 
 class Forum extends XFCP_Forum
 {

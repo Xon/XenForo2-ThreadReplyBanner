@@ -8,6 +8,8 @@ namespace SV\ThreadReplyBanner\XF\Service\Thread;
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 use XF\Entity\Thread as ThreadEntity;
+use function array_merge;
+use function is_array;
 
 /**
  * @method ExtendedThreadEntity getThread()
@@ -56,9 +58,9 @@ class Creator extends XFCP_Creator
         $replyBannerManagerSvc = $this->getReplyBannerManagerSvcForSv();
         if ($replyBannerManagerSvc &&
             !$replyBannerManagerSvc->validate($moreErrors) &&
-            \is_array($moreErrors))
+            is_array($moreErrors))
         {
-            $errors = \array_merge($errors, $moreErrors);
+            $errors = array_merge($errors, $moreErrors);
         }
 
         return $errors;

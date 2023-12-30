@@ -4,6 +4,11 @@ namespace SV\ThreadReplyBanner\Entity;
 
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure as EntityStructure;
+use function array_key_exists;
+use function preg_replace;
+use function str_replace;
+use function ucwords;
+use function mb_strtolower;
 
 /**
  * @since 2.4.0
@@ -54,12 +59,12 @@ trait ContentBannerTrait
         [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($this->structure()->contentType);
 
         $replyBanner = null;
-        if ($replyBanner === null && \array_key_exists($relationship, $this->_getterCache))
+        if ($replyBanner === null && array_key_exists($relationship, $this->_getterCache))
         {
             $replyBanner = $this->_getterCache[$relationship];
         }
 
-        if ($replyBanner === null && \array_key_exists($relationship, $this->_relations))
+        if ($replyBanner === null && array_key_exists($relationship, $this->_relations))
         {
             $replyBanner = $this->_relations[$relationship];
         }
@@ -80,8 +85,8 @@ trait ContentBannerTrait
     /** @noinspection PhpUnnecessaryLocalVariableInspection */
     protected static function getSvBannerContentType($contentType): string
     {
-        $contentType = \preg_replace('#[^a-z0-9]#i', ' ', $contentType);
-        $contentType = \str_replace(' ', '', \ucwords($contentType));
+        $contentType = preg_replace('#[^a-z0-9]#i', ' ', $contentType);
+        $contentType = str_replace(' ', '', ucwords($contentType));
 
         return $contentType;
     }
@@ -89,7 +94,7 @@ trait ContentBannerTrait
     public static function getSvBannerDefinitions($contentType): array
     {
         $contentType = static::getSvBannerContentType($contentType);
-        $hasBannerCol = 'sv_has_' . \mb_strtolower($contentType) . '_banner';
+        $hasBannerCol = 'sv_has_' . mb_strtolower($contentType) . '_banner';
         $relationship = 'Sv' . $contentType . 'Banner';
 
         return [$contentType, $hasBannerCol, $relationship];
