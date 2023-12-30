@@ -13,7 +13,7 @@ class ModInterrupt extends XFCP_ModInterrupt
     /**
      * @var array
      */
-    protected $renderOptions;
+    protected $renderOptions = [];
 
     /**
      * @param string $context
@@ -22,9 +22,8 @@ class ModInterrupt extends XFCP_ModInterrupt
      */
     protected function validContext(string $context)
     {
-        if (is_array($this->renderOptions) &&
-            isset($this->renderOptions['entity']) &&
-            ($this->renderOptions['entity'] instanceof ThreadBannerEntity))
+        $entity = $this->renderOptions['entity'] ?? [];
+        if ($entity instanceof ThreadBannerEntity)
         {
             return true;
         }
