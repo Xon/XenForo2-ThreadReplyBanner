@@ -4,23 +4,12 @@
 		<xf:set var="$content" value="{{ $content.Thread }}" />
 	</xf:if>
 	<xf:if is="$content instanceof '\XF\Entity\Thread' ">
-		<xf:set var="$html" value="" />
-		<xf:set var="$forum" value="{$content.Forum}" />
-		<xf:if is="$html is empty && $thread && $thread.hasOption('svThreadReplyBanner')">
-			<xf:set var="$html"><xf:trim>
-				<xf:macro name="reply_banner_block"
-						  arg-content="{$content}"
-						  arg-editHistoryRoute="{{ $content.getSvReplyBannerEditHistoryRoute() }}" />
-				</xf:trim></xf:set>
-		</xf:if>
-		<xf:if is="$html is empty && $forum && $forum.hasOption('svThreadReplyBanner')">
-			<xf:set var="$html"><xf:trim>
-				<xf:macro name="reply_banner_block"
-						  arg-content="{$forum}"
-						  arg-editHistoryRoute="{{ $forum.getSvReplyBannerEditHistoryRoute() }}" />
-				</xf:trim></xf:set>
-
-		</xf:if>
+		<xf:set var="$html"><xf:trim>
+			<xf:macro name="reply_banner_block_between"
+					  arg-preferred="{$content}"
+					  arg-alternative="{$content.Forum}"
+					  arg-withJs="{{ false }}" />
+		</xf:trim></xf:set>
 		<xf:if is="$html is not empty">
 			<xf:formrow label="{{ phrase('svThreadReplyBanner_thread_reply_banner') }}" rowtype="noValuePadding fullWidth" rowclass="blocks">
 				{{ $html|raw }}
@@ -99,9 +88,9 @@
 	</xf:if>
 </xf:macro>
 
-<xf:macro name="reply_banner_block_between" arg-preferred="!" arg-alternative="!">
+<xf:macro name="reply_banner_block_between" arg-preferred="!" arg-alternative="!" arg-withJs="{{ true }}">
 
-	<xf:macro name="focus_editor_js" />
+	<xf:if is="$withJs"><xf:macro name="focus_editor_js" /></xf:if>
 	<xf:set var="$html" value="" />
 
 	<xf:if is="$html is empty && $preferred && $preferred.hasOption('svThreadReplyBanner')">
