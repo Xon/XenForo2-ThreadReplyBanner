@@ -22,7 +22,7 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
-    public function installStep1()
+    public function installStep1(): void
     {
         $sm = $this->schemaManager();
 
@@ -33,7 +33,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function installStep2()
+    public function installStep2(): void
     {
         $sm = $this->schemaManager();
 
@@ -46,10 +46,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    /**
-     * @throws \XF\Db\Exception
-     */
-    public function installStep3()
+    public function installStep3(): void
     {
         $this->db()->query("
 	        INSERT IGNORE INTO xf_permission_entry (user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
@@ -66,10 +63,7 @@ class Setup extends AbstractSetup
     	");
     }
 
-    /**
-     * @throws \XF\Db\Exception
-     */
-    public function upgrade2010000Step3()
+    public function upgrade2010000Step3(): void
     {
         // clean-up orphaned thread banners.
         $this->db()->query('
@@ -79,17 +73,17 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function upgrade2040001Step1()
+    public function upgrade2040001Step1(): void
     {
         $this->installStep1();
     }
 
-    public function upgrade2040001Step2()
+    public function upgrade2040001Step2(): void
     {
         $this->installStep2();
     }
 
-    public function upgrade2040001Step3()
+    public function upgrade2040001Step3(): void
     {
         $this->query("
             UPDATE xf_moderator_log 
@@ -98,7 +92,7 @@ class Setup extends AbstractSetup
         ");
     }
 
-    public function upgrade2040001Step4()
+    public function upgrade2040001Step4(): void
     {
         $this->query("
             UPDATE xf_edit_history 
@@ -107,7 +101,7 @@ class Setup extends AbstractSetup
         ");
     }
 
-    public function upgrade2040001Step5()
+    public function upgrade2040001Step5(): void
     {
         $this->query("
             UPDATE xf_moderator_log 
@@ -116,7 +110,7 @@ class Setup extends AbstractSetup
         ");
     }
 
-    public function upgrade2040101Step1()
+    public function upgrade2040101Step1(): void
     {
         /** @noinspection SqlWithoutWhere */
         $this->query('
@@ -124,14 +118,14 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function upgrade2040101Step2()
+    public function upgrade2040101Step2(): void
     {
         $this->query('
             DELETE FROM xf_sv_forum_banner WHERE banner_state = 0 AND LENGTH(raw_text) = 0 AND banner_edit_count = 0;
         ');
     }
 
-    public function upgrade2040101Step3()
+    public function upgrade2040101Step3(): void
     {
         /** @noinspection SqlWithoutWhere */
         $this->query('
@@ -141,7 +135,7 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function upgrade2040101Step4()
+    public function upgrade2040101Step4(): void
     {
         /** @noinspection SqlWithoutWhere */
         $this->query('
@@ -151,7 +145,7 @@ class Setup extends AbstractSetup
         ');
     }
 
-    public function uninstallStep1()
+    public function uninstallStep1(): void
     {
         $sm = $this->schemaManager();
 
@@ -161,7 +155,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function uninstallStep2()
+    public function uninstallStep2(): void
     {
         $sm = $this->schemaManager();
 
@@ -174,7 +168,7 @@ class Setup extends AbstractSetup
         }
     }
 
-    public function uninstallStep3()
+    public function uninstallStep3(): void
     {
         $this->db()->query("
             DELETE FROM xf_permission_entry
@@ -189,7 +183,7 @@ class Setup extends AbstractSetup
 
         $this->migrateTable('xf_thread_banner', 'xf_sv_thread_banner');
 
-        $bannerSchema = function (string $primaryKey, $table)
+        $bannerSchema = function (string $primaryKey, $table): void
         {
             /** @var Create|Alter $table */
             $this->addOrChangeColumn($table, $primaryKey)->type('int');
@@ -203,12 +197,12 @@ class Setup extends AbstractSetup
             $this->addOrChangeColumn($table, 'banner_last_edit_user_id')->type('int')->setDefault(0);
         };
 
-        $tables['xf_sv_thread_banner'] = function ($table) use ($bannerSchema)
+        $tables['xf_sv_thread_banner'] = function ($table) use ($bannerSchema): void
         {
             $bannerSchema('thread_id', $table);
         };
 
-        $tables['xf_sv_forum_banner'] = function ($table) use ($bannerSchema)
+        $tables['xf_sv_forum_banner'] = function ($table) use ($bannerSchema): void
         {
             $bannerSchema('node_id', $table);
         };
@@ -220,12 +214,12 @@ class Setup extends AbstractSetup
     {
         $tables = [];
 
-        $tables['xf_thread'] = function (Alter $table)
+        $tables['xf_thread'] = function (Alter $table): void
         {
             $this->addOrChangeColumn($table, 'sv_has_thread_banner', 'tinyint', 1, ['has_banner'])->setDefault(0);
         };
 
-        $tables['xf_forum'] = function (Alter $table)
+        $tables['xf_forum'] = function (Alter $table): void
         {
             $this->addOrChangeColumn($table, 'sv_has_forum_banner', 'tinyint', 1)->setDefault(0);
         };
@@ -237,12 +231,12 @@ class Setup extends AbstractSetup
     {
         $tables = [];
 
-        $tables['xf_thread'] = function (Alter $table)
+        $tables['xf_thread'] = function (Alter $table): void
         {
             $table->dropColumns('sv_has_thread_banner');
         };
 
-        $tables['xf_forum'] = function (Alter $table)
+        $tables['xf_forum'] = function (Alter $table): void
         {
             $table->dropColumns('sv_has_forum_banner');
         };

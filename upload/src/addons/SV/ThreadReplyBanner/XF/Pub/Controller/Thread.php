@@ -46,7 +46,7 @@ class Thread extends XFCP_Thread
      * @param ExtendedEditorService $editor
      * @noinspection PhpParameterByRefIsNotUsedAsReferenceInspection
      */
-    protected function addBannerFields(ExtendedEditorService &$editor)
+    protected function addBannerFields(ExtendedEditorService &$editor): void
     {
         /** @var \SV\ThreadReplyBanner\XF\Entity\Thread $thread */
         $thread = $editor->getThread();

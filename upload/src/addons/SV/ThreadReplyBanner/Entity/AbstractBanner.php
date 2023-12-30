@@ -62,7 +62,7 @@ abstract class AbstractBanner extends Entity
         string $shortName,
         string $contentType,
         string $primaryKey
-    )
+    ): void
     {
         $structure->table = $table;
         $structure->shortName = $shortName;

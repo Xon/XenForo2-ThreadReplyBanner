@@ -73,8 +73,8 @@ abstract class AbstractBanner extends AbstractHandler
 
     /**
      * @param Entity|AbstractBannerEntity $content
-     *
      * @return int
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function getEditCount(Entity $content) : int
     {
@@ -99,6 +99,6 @@ abstract class AbstractBanner extends AbstractHandler
     protected function getReplyBannerManagerSvc(AbstractBannerEntity $banner) : ReplyBannerManagerSvc
     {
         /** @var ReplyBannerManagerSvc */
-        return $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $banner);
+        return $this->service(ReplyBannerManagerSvc::class, $banner);
     }
 }

@@ -33,7 +33,7 @@ class Editor extends XFCP_Editor
      * @param string $text
      * @param bool $active
      */
-    public function setupReplyBannerSvcForSv(string $text, bool $active)
+    public function setupReplyBannerSvcForSv(string $text, bool $active): void
     {
         if ($this->getReplyBannerManagerSvcForSv())
         {
@@ -41,7 +41,7 @@ class Editor extends XFCP_Editor
         }
 
         /** @var ReplyBannerManagerSvc $replyBannerManagerSvc */
-        $replyBannerManagerSvc = $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $this->getThread());
+        $replyBannerManagerSvc = $this->service(ReplyBannerManagerSvc::class, $this->getThread());
 
         $this->replyBannerManagerSvcForSv = $replyBannerManagerSvc
             ->setUser(\XF::visitor())

@@ -43,12 +43,9 @@ class Forum extends XFCP_Forum
         return $formAction;
     }
 
-    /**
-     * @param ForumEntity $forum
-     * @return ReplyBannerManagerSvc|AbstractService
-     */
     protected function getReplyBannerManagerSvcForSv(ForumEntity $forum) : ReplyBannerManagerSvc
     {
-        return $this->service('SV\ThreadReplyBanner:ReplyBanner\Manager', $forum);
+        /** @var ReplyBannerManagerSvc */
+        return $this->service(ReplyBannerManagerSvc::class, $forum);
     }
 }

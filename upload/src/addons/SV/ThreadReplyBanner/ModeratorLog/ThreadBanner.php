@@ -38,7 +38,7 @@ class ThreadBanner extends AbstractHandler
      * @param ModeratorLog $log
      * @param Entity       $content
      */
-    protected function setupLogEntityContent(ModeratorLog $log, Entity $content)
+    protected function setupLogEntityContent(ModeratorLog $log, Entity $content): void
     {
         /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner $content */
         /** @var Thread $thread */

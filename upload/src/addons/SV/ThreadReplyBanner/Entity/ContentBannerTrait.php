@@ -100,7 +100,7 @@ trait ContentBannerTrait
         return [$contentType, $hasBannerCol, $relationship];
     }
 
-    protected static function setupDefaultStructureForSvBanner(EntityStructure $structure)
+    protected static function setupDefaultStructureForSvBanner(EntityStructure $structure): void
     {
         [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($structure->contentType);
 
