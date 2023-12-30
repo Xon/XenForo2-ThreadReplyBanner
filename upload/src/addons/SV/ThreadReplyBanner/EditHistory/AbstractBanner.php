@@ -81,24 +81,8 @@ abstract class AbstractBanner extends AbstractHandler
         return $content->banner_edit_count;
     }
 
-    protected function app() : BaseApp
-    {
-        return \XF::app();
-    }
-
-    protected function router(string $type = null) : Router
-    {
-        return $this->app()->router($type);
-    }
-
-    protected function service(string $identifier, ...$arguments) : AbstractService
-    {
-        return $this->app()->service($identifier, ...$arguments);
-    }
-
     protected function getReplyBannerManagerSvc(AbstractBannerEntity $banner) : ReplyBannerManagerSvc
     {
-        /** @var ReplyBannerManagerSvc */
-        return $this->service(ReplyBannerManagerSvc::class, $banner);
+        return ReplyBannerManagerSvc::get($banner);
     }
 }

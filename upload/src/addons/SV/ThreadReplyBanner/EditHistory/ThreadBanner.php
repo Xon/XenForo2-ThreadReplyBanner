@@ -34,7 +34,7 @@ class ThreadBanner extends AbstractBanner
      */
     public function getContentLink(Entity $content) : string
     {
-        return $this->router('public')->buildLink('threads', $content->Thread);
+        return \XF::app()->router('public')->buildLink('threads', $content->Thread);
     }
 
     /**

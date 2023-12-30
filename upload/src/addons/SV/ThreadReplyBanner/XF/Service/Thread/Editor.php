@@ -40,13 +40,10 @@ class Editor extends XFCP_Editor
             return;
         }
 
-        /** @var ReplyBannerManagerSvc $replyBannerManagerSvc */
-        $replyBannerManagerSvc = $this->service(ReplyBannerManagerSvc::class, $this->getThread());
-
-        $this->replyBannerManagerSvcForSv = $replyBannerManagerSvc
-            ->setUser(\XF::visitor())
-            ->setRawText($text)
-            ->setIsActive($active);
+        $this->replyBannerManagerSvcForSv = ReplyBannerManagerSvc::get($this->getThread())
+                                                                 ->setUser(\XF::visitor())
+                                                                 ->setRawText($text)
+                                                                 ->setIsActive($active);
     }
 
     /**

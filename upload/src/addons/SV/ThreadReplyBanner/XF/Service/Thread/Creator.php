@@ -39,13 +39,10 @@ class Creator extends XFCP_Creator
             return;
         }
 
-        /** @var ReplyBannerManagerSvc $replyBannerManagerSvc */
-        $replyBannerManagerSvc = $this->service(ReplyBannerManagerSvc::class, $this->getThread());
-
-        $this->replyBannerManagerSvcForSv = $replyBannerManagerSvc
-            ->setUser(\XF::visitor())
-            ->setRawText($text)
-            ->setIsActive($active);
+        $this->replyBannerManagerSvcForSv = ReplyBannerManagerSvc::get($this->getThread())
+                                                                 ->setUser(\XF::visitor())
+                                                                 ->setRawText($text)
+                                                                 ->setIsActive($active);
     }
 
     /**

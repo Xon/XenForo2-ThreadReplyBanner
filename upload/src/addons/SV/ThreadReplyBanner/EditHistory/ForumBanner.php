@@ -32,7 +32,7 @@ class ForumBanner extends AbstractBanner
         /** @var ForumBannerEntity $content */
         $forum = $content->Forum;
 
-        return $this->router('public')->buildLink('forums', $forum);
+        return \XF::app()->router('public')->buildLink('forums', $forum);
     }
 
     /**

@@ -45,7 +45,6 @@ class Forum extends XFCP_Forum
 
     protected function getReplyBannerManagerSvcForSv(ForumEntity $forum) : ReplyBannerManagerSvc
     {
-        /** @var ReplyBannerManagerSvc */
-        return $this->service(ReplyBannerManagerSvc::class, $forum);
+        return ReplyBannerManagerSvc::get($forum);
     }
 }

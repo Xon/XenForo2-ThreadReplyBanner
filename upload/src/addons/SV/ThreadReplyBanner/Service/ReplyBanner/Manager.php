@@ -5,6 +5,7 @@ namespace SV\ThreadReplyBanner\Service\ReplyBanner;
 use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
 use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
+use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use XF\Entity\User as UserEntity;
 use XF\Http\Request as HttpRequest;
 use XF\Mvc\Entity\Entity;
@@ -55,6 +56,16 @@ class Manager extends AbstractService
         }
 
         parent::__construct($app);
+    }
+
+    /**
+     * @param Entity|AbstractBannerEntity|ContentBannerEntityInterface $content
+     * @return self
+     */
+    public static function get(Entity $content): self
+    {
+        /** @var self */
+        return \XF::service(self::class, $content);
     }
 
     /**
