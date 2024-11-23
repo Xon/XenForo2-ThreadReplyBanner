@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "<xf:form action",
-    "replace": "<xf:macro template=\"svThreadReplyBanner_macros\" name=\"reply_banner_block_between\"\n\t\t  arg-preferred=\"{$thread}\" arg-alternative=\"{$thread.Forum}\" />\n\n$0"
+    "replace": "<xf:macro name=\"svThreadReplyBanner_macros::reply_banner_block_between\"\n\t\t  arg-preferred=\"{$thread}\" arg-alternative=\"{$thread.Forum}\" />\n\n$0"
 }

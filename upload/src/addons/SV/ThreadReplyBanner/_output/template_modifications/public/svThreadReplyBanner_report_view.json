@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "str_replace",
     "find": "{$handler.render($report)|raw}",
-    "replace": "$0\n\n<xf:macro template=\"svThreadReplyBanner_macros\"\n\t\t  name=\"viewingReport\"\n\t\t  arg-report=\"{$report}\"/>"
+    "replace": "$0\n\n<xf:macro name=\"svThreadReplyBanner_macros::viewingReport\"\n\t\t  arg-report=\"{$report}\"/>"
 }
