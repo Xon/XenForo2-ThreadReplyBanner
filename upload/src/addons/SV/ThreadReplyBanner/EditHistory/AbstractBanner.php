@@ -36,7 +36,7 @@ abstract class AbstractBanner extends AbstractHandler
      * @param EditHistory                 $history
      * @param EditHistory|null            $previous
      */
-    public function revertToVersion(Entity $content, EditHistory $history, EditHistory $previous = null)
+    public function revertToVersion(Entity $content, EditHistory $history, ?EditHistory $previous = null)
     {
         $managerSvc = $this->getReplyBannerManagerSvc($content)->setLogEdit(false)->setRawText($history->old_text);
         if (!$managerSvc->validate())
@@ -53,7 +53,7 @@ abstract class AbstractBanner extends AbstractHandler
      *
      * @return string
      */
-    public function getHtmlFormattedContent($text, Entity $content = null) : string
+    public function getHtmlFormattedContent($text, ?Entity $content = null) : string
     {
         return \XF::escapeString($text);
     }
