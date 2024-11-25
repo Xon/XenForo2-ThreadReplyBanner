@@ -5,11 +5,12 @@ namespace SV\ThreadReplyBanner\XF\Entity;
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
 use SV\ThreadReplyBanner\Entity\ContentBannerTrait as ContentBannerEntityTrait;
 use SV\ThreadReplyBanner\Entity\ForumBanner as ForumBannerEntity;
-use XF\Mvc\Entity\Structure as EntityStructure;
+use XF\Mvc\Entity\Structure;
 use XF\Phrase;
 
 /**
  * @since 2.4.0
+ * @extends \XF\Entity\Forum
  *
  * COLUMNS
  * @property bool $sv_has_forum_banner
@@ -71,11 +72,11 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
     }
 
     /**
-     * @param EntityStructure $structure
-     * @return EntityStructure
+     * @param Structure $structure
+     * @return Structure
      * @noinspection PhpMissingReturnTypeInspection
      */
-    public static function getStructure(EntityStructure $structure)
+    public static function getStructure(Structure $structure)
     {
         $structure = parent::getStructure($structure);
 

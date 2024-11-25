@@ -6,16 +6,13 @@ use SV\ThreadReplyBanner\XF\Service\Thread\Editor as ExtendedEditorService;
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
 use XF\Mvc\Reply\Exception as ReplyException;
-use XF\Mvc\Reply\Reroute as RerouteReply;
 use XF\Service\Thread\Editor as EditorService;
 
+/**
+ * @extends \XF\Pub\Controller\Thread
+ */
 class Thread extends XFCP_Thread
 {
-    /**
-     * @param ParameterBag $parameterBag
-     *
-     * @return RerouteReply
-     */
     public function actionReplyBannerHistory(ParameterBag $parameterBag) : AbstractReply
     {
         /** @noinspection PhpUndefinedFieldInspection */

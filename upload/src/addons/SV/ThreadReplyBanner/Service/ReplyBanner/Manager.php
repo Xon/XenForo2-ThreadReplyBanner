@@ -2,12 +2,11 @@
 
 namespace SV\ThreadReplyBanner\Service\ReplyBanner;
 
+use SV\StandardLib\Helper;
 use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
 use XF\Entity\User as UserEntity;
-use XF\Http\Request as HttpRequest;
 use XF\Mvc\Entity\Entity;
-use XF\Mvc\Entity\Repository;
 use XF\Repository\EditHistory as EditHistoryRepo;
 use XF\Service\AbstractService;
 use XF\Service\ValidateAndSavableTrait;
@@ -62,8 +61,7 @@ class Manager extends AbstractService
      */
     public static function get(Entity $content): self
     {
-        /** @var self */
-        return \XF::service(self::class, $content);
+        return Helper::service(self::class, $content);
     }
 
     /**
@@ -121,7 +119,7 @@ class Manager extends AbstractService
 
         $replyBanner->banner_edit_count++;
 
-        $options = $this->options();
+        $options = \XF::options();
         if ($options->editLogDisplay['enabled'] && $this->isLoggingEdit())
         {
             $replyBanner->banner_last_edit_user_id = \XF::visitor()->user_id;
@@ -187,7 +185,7 @@ class Manager extends AbstractService
 
     protected function _save() : AbstractBannerEntity
     {
-        $db = $this->db();
+        $db = \XF::db();
         $db->beginTransaction();
 
         $replyBanner = $this->getReplyBanner();
@@ -199,12 +197,13 @@ class Manager extends AbstractService
         $oldMessage = $this->getOldMessage();
         if ($oldMessage)
         {
-            $this->getEditHistoryRepo()->insertEditHistory(
+            $repo = Helper::repository(EditHistoryRepo::class);
+            $repo->insertEditHistory(
                 $replyBanner->getEntityContentType(),
                 $replyBanner->getEntityId(),
                 \XF::visitor(),
                 $oldMessage,
-                $this->request()->getIp()
+                \XF::app()->request()->getIp()
             );
         }
 
@@ -215,7 +214,7 @@ class Manager extends AbstractService
 
     public function delete(): void
     {
-        $db = $this->db();
+        $db = \XF::db();
         $db->beginTransaction();
 
         $replyBanner = $this->getReplyBanner();
@@ -225,28 +224,5 @@ class Manager extends AbstractService
         $content->updateHasSvContentBanner(false, false);
 
         $db->commit();
-    }
-
-    protected function app() : BaseApp
-    {
-        return $this->app;
-    }
-
-    protected function request() : HttpRequest
-    {
-        return $this->app()->request();
-    }
-
-    protected function options() : \ArrayObject
-    {
-        return $this->app()->options();
-    }
-
-    /**
-     * @return EditHistoryRepo|Repository
-     */
-    protected function getEditHistoryRepo() : EditHistoryRepo
-    {
-        return $this->repository('XF:EditHistory');
     }
 }

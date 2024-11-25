@@ -5,7 +5,7 @@ namespace SV\ThreadReplyBanner\SV\AdvancedBbCodesPack\BbCode\Tag;
 use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
 
 /**
- * Extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt
+ * @extends \SV\AdvancedBbCodesPack\BbCode\Tag\ModInterrupt
  */
 class ModInterrupt extends XFCP_ModInterrupt
 {

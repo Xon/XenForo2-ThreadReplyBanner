@@ -3,15 +3,10 @@
 namespace SV\ThreadReplyBanner\ModeratorLog;
 
 use SV\ThreadReplyBanner\XF\Entity\Thread;
-use XF\Entity\ModeratorLog;
+use XF\Entity\ModeratorLog as ModeratorLogEntity;
 use XF\ModeratorLog\AbstractHandler;
 use XF\Mvc\Entity\Entity;
 
-/**
- * Class ThreadBanner
- *
- * @package SV\ThreadReplyBanner\ModeratorLog
- */
 class ThreadBanner extends AbstractHandler
 {
     /**
@@ -35,10 +30,10 @@ class ThreadBanner extends AbstractHandler
     }
 
     /**
-     * @param ModeratorLog $log
-     * @param Entity       $content
+     * @param ModeratorLogEntity $log
+     * @param Entity             $content
      */
-    protected function setupLogEntityContent(ModeratorLog $log, Entity $content): void
+    protected function setupLogEntityContent(ModeratorLogEntity $log, Entity $content): void
     {
         /** @var \SV\ThreadReplyBanner\Entity\ThreadBanner $content */
         /** @var Thread $thread */

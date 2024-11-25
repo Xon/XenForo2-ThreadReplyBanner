@@ -9,7 +9,7 @@ use XF\Phrase;
 use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
 
 /**
- * Extends \XF\Entity\Thread
+ * @extends \XF\Entity\Thread
  *
  * COLUMNS
  * @property bool $sv_has_thread_banner

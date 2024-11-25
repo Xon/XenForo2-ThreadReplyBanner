@@ -8,7 +8,7 @@ namespace SV\ThreadReplyBanner\EditHistory;
 use SV\ThreadReplyBanner\Entity\AbstractBanner as AbstractBannerEntity;
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use XF\EditHistory\AbstractHandler;
-use XF\Entity\EditHistory;
+use XF\Entity\EditHistory as EditHistoryEntity;
 use XF\Mvc\Entity\Entity;
 
 abstract class AbstractBanner extends AbstractHandler
@@ -33,10 +33,10 @@ abstract class AbstractBanner extends AbstractHandler
 
     /**
      * @param AbstractBannerEntity|Entity $content
-     * @param EditHistory                 $history
-     * @param EditHistory|null            $previous
+     * @param EditHistoryEntity           $history
+     * @param EditHistoryEntity|null      $previous
      */
-    public function revertToVersion(Entity $content, EditHistory $history, ?EditHistory $previous = null)
+    public function revertToVersion(Entity $content, EditHistoryEntity $history, ?EditHistoryEntity $previous = null)
     {
         $managerSvc = $this->getReplyBannerManagerSvc($content)->setLogEdit(false)->setRawText($history->old_text);
         if (!$managerSvc->validate())

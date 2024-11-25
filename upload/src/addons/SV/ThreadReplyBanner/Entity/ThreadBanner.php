@@ -2,7 +2,7 @@
 
 namespace SV\ThreadReplyBanner\Entity;
 
-use XF\Mvc\Entity\Structure as EntityStructure;
+use XF\Mvc\Entity\Structure;
 use XF\Phrase;
 use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
 
@@ -11,7 +11,7 @@ use SV\ThreadReplyBanner\XF\Entity\Thread as ExtendedThreadEntity;
  * @property int $thread_id
  *
  * RELATIONS
- * @property-read ExtendedThreadEntity $Thread
+ * @property-read ExtendedThreadEntity|null $Thread
  */
 class ThreadBanner extends AbstractBanner
 {
@@ -42,7 +42,7 @@ class ThreadBanner extends AbstractBanner
             return false;
         }
 
-        if (!$this->app()->options()->editHistory['enabled'])
+        if (!\XF::options()->editHistory['enabled'])
         {
             return false;
         }
@@ -51,7 +51,7 @@ class ThreadBanner extends AbstractBanner
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection */
-    public static function getStructure(EntityStructure $structure) : EntityStructure
+    public static function getStructure(Structure $structure) : Structure
     {
         return static::setupDefaultStructure(
             $structure,

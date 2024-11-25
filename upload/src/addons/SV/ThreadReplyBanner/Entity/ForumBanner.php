@@ -2,7 +2,7 @@
 
 namespace SV\ThreadReplyBanner\Entity;
 
-use XF\Mvc\Entity\Structure as EntityStructure;
+use XF\Mvc\Entity\Structure;
 use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
 use XF\Phrase;
 
@@ -13,7 +13,7 @@ use XF\Phrase;
  * @property int $node_id
  *
  * RELATIONS
- * @property-read ExtendedForumEntity $Forum
+ * @property-read ExtendedForumEntity|null $Forum
  */
 class ForumBanner extends AbstractBanner
 {
@@ -48,7 +48,7 @@ class ForumBanner extends AbstractBanner
             return false;
         }
 
-        if (!$this->app()->options()->editHistory['enabled'])
+        if (!\XF::options()->editHistory['enabled'])
         {
             return false;
         }
@@ -57,7 +57,7 @@ class ForumBanner extends AbstractBanner
     }
 
     /** @noinspection PhpMissingParentCallCommonInspection */
-    public static function getStructure(EntityStructure $structure) : EntityStructure
+    public static function getStructure(Structure $structure) : Structure
     {
         return static::setupDefaultStructure(
             $structure,

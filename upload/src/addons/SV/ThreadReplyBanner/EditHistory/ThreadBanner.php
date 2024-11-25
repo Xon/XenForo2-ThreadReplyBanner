@@ -8,11 +8,6 @@ namespace SV\ThreadReplyBanner\EditHistory;
 use SV\ThreadReplyBanner\Entity\ThreadBanner as ThreadBannerEntity;
 use XF\Mvc\Entity\Entity;
 
-/**
- * Class ThreadBanner
- *
- * @package SV\ThreadReplyBanner\EditHistory
- */
 class ThreadBanner extends AbstractBanner
 {
     public function getContentTitle(Entity $content) : string

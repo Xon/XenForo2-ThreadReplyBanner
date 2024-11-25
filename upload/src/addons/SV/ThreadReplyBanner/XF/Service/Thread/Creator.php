@@ -12,6 +12,7 @@ use function array_merge;
 use function is_array;
 
 /**
+ * @extends \XF\Service\Thread\Creator
  * @method ExtendedThreadEntity getThread()
  */
 class Creator extends XFCP_Creator
@@ -68,7 +69,7 @@ class Creator extends XFCP_Creator
      */
     protected function _save()
     {
-        $db = $this->db();
+        $db = \XF::db();
         $db->beginTransaction();
 
         $thread = parent::_save();

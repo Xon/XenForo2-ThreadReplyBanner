@@ -11,9 +11,7 @@ use function array_merge;
 use function is_array;
 
 /**
- * Class Editor
- *
- * @package SV\ThreadReplyBanner\XF\Service\Thread
+ * @extends \XF\Service\Thread\Editor
  */
 class Editor extends XFCP_Editor
 {
@@ -69,7 +67,7 @@ class Editor extends XFCP_Editor
      */
     protected function _save()
     {
-        $db = $this->db();
+        $db = \XF::db();
         $db->beginTransaction();
 
         $thread = parent::_save();

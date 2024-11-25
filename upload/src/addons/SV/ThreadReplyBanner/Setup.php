@@ -10,11 +10,6 @@ use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Db\Schema\Alter;
 use XF\Db\Schema\Create;
 
-/**
- * Class Setup
- *
- * @package SV\ThreadReplyBanner
- */
 class Setup extends AbstractSetup
 {
     use InstallerHelper;
@@ -48,14 +43,15 @@ class Setup extends AbstractSetup
 
     public function installStep3(): void
     {
-        $this->db()->query("
+        $db = $this->db();
+        $db->query("
 	        INSERT IGNORE INTO xf_permission_entry (user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
 	            SELECT DISTINCT user_group_id, user_id, convert(permission_group_id USING utf8), 'sv_replybanner_show', permission_value, permission_value_int
 	            FROM xf_permission_entry
 	            WHERE permission_group_id = 'forum' AND  permission_id IN ('postReply')
         ");
 
-        $this->db()->query("
+        $db->query("
             INSERT IGNORE INTO xf_permission_entry (user_group_id, user_id, permission_group_id, permission_id, permission_value, permission_value_int)
                 SELECT DISTINCT user_group_id, user_id, convert(permission_group_id USING utf8), 'sv_replybanner_manage', permission_value, permission_value_int
                 FROM xf_permission_entry
@@ -66,7 +62,7 @@ class Setup extends AbstractSetup
     public function upgrade2010000Step3(): void
     {
         // clean-up orphaned thread banners.
-        $this->db()->query('
+        \XF::db()->query('
             DELETE
             FROM xf_sv_thread_banner
             WHERE NOT EXISTS (SELECT thread_id FROM xf_thread)
@@ -170,7 +166,7 @@ class Setup extends AbstractSetup
 
     public function uninstallStep3(): void
     {
-        $this->db()->query("
+        \XF::db()->query("
             DELETE FROM xf_permission_entry
             WHERE permission_group_id = 'forum' 
             AND permission_id IN ('sv_replybanner_show', 'sv_replybanner_manage')

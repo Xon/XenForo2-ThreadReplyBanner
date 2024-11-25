@@ -3,7 +3,7 @@
 namespace SV\ThreadReplyBanner\Entity;
 
 use XF\Mvc\Entity\Entity;
-use XF\Mvc\Entity\Structure as EntityStructure;
+use XF\Mvc\Entity\Structure;
 use XF\Entity\User as UserEntity;
 use XF\Phrase;
 use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInterface;
@@ -20,7 +20,7 @@ use SV\ThreadReplyBanner\Entity\ContentBannerInterface as ContentBannerEntityInt
  * @property int $banner_last_edit_user_id
  *
  * RELATIONS
- * @property-read UserEntity $User
+ * @property-read UserEntity|null $User
  */
 abstract class AbstractBanner extends Entity
 {
@@ -50,7 +50,7 @@ abstract class AbstractBanner extends Entity
 
         if (static::SUPPORTS_MOD_LOG && $this->getOption('log_moderator'))
         {
-            $this->app()->logger()->logModeratorChanges('sv_thread_banner', $this);
+            \XF::app()->logger()->logModeratorChanges('sv_thread_banner', $this);
         }
     }
 
@@ -60,14 +60,14 @@ abstract class AbstractBanner extends Entity
     }
 
     protected static function setupDefaultStructure(
-        EntityStructure $structure,
-        string $table,
-        string $shortName,
-        string $contentType,
-        string $primaryKey,
-        string $primaryRelationship,
-        array $primaryRelationshipDefinition
-    ): EntityStructure
+        Structure $structure,
+        string    $table,
+        string    $shortName,
+        string    $contentType,
+        string    $primaryKey,
+        string    $primaryRelationship,
+        array     $primaryRelationshipDefinition
+    ): Structure
     {
         $structure->table = $table;
         $structure->shortName = $shortName;

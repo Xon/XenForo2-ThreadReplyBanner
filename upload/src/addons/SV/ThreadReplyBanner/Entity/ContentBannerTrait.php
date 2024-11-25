@@ -3,7 +3,7 @@
 namespace SV\ThreadReplyBanner\Entity;
 
 use XF\Mvc\Entity\Entity;
-use XF\Mvc\Entity\Structure as EntityStructure;
+use XF\Mvc\Entity\Structure;
 use function array_key_exists;
 use function preg_replace;
 use function str_replace;
@@ -100,7 +100,7 @@ trait ContentBannerTrait
         return [$contentType, $hasBannerCol, $relationship];
     }
 
-    protected static function setupDefaultStructureForSvBanner(EntityStructure $structure): void
+    protected static function setupDefaultStructureForSvBanner(Structure $structure): void
     {
         [$contentType, $hasBannerCol, $relationship] = static::getSvBannerDefinitions($structure->contentType);
 

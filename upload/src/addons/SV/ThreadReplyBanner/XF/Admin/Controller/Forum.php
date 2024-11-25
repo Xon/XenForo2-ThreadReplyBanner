@@ -2,15 +2,16 @@
 
 namespace SV\ThreadReplyBanner\XF\Admin\Controller;
 
+use SV\StandardLib\Helper;
 use SV\ThreadReplyBanner\Service\ReplyBanner\Manager as ReplyBannerManagerSvc;
 use XF\ControllerPlugin\Editor as EditorControllerPlugin;
 use XF\Mvc\FormAction;
 use XF\Entity\Node as NodeEntity;
 use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
-use XF\Entity\Forum as ForumEntity;
 
 /**
  * @since 2.4.0
+ * @extends \XF\Admin\Controller\Forum
  */
 class Forum extends XFCP_Forum
 {
@@ -26,10 +27,9 @@ class Forum extends XFCP_Forum
         /** @var ExtendedForumEntity $forum */
         $forum = $node->getDataRelationOrDefault(false);
 
-        $replyBannerSvc = $this->getReplyBannerManagerSvcForSv($forum);
+        $replyBannerSvc = ReplyBannerManagerSvc::get($forum);
 
-        /** @var EditorControllerPlugin $editorPlugin */
-        $editorPlugin = $this->plugin('XF:Editor');
+        $editorPlugin = Helper::plugin($this, EditorControllerPlugin::class);
         $rawText = $editorPlugin->fromInput('sv_forum_reply_banner_raw_text');
         $active = (bool)$this->filter('sv_forum_reply_banner_is_active', 'bool');
 
@@ -40,10 +40,5 @@ class Forum extends XFCP_Forum
         });
 
         return $formAction;
-    }
-
-    protected function getReplyBannerManagerSvcForSv(ForumEntity $forum) : ReplyBannerManagerSvc
-    {
-        return ReplyBannerManagerSvc::get($forum);
     }
 }

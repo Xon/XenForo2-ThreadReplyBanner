@@ -7,16 +7,13 @@ use SV\ThreadReplyBanner\XF\Entity\Forum as ExtendedForumEntity;
 use SV\ThreadReplyBanner\XF\Service\Thread\Creator as ExtendedThreadCreatorSvc;
 use XF\Mvc\ParameterBag;
 use XF\Mvc\Reply\AbstractReply;
-use XF\Mvc\Reply\Reroute as RerouteReply;
 use function strlen;
 
+/**
+ * @extends \XF\Pub\Controller\Forum
+ */
 class Forum extends XFCP_Forum
 {
-    /**
-     * @param ParameterBag $parameterBag
-     *
-     * @return RerouteReply
-     */
     public function actionReplyBannerHistory(ParameterBag $parameterBag) : AbstractReply
     {
         /** @noinspection PhpUndefinedFieldInspection */
