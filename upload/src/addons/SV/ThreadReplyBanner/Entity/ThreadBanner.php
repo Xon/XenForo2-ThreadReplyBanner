@@ -17,12 +17,12 @@ class ThreadBanner extends AbstractBanner
 {
     public const SUPPORTS_MOD_LOG = true;
 
-    public function canView(Phrase &$error = null): bool
+    public function canView(?Phrase &$error = null): bool
     {
         return $this->Thread->canViewSvContentReplyBanner($error);
     }
 
-    public function canEdit(Phrase &$error = null): bool
+    public function canEdit(?Phrase &$error = null): bool
     {
         return $this->Thread->canManageSvContentReplyBanner($error);
     }
@@ -34,7 +34,7 @@ class ThreadBanner extends AbstractBanner
      *
      * @return bool
      */
-    public function canViewEditHistory(Phrase &$error = null): bool
+    public function canViewEditHistory(?Phrase &$error = null): bool
     {
         $visitor = \XF::visitor();
         if (!$visitor->user_id)

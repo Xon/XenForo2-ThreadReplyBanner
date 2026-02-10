@@ -17,12 +17,12 @@ use XF\Phrase;
  */
 class ForumBanner extends AbstractBanner
 {
-    public function canView(Phrase &$error = null) : bool
+    public function canView(?Phrase &$error = null) : bool
     {
         return $this->Forum->canViewSvContentReplyBanner($error);
     }
 
-    public function canEdit(Phrase &$error = null): bool
+    public function canEdit(?Phrase &$error = null): bool
     {
         $visitor = \XF::visitor();
         if (!$visitor->user_id)
@@ -40,7 +40,7 @@ class ForumBanner extends AbstractBanner
      *
      * @return bool
      */
-    public function canViewEditHistory(Phrase &$error = null): bool
+    public function canViewEditHistory(?Phrase &$error = null): bool
     {
         $visitor = \XF::visitor();
         if (!$visitor->user_id)

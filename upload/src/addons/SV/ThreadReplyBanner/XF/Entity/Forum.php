@@ -22,7 +22,7 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
 {
     use ContentBannerEntityTrait;
 
-    public function canViewSvContentReplyBanner(Phrase &$error = null) : bool
+    public function canViewSvContentReplyBanner(?Phrase &$error = null) : bool
     {
         $visitor = \XF::visitor();
         if (
@@ -42,7 +42,7 @@ class Forum extends XFCP_Forum implements ContentBannerEntityInterface
         return $forumBanner->banner_state;
     }
 
-    public function canManageSvContentReplyBanner(Phrase &$error = null): bool
+    public function canManageSvContentReplyBanner(?Phrase &$error = null): bool
     {
         $visitor = \XF::visitor();
         if (!$visitor->user_id)

@@ -28,11 +28,11 @@ abstract class AbstractBanner extends Entity
 
     public const SUPPORTS_MOD_LOG = false;
 
-    abstract public function canView(Phrase &$error = null) : bool;
+    abstract public function canView(?Phrase &$error = null) : bool;
 
-    abstract public function canEdit(Phrase &$error = null) : bool;
+    abstract public function canEdit(?Phrase &$error = null) : bool;
 
-    abstract public function canViewEditHistory(Phrase &$error = null) : bool;
+    abstract public function canViewEditHistory(?Phrase &$error = null) : bool;
 
     protected function _preSave(): void
     {

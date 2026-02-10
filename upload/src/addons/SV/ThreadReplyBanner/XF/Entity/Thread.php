@@ -21,7 +21,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
 {
     use ContentBannerEntityTrait;
 
-    public function canViewSvContentReplyBanner(Phrase &$error = null): bool
+    public function canViewSvContentReplyBanner(?Phrase &$error = null): bool
     {
         $visitor = \XF::visitor();
         if (
@@ -41,7 +41,7 @@ class Thread extends XFCP_Thread implements ContentBannerEntityInterface
         return $threadBanner->banner_state;
     }
 
-    public function canManageSvContentReplyBanner(Phrase &$error = null): bool
+    public function canManageSvContentReplyBanner(?Phrase &$error = null): bool
     {
         $visitor = \XF::visitor();
         if (!$visitor->user_id)
